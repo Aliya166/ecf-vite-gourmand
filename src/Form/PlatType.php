@@ -2,30 +2,23 @@
 
 namespace App\Form;
 
-use App\Entity\Menu;
 use App\Entity\Plat;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MenuType extends AbstractType
+class PlatType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
+            ->add('name')
             ->add('description')
+            ->add('typePlat')
             ->add('price')
             ->add('isActive')
             ->add('createAt', null, [
                 'widget' => 'single_text'
-            ])
-            ->add('plats', EntityType::class, [
-                'class' => Plat::class,
-                'choice_label' => 'name',
-                'multiple' => true,
-                'expanded' => true,
             ])
         ;
     }
@@ -33,7 +26,7 @@ class MenuType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Menu::class,
+            'data_class' => Plat::class,
         ]);
     }
 }

@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\MenuRepository;
+use App\Repository\PlatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: MenuRepository::class)]
-class Menu
+#[ORM\Entity(repositoryClass: PlatRepository::class)]
+class Plat
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,10 +17,13 @@ class Menu
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $typePlat = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $price = null;
@@ -32,14 +35,14 @@ class Menu
     private ?\DateTimeImmutable $createAt = null;
 
     /**
-     * @var Collection<int, Plat>
+     * @var Collection<int, Menu>
      */
-    #[ORM\ManyToMany(targetEntity: Plat::class, inversedBy: 'menus')]
-    private Collection $plats;
+    #[ORM\ManyToMany(targetEntity: Menu::class, mappedBy: 'plats')]
+    private Collection $menus;
 
     public function __construct()
     {
-        $this->plats = new ArrayCollection();
+        $this->menus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -47,14 +50,14 @@ class Menu
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getName(): ?string
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle(string $title): static
+    public function setName(string $name): static
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
@@ -67,6 +70,18 @@ class Menu
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getTypePlat(): ?string
+    {
+        return $this->typePlat;
+    }
+
+    public function setTypePlat(string $typePlat): static
+    {
+        $this->typePlat = $typePlat;
 
         return $this;
     }
@@ -108,25 +123,28 @@ class Menu
     }
 
     /**
-     * @return Collection<int, Plat>
+     * @return Collection<int, Menu>
      */
-    public function getPlats(): Collection
+    public function getMenus(): Collection
     {
-        return $this->plats;
+        return $this->menus;
     }
 
-    public function addPlat(Plat $plat): static
+    public function addMenu(Menu $menu): static
     {
-        if (!$this->plats->contains($plat)) {
-            $this->plats->add($plat);
+        if (!$this->menus->contains($menu)) {
+            $this->menus->add($menu);
+            $menu->addPlat($this);
         }
 
         return $this;
     }
 
-    public function removePlat(Plat $plat): static
+    public function removeMenu(Menu $menu): static
     {
-        $this->plats->removeElement($plat);
+        if ($this->menus->removeElement($menu)) {
+            $menu->removePlat($this);
+        }
 
         return $this;
     }
