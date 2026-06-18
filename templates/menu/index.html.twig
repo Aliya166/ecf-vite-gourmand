@@ -14,6 +14,8 @@
                 <th>Price</th>
                 <th>IsActive</th>
                 <th>CreateAt</th>
+                <th>Regime</th>
+                <th>Theme</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -26,6 +28,8 @@
                 <td>{{ menu.price }}</td>
                 <td>{{ menu.isActive ? 'Yes' : 'No' }}</td>
                 <td>{{ menu.createAt ? menu.createAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ menu.regime ? menu.regime.libelle : 'Aucun régime' }}</td>
+                <td>{{ menu.theme ? menu.theme.libelle : 'Aucun thème' }}</td>
                 <td>
                     <a href="{{ path('app_menu_show', {'id': menu.id}) }}">show</a>
                     <a href="{{ path('app_menu_edit', {'id': menu.id}) }}">edit</a>

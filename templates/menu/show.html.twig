@@ -41,6 +41,14 @@
                 {% endfor %}
             </td>
         </tr>
+        <tr>
+            <th>Regime</th>
+            <td>{{ menu.regime ? menu.regime.libelle : 'Aucun régime' }}</td>
+        </tr>
+        <tr>
+            <th>Theme</th>
+            <td>{{ menu.theme ? menu.theme.libelle : 'Aucun thème' }}</td>
+        </tr>
     </tbody>
 </table>
 

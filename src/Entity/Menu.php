@@ -34,12 +34,25 @@ class Menu
     /**
      * @var Collection<int, Plat>
      */
-    #[ORM\ManyToMany(targetEntity: Plat::class, inversedBy: 'menus')]
+    #[ORM\OneToMany(targetEntity: Plat::class, mappedBy: 'menu')]
     private Collection $plats;
+
+    /**
+     * @var Collection<int, Commande>
+     */
+    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'menu')]
+    private Collection $commandes;
+
+    #[ORM\ManyToOne(inversedBy: 'menus')]
+    private ?Regime $regime = null;
+
+    #[ORM\ManyToOne(inversedBy: 'menus')]
+    private ?Theme $theme = null;
 
     public function __construct()
     {
         $this->plats = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -119,6 +132,7 @@ class Menu
     {
         if (!$this->plats->contains($plat)) {
             $this->plats->add($plat);
+            $plat->setMenu($this);
         }
 
         return $this;
@@ -126,7 +140,65 @@ class Menu
 
     public function removePlat(Plat $plat): static
     {
-        $this->plats->removeElement($plat);
+        if ($this->plats->removeElement($plat)) {
+            if ($plat->getMenu() === $this) {
+                $plat->setMenu(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): static
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setMenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): static
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getMenu() === $this) {
+                $commande->setMenu(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRegime(): ?Regime
+    {
+        return $this->regime;
+    }
+
+    public function setRegime(?Regime $regime): static
+    {
+        $this->regime = $regime;
+
+        return $this;
+    }
+
+    public function getTheme(): ?Theme
+    {
+        return $this->theme;
+    }
+
+    public function setTheme(?Theme $theme): static
+    {
+        $this->theme = $theme;
 
         return $this;
     }

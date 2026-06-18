@@ -28,12 +28,26 @@
                 <td>{{ plat.price }}</td>
             </tr>
             <tr>
+                <th>Menu</th>
+                <td>{{ plat.menu ? plat.menu.title : 'Aucun menu' }}</td>
+            </tr>
+            <tr>
                 <th>IsActive</th>
                 <td>{{ plat.isActive ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
                 <th>CreateAt</th>
                 <td>{{ plat.createAt ? plat.createAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Allergenes</th>
+                <td>
+                    {% for allergene in plat.allergenes %}
+                        {{ allergene.libelle }}{% if not loop.last %}, {% endif %}
+                    {% else %}
+                        Aucun allergène
+                    {% endfor %}
+                </td>
             </tr>
         </tbody>
     </table>

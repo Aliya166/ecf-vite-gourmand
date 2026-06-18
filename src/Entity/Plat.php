@@ -34,15 +34,21 @@ class Plat
     #[ORM\Column]
     private ?\DateTimeImmutable $createAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'plats')]
+    private ?Menu $menu = null;
+
     /**
-     * @var Collection<int, Menu>
+     * @var Collection<int, Allergene>
      */
-    #[ORM\ManyToMany(targetEntity: Menu::class, mappedBy: 'plats')]
-    private Collection $menus;
+    #[ORM\ManyToMany(targetEntity: Allergene::class, inversedBy: 'plats')]
+    private Collection $allergenes;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photo = null;
 
     public function __construct()
     {
-        $this->menus = new ArrayCollection();
+        $this->allergenes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -122,29 +128,50 @@ class Plat
         return $this;
     }
 
-    /**
-     * @return Collection<int, Menu>
-     */
-    public function getMenus(): Collection
+    public function getMenu(): ?Menu
     {
-        return $this->menus;
+        return $this->menu;
     }
 
-    public function addMenu(Menu $menu): static
+    public function setMenu(?Menu $menu): static
     {
-        if (!$this->menus->contains($menu)) {
-            $this->menus->add($menu);
-            $menu->addPlat($this);
+        $this->menu = $menu;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Allergene>
+     */
+    public function getAllergenes(): Collection
+    {
+        return $this->allergenes;
+    }
+
+    public function addAllergene(Allergene $allergene): static
+    {
+        if (!$this->allergenes->contains($allergene)) {
+            $this->allergenes->add($allergene);
         }
 
         return $this;
     }
 
-    public function removeMenu(Menu $menu): static
+    public function removeAllergene(Allergene $allergene): static
     {
-        if ($this->menus->removeElement($menu)) {
-            $menu->removePlat($this);
-        }
+        $this->allergenes->removeElement($allergene);
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): static
+    {
+        $this->photo = $photo;
 
         return $this;
     }

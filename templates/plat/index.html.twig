@@ -3,43 +3,55 @@
 {% block title %}Plat index{% endblock %}
 
 {% block body %}
-    <h1>Plat index</h1>
+<h1>Plat index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>TypePlat</th>
-                <th>Price</th>
-                <th>IsActive</th>
-                <th>CreateAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>TypePlat</th>
+            <th>Price</th>
+            <th>Menu</th>
+            <th>IsActive</th>
+            <th>CreateAt</th>
+            <th>Allergenes</th>
+            <th>actions</th>
+            <th>photo</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for plat in plats %}
-            <tr>
-                <td>{{ plat.id }}</td>
-                <td>{{ plat.name }}</td>
-                <td>{{ plat.description }}</td>
-                <td>{{ plat.typePlat }}</td>
-                <td>{{ plat.price }}</td>
-                <td>{{ plat.isActive ? 'Yes' : 'No' }}</td>
-                <td>{{ plat.createAt ? plat.createAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_plat_show', {'id': plat.id}) }}">show</a>
-                    <a href="{{ path('app_plat_edit', {'id': plat.id}) }}">edit</a>
-                </td>
-            </tr>
+        <tr>
+            <td>{{ plat.id }}</td>
+            <td>{{ plat.name }}</td>
+            <td>{{ plat.description }}</td>
+            <td>{{ plat.typePlat }}</td>
+            <td>{{ plat.price }}</td>
+            <td>{{ plat.menu ? plat.menu.title : 'Aucun menu' }}</td>
+            <td>{{ plat.isActive ? 'Yes' : 'No' }}</td>
+            <td>{{ plat.createAt ? plat.createAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>
+                {% for allergene in plat.allergenes %}
+                {{ allergene.libelle }}{% if not loop.last %}, {% endif %}
+                {% else %}
+                Aucun allergène
+                {% endfor %}
+            </td>
+            <td>
+                <a href="{{ path('app_plat_show', {'id': plat.id}) }}">show</a>
+                <a href="{{ path('app_plat_edit', {'id': plat.id}) }}">edit</a>
+            </td>
+            <td>{{ plat.photo ?: 'Aucune photo' }}</td>
+        </tr>
         {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
+        <tr>
+            <td colspan="8">no records found</td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <a href="{{ path('app_plat_new') }}">Create new</a>
+<a href="{{ path('app_plat_new') }}">Create new</a>
 {% endblock %}
