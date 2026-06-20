@@ -5,21 +5,46 @@ namespace App\Controller;
 use App\Entity\Menu;
 use App\Repository\HoraireRepository;
 use App\Repository\MenuRepository;
+use App\Repository\ThemeRepository;
+use App\Repository\RegimeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class PublicController extends AbstractController
 {
     #[Route('/menus', name: 'app_public_menus')]
-    public function index(MenuRepository $menuRepository, HoraireRepository $horaireRepository): Response
-    {
-        $menus = $menuRepository->findBy(
-            ['isActive' => true]
-        );
+    public function index(
+        Request $request,
+        MenuRepository $menuRepository,
+        ThemeRepository $themeRepository,
+        RegimeRepository $regimeRepository,
+        HoraireRepository $horaireRepository
+    ): Response {
+        $themeId = $request->query->get('theme');
+        $regimeId = $request->query->get('regime');
+
+        $criteria = [
+            'isActive' => true,
+        ];
+
+        if ($themeId) {
+            $criteria['theme'] = $themeId;
+        }
+
+        if ($regimeId) {
+            $criteria['regime'] = $regimeId;
+        }
+
+        $menus = $menuRepository->findBy($criteria);
 
         return $this->render('public/index.html.twig', [
             'menus' => $menus,
+            'themes' => $themeRepository->findAll(),
+            'regimes' => $regimeRepository->findAll(),
+            'selectedTheme' => $themeId,
+            'selectedRegime' => $regimeId,
             'horaires' => $horaireRepository->findAll(),
         ]);
     }

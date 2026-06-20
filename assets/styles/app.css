@@ -90,6 +90,8 @@ body {
     width: 100%;
     height: 380px;
     object-fit: cover;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    border-radius: 8px;
 }
 
 .hero-title {
@@ -246,3 +248,224 @@ body {
     margin: 0;
     font-size: 14px;
 }
+
+.menus-hero-section {
+    background-color: #f2eadc;
+    padding: 50px 50px;
+}
+
+.menus-hero-title {
+    font-size: 64px;
+    margin-bottom: 22px;
+}
+
+.menus-hero-text {
+    max-width: 500px;
+    font-size: 20px;
+    line-height: 1.5;
+    color: #2f3f2f;
+}
+
+.menus-hero-img {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    border-radius: 6px;
+}
+
+.menus-filters-section {
+    background-color: #f8f5ec;
+    padding: 24px 0;
+}
+
+.menus-filters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    min-width: 120px;
+    border: 1px solid #9b9b9b;
+    background-color: #f8f5ec;
+    color: #2f3f2f;
+    border-radius: 999px;
+    padding: 8px 22px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.filter-btn-active {
+    background-color: #315c3b;
+    color: white;
+    border-color: #315c3b;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.filter-btn-small {
+    min-width: 90px;
+    padding-left: 22px;
+    padding-right: 22px;
+}
+
+.filter-btn i {
+    margin-left: 6px;
+    font-size: 12px;
+}
+
+.menus-cards-section {
+    background-color: #f2eadc;
+    padding: 60px 0 80px;
+}
+
+.menu-page-card {
+    background-color: #f8f5ec;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+    height: 100%;
+}
+
+.menu-page-card-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.menu-page-card-body {
+    padding: 20px;
+}
+
+.menu-page-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    color: #315c3b;
+    margin: 0;
+}
+
+.menu-personnes {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2f3f2f;
+}
+
+.menu-page-card-text {
+    max-width: 150px;
+    font-size: 14px;
+    margin: 0;
+}
+
+.menu-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.menu-tags span {
+    font-size: 12px;
+    color: #2f3f2f;
+}
+
+.menu-separator {
+    border-top: 1px solid #d5cbb8;
+    margin: 16px 0;
+}
+
+.menu-page-card-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    color: #315c3b;
+    margin-bottom: 18px;
+}
+
+.btn-menu-card {
+    display: block;
+    width: 100%;
+    background-color: #c9973f;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.btn-menu-card:hover {
+    background-color: #b18435;
+    color: white;
+}
+
+.menu-page-tags {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+}
+
+.menu-tag {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+
+    padding: 5px 12px;
+    border: 1px solid #d8d1c3;
+    border-radius: 20px;
+
+    font-size: 0.875rem;
+    color: #666;
+    background: transparent;
+
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.menu-tag-icon {
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    line-height: 1;
+}
+
+.menus-pagination-section {
+    background-color: #f2eadc;
+    padding: 0 0 55px;
+}
+
+.menus-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    background-color: #f8f5ec;
+    color: #2f3f2f;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    font-weight: 600;
+}
+
+.pagination-btn:hover {
+    color: white;
+    background-color: #315c3b;
+}
+
+.pagination-active {
+    background-color: #315c3b;
+    color: white;
+}
+

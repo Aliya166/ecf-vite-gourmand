@@ -4,67 +4,181 @@
 
 {% block body %}
 
-<h1 class="mb-4 text-center">Nos menus</h1>
+<section class="menus-hero-section">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h1 class="section-title menus-hero-title">
+                Tous nos menus
+            </h1>
 
-<p class="text-center text-muted mb-5">
-    Découvrez nos menus disponibles à la commande.
-</p>
+            <p class="menus-hero-text">
+                Découvrez notre sélection de menus préparés
+                avec des produits frais et de saison.
+            </p>
+        </div>
 
-<div class="row">
+        <div class="col-md-6">
+            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200" alt="Menus frais"
+                class="menus-hero-img">
+        </div>
+    </div>
+</section>
 
-    {% for menu in menus %}
+<section class="menus-filters-section">
+    <div class="container">
+        <div class="menus-filters">
 
-    <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-            <img src="https://picsum.photos/400/250?random={{ menu.id }}" class="card-img-top" alt={{ menu.title }}">
+            <div class="menus-filters">
 
-            <div class="card-body">
-
-                <h5 class="card-title">
-                    {{ menu.title }}
-                </h5>
-
-                <p class="card-text">
-                    {{ menu.description }}
-                </p>
-
-                <p class="fw-bold">
-                    {{ menu.price }} €
-                </p>
-
-                <p>
-                    <span class="badge bg-success">
-                        {{ menu.regime ? menu.regime.libelle : 'Aucun régime' }}
-                    </span>
-
-                    <span class="badge bg-info text-dark">
-                        {{ menu.theme ? menu.theme.libelle : 'Aucun thème' }}
-                    </span>
-
-                    <span class="badge bg-light text-dark border">
-                        👥 {{ menu.nombrePersonneMinimum }}
-                    </span>
-                </p>
-
-                <a href="{{ path('app_public_menu_show', {'id': menu.id}) }}" class="btn btn-warning w-100 mt-3">
-                    Voir le menu
+                <a href="{{ path('app_public_menus') }}"
+                    class="filter-btn filter-btn-small {{ selectedTheme is empty and selectedRegime is empty ? 'filter-btn-active' : '' }}">
+                    Tous
                 </a>
 
+                <button class="filter-btn">
+                    Prix max <i class="bi bi-chevron-down"></i>
+                </button>
+
+                <div class="dropdown">
+                    <button class="filter-btn {{ selectedTheme is not empty ? 'filter-btn-active' : '' }}" type="button"
+                        data-bs-toggle="dropdown">
+                        Thème <i class="bi bi-chevron-down"></i>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        {% for theme in themes %}
+                        <li>
+                            <a class="dropdown-item" href="{{ path('app_public_menus', {
+                           theme: theme.id,
+                           regime: selectedRegime
+                       }) }}">
+                                {{ theme.libelle }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="dropdown">
+                    <button class="filter-btn {{ selectedRegime is not empty ? 'filter-btn-active' : '' }}"
+                        type="button" data-bs-toggle="dropdown">
+                        Régime <i class="bi bi-chevron-down"></i>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        {% for regime in regimes %}
+                        <li>
+                            <a class="dropdown-item" href="{{ path('app_public_menus', {
+                           regime: regime.id,
+                           theme: selectedTheme
+                       }) }}">
+                                {{ regime.libelle }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <button class="filter-btn">
+                    Personnes <i class="bi bi-chevron-down"></i>
+                </button>
+
+                <button class="filter-btn">
+                    Fourchette de prix <i class="bi bi-chevron-down"></i>
+                </button>
+
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="menus-cards-section">
+    <div class="container">
+        <div class="row g-5">
+
+            {% for menu in menus %}
+            <div class="col-md-4">
+                <div class="menu-page-card">
+
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800"
+                        class="menu-page-card-img" alt="{{ menu.title }}">
+
+                    <div class="menu-page-card-body">
+
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h2 class="menu-page-card-title">
+                                {{ menu.title }}
+                            </h2>
+
+                            <span class="menu-personnes">
+                                <i class="bi bi-people-fill"></i>
+                                {{ menu.nombrePersonneMinimum }}
+                            </span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+                            <p class="menu-page-card-text">
+                                {{ menu.description }}
+                            </p>
+
+                            <div class="menu-page-tags">
+
+                                <span class="menu-tag">
+                                    <span class="menu-tag-icon">🎉</span>
+                                    <span>{{ menu.theme.libelle }}</span>
+                                </span>
+
+                                <span class="menu-tag">
+                                    <span class="menu-tag-icon">🌱</span>
+                                    <span>{{ menu.regime.libelle }}</span>
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="menu-separator"></div>
+
+                        <p class="menu-page-card-price">
+                            {{ menu.price }} €
+                        </p>
+
+                        <a href="{{ path('app_public_menu_show', {'id': menu.id}) }}" class="btn-menu-card">
+                            Voir le menu
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12">
+                <p class="text-center">
+                    Aucun menu disponible pour le moment.
+                </p>
+            </div>
+            {% endfor %}
 
         </div>
     </div>
+</section>
 
-    {% else %}
+<section class="menus-pagination-section">
+    <div class="menus-pagination">
 
-    <div class="col-12">
-        <p class="text-center">
-            Aucun menu disponible pour le moment.
-        </p>
+        <a href="#" class="pagination-btn">
+            <i class="bi bi-chevron-left"></i>
+        </a>
+
+        <a href="#" class="pagination-btn pagination-active">1</a>
+        <a href="#" class="pagination-btn">2</a>
+        <a href="#" class="pagination-btn">3</a>
+        <a href="#" class="pagination-btn">4</a>
+        <a href="#" class="pagination-btn">5</a>
+
+        <a href="#" class="pagination-btn">
+            <i class="bi bi-chevron-right"></i>
+        </a>
+
     </div>
-
-    {% endfor %}
-
-</div>
+</section>
 
 {% endblock %}
