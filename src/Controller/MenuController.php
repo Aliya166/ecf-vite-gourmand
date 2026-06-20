@@ -38,7 +38,7 @@ final class MenuController extends AbstractController
 
         return $this->render('menu/new.html.twig', [
             'menu' => $menu,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -64,7 +64,7 @@ final class MenuController extends AbstractController
 
         return $this->render('menu/edit.html.twig', [
             'menu' => $menu,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

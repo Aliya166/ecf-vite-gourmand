@@ -20,6 +20,7 @@ class ThemeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Theme::class,
+            'csrf_protection' => false,
         ]);
     }
 }

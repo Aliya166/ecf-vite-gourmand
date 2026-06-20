@@ -46,8 +46,8 @@
         <h2 class="text-center mb-4 section-title">Nos menus pour tous les goûts</h2>
 
         <div class="row g-4">
-            {% for menu in menus %}
-            <div class="col-md-3">
+            {% for menu in menus|slice(0, 3) %}
+            <div class="col-md-4">
                 <a href="{{ path('app_public_menu_show', {'id': menu.id}) }}" class="text-decoration-none text-dark">
                     <div class="home-menu-card d-flex align-items-center h-100">
                         <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=300"
@@ -148,58 +148,58 @@
         <div class="row g-4">
 
             {% for avi in avis|slice(0, 3) %}
-                <div class="col-md-4">
-                    <div class="avis-card d-flex align-items-center">
-                        <div class="avis-icon">
-                            <i class="bi bi-emoji-smile"></i>
-                        </div>
+            <div class="col-md-4">
+                <div class="avis-card d-flex align-items-center">
+                    <div class="avis-icon">
+                        <i class="bi bi-emoji-smile"></i>
+                    </div>
 
-                        <div>
-                            <div class="text-warning">★★★★★</div>
-                            <h6>Client</h6>
-                            <p>"{{ avi.description }}"</p>
-                        </div>
+                    <div>
+                        <div class="text-warning">★★★★★</div>
+                        <h6>Client</h6>
+                        <p>"{{ avi.description }}"</p>
                     </div>
                 </div>
+            </div>
             {% else %}
-                <div class="col-md-4">
-                    <div class="avis-card d-flex align-items-center">
-                        <div class="avis-icon">
-                            <i class="bi bi-emoji-smile"></i>
-                        </div>
-                        <div>
-                            <div class="text-warning">★★★★★</div>
-                            <h6>Sophie D.</h6>
-                            <p>"Repas délicieux et livraison ultra rapide!"</p>
-                        </div>
+            <div class="col-md-4">
+                <div class="avis-card d-flex align-items-center">
+                    <div class="avis-icon">
+                        <i class="bi bi-emoji-smile"></i>
+                    </div>
+                    <div>
+                        <div class="text-warning">★★★★★</div>
+                        <h6>Sophie D.</h6>
+                        <p>"Repas délicieux et livraison ultra rapide!"</p>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-md-4">
-                    <div class="avis-card d-flex align-items-center">
-                        <div class="avis-icon">
-                            <i class="bi bi-emoji-smile"></i>
-                        </div>
-                        <div>
-                            <div class="text-warning">★★★★★</div>
-                            <h6>Tomas L.</h6>
-                            <p>"Des produits frais et des recettes variées."</p>
-                        </div>
+            <div class="col-md-4">
+                <div class="avis-card d-flex align-items-center">
+                    <div class="avis-icon">
+                        <i class="bi bi-emoji-smile"></i>
+                    </div>
+                    <div>
+                        <div class="text-warning">★★★★★</div>
+                        <h6>Tomas L.</h6>
+                        <p>"Des produits frais et des recettes variées."</p>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-md-4">
-                    <div class="avis-card d-flex align-items-center">
-                        <div class="avis-icon">
-                            <i class="bi bi-emoji-smile"></i>
-                        </div>
-                        <div>
-                            <div class="text-warning">★★★★★</div>
-                            <h6>Julie M.</h6>
-                            <p>"Service au top, livreur très sympa."</p>
-                        </div>
+            <div class="col-md-4">
+                <div class="avis-card d-flex align-items-center">
+                    <div class="avis-icon">
+                        <i class="bi bi-emoji-smile"></i>
+                    </div>
+                    <div>
+                        <div class="text-warning">★★★★★</div>
+                        <h6>Julie M.</h6>
+                        <p>"Service au top, livreur très sympa."</p>
                     </div>
                 </div>
+            </div>
             {% endfor %}
 
         </div>

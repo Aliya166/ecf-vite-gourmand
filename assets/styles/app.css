@@ -116,7 +116,13 @@ body {
     overflow: hidden;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
     min-height: 170px;
-    width: 380px;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .home-menu-img {
