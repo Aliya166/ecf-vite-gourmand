@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ menu.title }} - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<h1>{{ menu.title }}</h1>
+
+<p>{{ menu.description }}</p>
+
+<p><strong>{{ menu.price }} €</strong></p>
+
+<p>
+    <span class="badge bg-success">
+        {{ menu.regime ? menu.regime.libelle : 'Aucun régime' }}
+    </span>
+
+    <span class="badge bg-info text-dark">
+        {{ menu.theme ? menu.theme.libelle : 'Aucun thème' }}
+    </span>
+
+    <span class="badge bg-light text-dark border">
+        👥 {{ menu.nombrePersonneMinimum }}
+    </span>
+</p>
+
+<h2>Plats inclus</h2>
+
+<div class="row">
+    {% for plat in menu.plats %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5>{{ plat.name }}</h5>
+                    <p>{{ plat.description }}</p>
+                    <p><strong>{{ plat.price }} €</strong></p>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>Aucun plat associé à ce menu.</p>
+    {% endfor %}
+</div>
+
+<a href="{{ path('app_public_menus') }}" class="btn btn-secondary">
+    Retour aux menus
+</a>
+
+<a href="#" class="btn btn-warning">
+    Commander
+</a>
+
+{% endblock %}

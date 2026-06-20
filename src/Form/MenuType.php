@@ -17,6 +17,7 @@ class MenuType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('nombrePersonneMinimum')
             ->add('description')
             ->add('price')
             ->add('isActive')

@@ -1,0 +1,209 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="py-5" style="background-color: #f2eadc;">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <div class="col-md-6">
+                <p class="text-uppercase fw-bold mb-2" style="color:#315c3b;">
+                    Livraison de repas frais
+                </p>
+
+                <h1 class="display-4 hero-title mb-3">
+                    Des repas gourmands,<br>
+                    livrés chez vous
+                </h1>
+
+                <p class="mb-4">
+                    Découvrez nos menus préparés avec des produits frais et de saison,
+                    livrés rapidement à votre porte.
+                </p>
+
+                <a href="{{ path('app_public_menus') }}" class="btn btn-green me-2">
+                    Commander maintenant
+                </a>
+
+                <a href="{{ path('app_public_menus') }}" class="btn btn-outline-secondary">
+                    Voir les menus
+                </a>
+            </div>
+
+            <div class="col-md-6">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200"
+                    class="img-fluid rounded shadow hero-image" alt="Repas frais">
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="home-menus-section bg-white">
+    <div class="container">
+        <h2 class="text-center mb-4 section-title">Nos menus pour tous les goûts</h2>
+
+        <div class="row g-4">
+            {% for menu in menus %}
+            <div class="col-md-3">
+                <a href="{{ path('app_public_menu_show', {'id': menu.id}) }}" class="text-decoration-none text-dark">
+                    <div class="home-menu-card d-flex align-items-center h-100">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=300"
+                            alt="{{ menu.title }}" class="home-menu-img">
+
+                        <div class="home-menu-content">
+                            <h5>{{ menu.title }}</h5>
+                            <p>{{ menu.description }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% else %}
+            <p class="text-center">Aucun menu disponible pour le moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="about-preview-section">
+    <div class="container">
+        <div class="row align-items-center g-4">
+
+            <div class="col-md-6">
+                <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1000"
+                    class="img-fluid rounded about-preview-img" alt="Préparation des repas">
+            </div>
+
+            <div class="col-md-6">
+                <h2 class="section-title">À propos de nous</h2>
+                <p>
+                    Vite & Gourmand, c’est l’assurance de repas savoureux,
+                    préparés avec des ingrédients frais et livrés rapidement à votre porte.
+                </p>
+                <a href="#" class="about-link">
+                    En savoir plus →
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="why-section bg-white">
+    <div class="container">
+        <h2 class="text-center mb-5 section-title">Pourquoi choisir Vite & Gourmand?</h2>
+
+        <div class="row text-center">
+
+            <div class="col-md-3 mb-4">
+                <div class="why-item">
+                    <div class="why-icon">
+                        <i class="bi bi-rocket-takeoff"></i>
+                    </div>
+                    <h5>Livraison rapide</h5>
+                    <p>Chez vous en moins de 30 minutes.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="why-item">
+                    <div class="why-icon">
+                        <i class="bi bi-apple"></i>
+                    </div>
+                    <h5>Produits frais</h5>
+                    <p>Des ingrédients de qualité.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="why-item">
+                    <div class="why-icon">
+                        <i class="bi bi-cart3"></i>
+                    </div>
+                    <h5>Fait avec passion</h5>
+                    <p>Fait chaque jour.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="why-item">
+                    <div class="why-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h5>Paiement sécurisé</h5>
+                    <p>Vos paiements sont 100% sécurisés.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="avis-section">
+    <div class="container">
+        <h2 class="text-center mb-4 section-title">Avis clients</h2>
+
+        <div class="row g-4">
+
+            {% for avi in avis|slice(0, 3) %}
+                <div class="col-md-4">
+                    <div class="avis-card d-flex align-items-center">
+                        <div class="avis-icon">
+                            <i class="bi bi-emoji-smile"></i>
+                        </div>
+
+                        <div>
+                            <div class="text-warning">★★★★★</div>
+                            <h6>Client</h6>
+                            <p>"{{ avi.description }}"</p>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-4">
+                    <div class="avis-card d-flex align-items-center">
+                        <div class="avis-icon">
+                            <i class="bi bi-emoji-smile"></i>
+                        </div>
+                        <div>
+                            <div class="text-warning">★★★★★</div>
+                            <h6>Sophie D.</h6>
+                            <p>"Repas délicieux et livraison ultra rapide!"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="avis-card d-flex align-items-center">
+                        <div class="avis-icon">
+                            <i class="bi bi-emoji-smile"></i>
+                        </div>
+                        <div>
+                            <div class="text-warning">★★★★★</div>
+                            <h6>Tomas L.</h6>
+                            <p>"Des produits frais et des recettes variées."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="avis-card d-flex align-items-center">
+                        <div class="avis-icon">
+                            <i class="bi bi-emoji-smile"></i>
+                        </div>
+                        <div>
+                            <div class="text-warning">★★★★★</div>
+                            <h6>Julie M.</h6>
+                            <p>"Service au top, livreur très sympa."</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

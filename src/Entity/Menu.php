@@ -49,6 +49,9 @@ class Menu
     #[ORM\ManyToOne(inversedBy: 'menus')]
     private ?Theme $theme = null;
 
+    #[ORM\Column]
+    private ?int $nombrePersonneMinimum = null;
+
     public function __construct()
     {
         $this->plats = new ArrayCollection();
@@ -199,6 +202,18 @@ class Menu
     public function setTheme(?Theme $theme): static
     {
         $this->theme = $theme;
+
+        return $this;
+    }
+
+    public function getNombrePersonneMinimum(): ?int
+    {
+        return $this->nombrePersonneMinimum;
+    }
+
+    public function setNombrePersonneMinimum(int $nombrePersonneMinimum): static
+    {
+        $this->nombrePersonneMinimum = $nombrePersonneMinimum;
 
         return $this;
     }
