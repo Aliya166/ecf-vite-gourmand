@@ -4,50 +4,190 @@
 
 {% block body %}
 
-<h1>{{ menu.title }}</h1>
+<section class="menu-detail-page">
 
-<p>{{ menu.description }}</p>
+    <div class="container">
 
-<p><strong>{{ menu.price }} €</strong></p>
+        <div class="menu-detail-breadcrumb">
+            <a href="{{ path('app_home') }}">Accueil</a>
+            <span>›</span>
+            <a href="{{ path('app_public_menus') }}">Menus</a>
+            <span>›</span>
+            <span>{{ menu.title }}</span>
+        </div>
 
-<p>
-    <span class="badge bg-success">
-        {{ menu.regime ? menu.regime.libelle : 'Aucun régime' }}
-    </span>
+        <div class="menu-detail-hero">
 
-    <span class="badge bg-info text-dark">
-        {{ menu.theme ? menu.theme.libelle : 'Aucun thème' }}
-    </span>
+            <div class="menu-detail-left">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=900"
+                    alt="{{ menu.title }}" class="menu-detail-main-img">
 
-    <span class="badge bg-light text-dark border">
-        👥 {{ menu.nombrePersonneMinimum }}
-    </span>
-</p>
 
-<h2>Plats inclus</h2>
+                <div class="menu-gallery-thumbs">
 
-<div class="row">
-    {% for plat in menu.plats %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <h5>{{ plat.name }}</h5>
-                    <p>{{ plat.description }}</p>
-                    <p><strong>{{ plat.price }} €</strong></p>
+                    <button class="thumb-arrow">‹</button>
+
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=900"
+                        alt="{{ menu.title }}" class="menu-detail-main-img">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=900"
+                        alt="{{ menu.title }}" class="menu-detail-main-img">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=900"
+                        alt="{{ menu.title }}" class="menu-detail-main-img">
+
+                    <button class="thumb-arrow">›</button>
+
                 </div>
             </div>
+
+            <div class="menu-detail-right">
+
+                <h1 class="menu-detail-title">
+                    {{ menu.title }}
+                </h1>
+
+                <div class="menu-detail-tags">
+
+                    <span class="menu-tag">
+                        <span class="menu-tag-icon">🎉</span>
+                        <span>{{ menu.theme ? menu.theme.libelle : 'Aucun thème' }}</span>
+                    </span>
+
+                    <span class="menu-tag">
+                        <span class="menu-tag-icon">🌱</span>
+                        <span>{{ menu.regime ? menu.regime.libelle : 'Aucun régime' }}</span>
+                    </span>
+
+                    <span class="menu-tag">
+                        <span class="menu-tag-icon">👥</span>
+                        <span>{{ menu.nombrePersonneMinimum }} personnes minimum</span>
+                    </span>
+
+                </div>
+
+                <p class="menu-detail-description">
+                    {{ menu.description }}
+                </p>
+
+                <div class="menu-detail-separator"></div>
+
+                <div class="menu-detail-order">
+                    <p class="menu-detail-price">
+                        {{ menu.price|number_format(2, ',', ' ') }} €
+                    </p>
+
+                    <a href="#" class="btn-menu-card menu-detail-btn">
+                        Commander ce menu
+                    </a>
+                </div>
+
+                <p class="menu-detail-note">
+                    ✓ Commande minimum 48h avant la livraison
+                </p>
+
+            </div>
+
         </div>
-    {% else %}
-        <p>Aucun plat associé à ce menu.</p>
-    {% endfor %}
-</div>
 
-<a href="{{ path('app_public_menus') }}" class="btn btn-secondary">
-    Retour aux menus
-</a>
+    </div>
 
-<a href="#" class="btn btn-warning">
-    Commander
-</a>
+</section>
+
+<section class="menu-detail-info-section">
+    <div class="container">
+        <div class="menu-detail-info-box">
+
+            <div class="menu-detail-info-item">
+                <span class="menu-detail-info-icon">🎁</span>
+                <strong>Thème</strong>
+                <p>{{ menu.theme ? menu.theme.libelle : 'Aucun thème' }}</p>
+            </div>
+
+            <div class="menu-detail-info-item">
+                <span class="menu-detail-info-icon">🌱</span>
+                <strong>Régime</strong>
+                <p>{{ menu.regime ? menu.regime.libelle : 'Aucun régime' }}</p>
+            </div>
+
+            <div class="menu-detail-info-item">
+                <span class="menu-detail-info-icon">👥</span>
+                <strong>Nombre minimum</strong>
+                <p>{{ menu.nombrePersonneMinimum }} personnes</p>
+            </div>
+
+            <div class="menu-detail-info-item">
+                <span class="menu-detail-info-icon">💳</span>
+                <strong>Prix</strong>
+                <p>{{ menu.price }} €</p>
+            </div>
+
+            <div class="menu-detail-info-item">
+                <span class="menu-detail-info-icon">📦</span>
+                <strong>Stock disponible</strong>
+                <p>5 menus disponibles</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="menu-composition-section">
+    <div class="container">
+
+        <h2 class="section-title text-start mb-4">
+            Composition du menu
+        </h2>
+
+        <div class="row g-4">
+
+            <div class="col-md-7">
+                <div class="menu-composition-list">
+
+                    {% for plat in menu.plats %}
+                    <div class="menu-composition-item">
+                        <div class="composition-icon">🍽️</div>
+
+                        <div>
+                            <strong>{{ plat.name }}</strong>
+                            <p>{{ plat.description }}</p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p>Aucun plat associé à ce menu.</p>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <div class="menu-composition-section col-md-5">
+
+                <div class="menu-allergenes-box">
+                    <h3>⚠️ Allergènes</h3>
+
+                    <div class="menu-allergenes-list">
+                        {% for plat in menu.plats %}
+                        {% for allergene in plat.allergenes %}
+                        <span class="allergene-pill">
+                            {{ allergene.libelle }}
+                        </span>
+                        {% endfor %}
+                        {% else %}
+                        <span class="allergene-pill">Aucun allergène renseigné</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="menu-condition-box">
+                    <h3>Condition du menu</h3>
+
+                    <p>✓ Commande minimum 48h avant la livraison</p>
+                    <p>✓ Livraison du lundi au samedi</p>
+                    <p>✓ Photos non contractuelles</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
 
 {% endblock %}
