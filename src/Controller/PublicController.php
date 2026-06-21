@@ -7,6 +7,7 @@ use App\Repository\HoraireRepository;
 use App\Repository\MenuRepository;
 use App\Repository\ThemeRepository;
 use App\Repository\RegimeRepository;
+use App\Repository\GalleryImageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +21,7 @@ final class PublicController extends AbstractController
         MenuRepository $menuRepository,
         ThemeRepository $themeRepository,
         RegimeRepository $regimeRepository,
-        HoraireRepository $horaireRepository
+        HoraireRepository $horaireRepository,
     ): Response {
         $themeId = $request->query->get('theme');
         $regimeId = $request->query->get('regime');
@@ -54,6 +55,21 @@ final class PublicController extends AbstractController
     {
         return $this->render('public/show.html.twig', [
             'menu' => $menu,
+            'horaires' => $horaireRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/galerie', name: 'app_public_galerie')]
+    public function galerie(
+        GalleryImageRepository $galleryImageRepository,
+        HoraireRepository $horaireRepository
+    ): Response {
+        $images = $galleryImageRepository->findBy([
+            'isActive' => true,
+        ]);
+
+        return $this->render('public/galerie.html.twig', [
+            'images' => $images,
             'horaires' => $horaireRepository->findAll(),
         ]);
     }

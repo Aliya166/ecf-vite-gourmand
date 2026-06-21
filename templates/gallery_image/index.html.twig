@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GalleryImage index{% endblock %}
+
+{% block body %}
+    <h1>GalleryImage index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>ImageUrl</th>
+                <th>IsActive</th>
+                <th>CreatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for gallery_image in gallery_images %}
+            <tr>
+                <td>{{ gallery_image.id }}</td>
+                <td>{{ gallery_image.title }}</td>
+                <td>{{ gallery_image.description }}</td>
+                <td>{{ gallery_image.imageUrl }}</td>
+                <td>{{ gallery_image.isActive ? 'Yes' : 'No' }}</td>
+                <td>{{ gallery_image.createdAt ? gallery_image.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_gallery_image_show', {'id': gallery_image.id}) }}">show</a>
+                    <a href="{{ path('app_gallery_image_edit', {'id': gallery_image.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gallery_image_new') }}">Create new</a>
+{% endblock %}
