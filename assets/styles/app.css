@@ -884,3 +884,217 @@ body {
     }
 }
 
+.auth-page {
+    min-height: 75vh;
+    background-color: #f7f3e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 20px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 470px;
+    background-color: #f8f5ec;
+    border-radius: 18px;
+    padding: 42px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.14);
+}
+
+.auth-title {
+    font-family: 'Playfair Display', serif;
+    color: #315c3b;
+    font-size: 2.7rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.auth-subtitle {
+    text-align: center;
+    color: #2f3f2f;
+    margin-bottom: 32px;
+}
+
+.auth-input {
+    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1px solid #d8d1c3;
+    background-color: white;
+}
+
+.auth-input:focus {
+    border-color: #315c3b;
+    box-shadow: 0 0 0 0.15rem rgba(49, 92, 59, 0.15);
+}
+
+.auth-btn {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    background-color: #c9973f;
+    color: white;
+    padding: 13px 20px;
+    font-weight: 700;
+    transition: 0.3s ease;
+}
+
+.auth-btn:hover {
+    background-color: #b18435;
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.auth-links a {
+    color: #315c3b;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+.auth-card .form-control {
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.auth-card .form-check {
+    margin: 15px 0;
+}
+
+.auth-card label {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.auth-card input[type="email"],
+.auth-card input[type="text"],
+.auth-card input[type="password"],
+.auth-card input[type="tel"] {
+    width: 100%;
+    border: 1px solid #d8d1c3;
+    border-radius: 10px;
+    padding: 12px 14px;
+    background-color: #ffffff;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+
+.auth-card input:focus {
+    outline: none;
+    border-color: #315c3b;
+    box-shadow: 0 0 0 0.15rem rgba(49, 92, 59, 0.15);
+}
+
+.auth-card label {
+    display: block;
+    color: #2f3f2f;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.auth-card .form-check input {
+    width: auto;
+    margin-right: 8px;
+}
+
+.auth-card .form-check label {
+    display: inline;
+}
+
+.account-page {
+    background-color: #f7f3e8;
+    padding: 70px 0;
+    min-height: 75vh;
+}
+
+.account-header {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.account-header p {
+    color: #2f3f2f;
+    font-size: 1.05rem;
+}
+
+.account-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 32px;
+}
+
+.account-card {
+    background-color: #f8f5ec;
+    border-radius: 18px;
+    padding: 35px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.14);
+}
+
+.account-card h2 {
+    font-family: 'Playfair Display', serif;
+    color: #315c3b;
+    font-size: 2rem;
+    margin-bottom: 25px;
+}
+
+.account-info p {
+    margin-bottom: 14px;
+    color: #2f3f2f;
+    font-size: 1rem;
+}
+
+.account-info strong {
+    color: #315c3b;
+}
+
+.account-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 30px;
+}
+
+.account-btn {
+    display: inline-block;
+    background-color: #c9973f;
+    color: white;
+    text-decoration: none;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-weight: 700;
+    text-align: center;
+    transition: 0.3s ease;
+}
+
+.account-btn:hover {
+    background-color: #b18435;
+    color: white;
+}
+
+.account-btn-secondary {
+    background-color: #315c3b;
+}
+
+.account-btn-secondary:hover {
+    background-color: #26492f;
+}
+
+.account-empty {
+    color: #555;
+    margin-bottom: 25px;
+}
+
+@media (max-width: 900px) {
+    .account-grid {
+        grid-template-columns: 1fr;
+    }
+}
+

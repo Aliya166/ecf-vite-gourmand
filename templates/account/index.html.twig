@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+
+<section class="account-page">
+    <div class="container">
+
+        <div class="account-header">
+            <h1 class="section-title">Mon compte</h1>
+            <p>Gérez vos informations personnelles et vos commandes.</p>
+        </div>
+
+        <div class="account-grid">
+
+            <div class="account-card">
+                <h2>Mes informations</h2>
+
+                <div class="account-info">
+                    <p><strong>Prénom :</strong> {{ user.firstname }}</p>
+                    <p><strong>Nom :</strong> {{ user.lastname }}</p>
+                    <p><strong>Email :</strong> {{ user.email }}</p>
+                    <p><strong>Téléphone :</strong> {{ user.phone }}</p>
+                    <p><strong>Adresse :</strong> {{ user.address }}</p>
+                </div>
+
+                <div class="account-actions">
+                    <a href="{{ path('app_account_edit') }}" class="account-btn">
+                        Modifier mes informations
+                    </a>
+
+                    <a href="{{ path('app_account_password') }}" class="account-btn account-btn-secondary">
+                        Modifier mon mot de passe
+                    </a>
+                </div>
+            </div>
+
+            <div class="account-card">
+                <h2>Mes commandes</h2>
+
+                <p class="account-empty">
+                    Aucune commande pour le moment.
+                </p>
+
+                <a href="{{ path('app_public_menus') }}" class="account-btn">
+                    Voir les menus
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
