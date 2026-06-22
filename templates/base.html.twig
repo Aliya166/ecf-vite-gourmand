@@ -10,7 +10,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
 
     {% block stylesheets %}{% endblock %}
@@ -42,14 +44,57 @@
                 </ul>
             </div>
 
-            <div class="d-flex gap-3 fs-4">
+            <div class="d-flex gap-3 align-items-center">
+
                 {% if app.user %}
-                <a href="/logout" class="text-dark"><i class="bi bi-person-check"></i></a>
+
+                <div class="dropdown">
+                    <button class="account-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-check"></i>
+                        <span>Mon espace</span>
+                        <i class="bi bi-chevron-down small"></i>
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end account-dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="{{ path('app_account') }}">
+                                Mon compte
+                            </a>
+                        </li>
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li>
+                            <a class="dropdown-item" href="{{ path('app_admin') }}">
+                                Administration
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item text-danger" href="{{ path('app_logout') }}">
+                                Déconnexion
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
                 {% else %}
-                <a href="/login" class="text-dark"><i class="bi bi-person"></i></a>
+
+                <a href="{{ path('app_login') }}" class="account-login-link">
+                    <i class="bi bi-person"></i>
+                    <span>Connexion</span>
+                </a>
+
                 {% endif %}
 
-                <a href="#" class="text-dark"><i class="bi bi-bag"></i></a>
+                <a href="#" class="text-dark fs-4">
+                    <i class="bi bi-bag"></i>
+                </a>
+
             </div>
 
         </div>
@@ -96,9 +141,9 @@
 
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h6>Horaires</h6>
-                        <p class="mb-1">Lundi - Vendredi<br>09h00 - 18h00</p>
-                        <p class="mb-1">Samedi<br>10h00 - 21h00</p>
-                        <p class="mb-1">Dimanche fermé</p>
+                    <p class="mb-1">Lundi - Vendredi<br>09h00 - 18h00</p>
+                    <p class="mb-1">Samedi<br>10h00 - 21h00</p>
+                    <p class="mb-1">Dimanche fermé</p>
                 </div>
 
                 <div class="col-lg-3 col-md-6 mb-4">

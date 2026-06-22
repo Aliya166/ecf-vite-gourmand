@@ -1,16 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Administration{% endblock %}
+{% block title %}Administration - Vite & Gourmand{% endblock %}
 
 {% block body %}
 
-<h1>Dashboard Administrateur</h1>
+<section class="admin-dashboard">
+    <div class="container">
 
-<ul>
-    <li>Gestion des menus</li>
-    <li>Gestion des plats</li>
-    <li>Gestion des commandes</li>
-    <li>Gestion des utilisateurs</li>
-</ul>
+        <div class="admin-header">
+            <h1>Dashboard Administrateur</h1>
+            <p>Gérez les contenus, les menus, les commandes et les utilisateurs du site.</p>
+        </div>
+
+        <div class="admin-grid">
+
+            <div class="admin-card">
+                <div class="admin-icon">🍽️</div>
+                <h2>Menus</h2>
+                <p>Créer, modifier ou supprimer les menus proposés aux clients.</p>
+                <a href="{{ path('app_menu_index') }}" class="admin-btn">Gérer les menus</a>
+            </div>
+
+            <div class="admin-card">
+                <div class="admin-icon">🥗</div>
+                <h2>Plats</h2>
+                <p>Gérer les plats associés aux menus et leurs informations.</p>
+                <a href="{{ path('app_plat_index') }}" class="admin-btn">Gérer les plats</a>
+            </div>
+
+            <div class="admin-card">
+                <div class="admin-icon">📦</div>
+                <h2>Commandes</h2>
+                <p>Consulter et gérer les commandes effectuées par les clients.</p>
+                <a href="{{ path('app_commande_index') }}" class="admin-btn">Voir les commandes</a>
+            </div>
+
+            <div class="admin-card">
+                <div class="admin-icon">🖼️</div>
+                <h2>Galerie</h2>
+                <p>Ajouter, modifier ou supprimer les photos de la galerie.</p>
+                <a href="{{ path('app_gallery_image_index') }}" class="admin-btn">Gérer la galerie</a>
+            </div>
+
+            <div class="admin-card">
+                <div class="admin-icon">⏰</div>
+                <h2>Horaires</h2>
+                <p>Mettre à jour les horaires affichés dans le pied de page.</p>
+                <a href="{{ path('app_horaire_index') }}" class="admin-btn">Gérer les horaires</a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
 
 {% endblock %}
