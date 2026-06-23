@@ -31,10 +31,7 @@ class Menu
     #[ORM\Column]
     private ?\DateTimeImmutable $createAt = null;
 
-    /**
-     * @var Collection<int, Plat>
-     */
-    #[ORM\OneToMany(targetEntity: Plat::class, mappedBy: 'menu')]
+    #[ORM\ManyToMany(targetEntity: Plat::class, inversedBy: 'menus')]
     private Collection $plats;
 
     /**
@@ -52,10 +49,29 @@ class Menu
     #[ORM\Column]
     private ?int $nombrePersonneMinimum = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageMain = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageSecond = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageThird = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageFourth = null;
+
+    /**
+     * @var Collection<int, Plat>
+     */
+    #[ORM\ManyToMany(targetEntity: Plat::class, inversedBy: 'menus')]
+    private Collection $platsMany;
+
     public function __construct()
     {
         $this->plats = new ArrayCollection();
         $this->commandes = new ArrayCollection();
+        $this->platsMany = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -135,7 +151,6 @@ class Menu
     {
         if (!$this->plats->contains($plat)) {
             $this->plats->add($plat);
-            $plat->setMenu($this);
         }
 
         return $this;
@@ -143,11 +158,7 @@ class Menu
 
     public function removePlat(Plat $plat): static
     {
-        if ($this->plats->removeElement($plat)) {
-            if ($plat->getMenu() === $this) {
-                $plat->setMenu(null);
-            }
-        }
+        $this->plats->removeElement($plat);
 
         return $this;
     }
@@ -214,6 +225,78 @@ class Menu
     public function setNombrePersonneMinimum(int $nombrePersonneMinimum): static
     {
         $this->nombrePersonneMinimum = $nombrePersonneMinimum;
+
+        return $this;
+    }
+
+    public function getImageMain(): ?string
+    {
+        return $this->imageMain;
+    }
+
+    public function setImageMain(?string $imageMain): static
+    {
+        $this->imageMain = $imageMain;
+
+        return $this;
+    }
+
+    public function getImageSecond(): ?string
+    {
+        return $this->imageSecond;
+    }
+
+    public function setImageSecond(?string $imageSecond): static
+    {
+        $this->imageSecond = $imageSecond;
+
+        return $this;
+    }
+
+    public function getImageThird(): ?string
+    {
+        return $this->imageThird;
+    }
+
+    public function setImageThird(?string $imageThird): static
+    {
+        $this->imageThird = $imageThird;
+
+        return $this;
+    }
+
+    public function getImageFourth(): ?string
+    {
+        return $this->imageFourth;
+    }
+
+    public function setImageFourth(?string $imageFourth): static
+    {
+        $this->imageFourth = $imageFourth;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Plat>
+     */
+    public function getPlatsMany(): Collection
+    {
+        return $this->platsMany;
+    }
+
+    public function addPlatsMany(Plat $platsMany): static
+    {
+        if (!$this->platsMany->contains($platsMany)) {
+            $this->platsMany->add($platsMany);
+        }
+
+        return $this;
+    }
+
+    public function removePlatsMany(Plat $platsMany): static
+    {
+        $this->platsMany->removeElement($platsMany);
 
         return $this;
     }

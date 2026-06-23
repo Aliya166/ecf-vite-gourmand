@@ -5,9 +5,9 @@
 {% block body %}
 
 {% for message in app.flashes('success') %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
+<div class="alert alert-success">
+    {{ message }}
+</div>
 {% endfor %}
 
 <section class="account-page">
@@ -45,6 +45,7 @@
             <div class="account-card">
                 <h2>Mes commandes</h2>
 
+                {% if commandes is empty %}
                 <p class="account-empty">
                     Aucune commande pour le moment.
                 </p>
@@ -52,11 +53,56 @@
                 <a href="{{ path('app_public_menus') }}" class="account-btn">
                     Voir les menus
                 </a>
+                {% else %}
+                <div class="account-orders">
+                    {% for commande in commandes %}
+                    <div class="account-order-card">
+
+                        <div class="account-order-header">
+                            <h3>{{ commande.menu ? commande.menu.title : 'Menu indisponible' }}</h3>
+
+                            <span class="order-status order-status-{{ commande.status }}">
+                                {{ commande.status|replace({'_': ' '})|capitalize }}
+                            </span>
+                        </div>
+
+                        <p>
+                            <strong>Date :</strong>
+                            {{ commande.dateCommande|date('d/m/Y H:i') }}
+                        </p>
+
+                        <p>
+                            <strong>Nombre de personnes :</strong>
+                            {{ commande.nombrePersonnes }}
+                        </p>
+
+                        {% if commande.commentaire %}
+                        <p>
+                            <strong>Commentaire :</strong>
+                            {{ commande.commentaire }}
+                        </p>
+                        {% endif %}
+
+                        {% if commande.status in ['en_attente', 'confirmee'] %}
+                        <div class="account-order-actions">
+                            <a href="{{ path('app_order_edit', {'id': commande.id}) }}" class="order-action-btn">
+                                Modifier
+                            </a>
+
+                            <a href="{{ path('app_order_cancel', {'id': commande.id}) }}" class="order-action-btn order-action-danger">
+                                Annuler
+                            </a>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
             </div>
 
         </div>
-
-    </div>
 </section>
 
 {% endblock %}

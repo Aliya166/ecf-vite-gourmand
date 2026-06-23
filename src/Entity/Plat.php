@@ -34,9 +34,6 @@ class Plat
     #[ORM\Column]
     private ?\DateTimeImmutable $createAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'plats')]
-    private ?Menu $menu = null;
-
     /**
      * @var Collection<int, Allergene>
      */
@@ -46,9 +43,16 @@ class Plat
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
 
+    /**
+     * @var Collection<int, Menu>
+     */
+    #[ORM\ManyToMany(targetEntity: Menu::class, mappedBy: 'platsMany')]
+    private Collection $menus;
+
     public function __construct()
     {
         $this->allergenes = new ArrayCollection();
+        $this->menus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -128,18 +132,6 @@ class Plat
         return $this;
     }
 
-    public function getMenu(): ?Menu
-    {
-        return $this->menu;
-    }
-
-    public function setMenu(?Menu $menu): static
-    {
-        $this->menu = $menu;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Allergene>
      */
@@ -172,6 +164,33 @@ class Plat
     public function setPhoto(?string $photo): static
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Menu>
+     */
+    public function getMenus(): Collection
+    {
+        return $this->menus;
+    }
+
+    public function addMenu(Menu $menu): static
+    {
+        if (!$this->menus->contains($menu)) {
+            $this->menus->add($menu);
+            $menu->addPlatsMany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenu(Menu $menu): static
+    {
+        if ($this->menus->removeElement($menu)) {
+            $menu->removePlatsMany($this);
+        }
 
         return $this;
     }

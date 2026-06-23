@@ -1239,3 +1239,484 @@ body {
     color: #c9973f;
 }
 
+.account-orders {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.account-order-card {
+    background-color: #fffaf0;
+    border: 1px solid #eadcc4;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.account-order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 12px;
+}
+
+.account-order-header h3 {
+    font-family: 'Playfair Display', serif;
+    color: #315c3b;
+    font-size: 1.45rem;
+    margin: 0;
+}
+
+.account-order-card p {
+    margin-bottom: 8px;
+    color: #2f3f2f;
+}
+
+.order-status {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.order-status-en_attente {
+    background-color: #f2d39b;
+    color: #6f4b00;
+}
+
+.order-status-confirmee {
+    background-color: #dcefd8;
+    color: #315c3b;
+}
+
+.order-status-en_preparation {
+    background-color: #d7e5f7;
+    color: #1e4d7a;
+}
+
+.order-status-prete {
+    background-color: #ede2ff;
+    color: #573b88;
+}
+
+.order-status-livree {
+    background-color: #d8f0e3;
+    color: #276749;
+}
+
+.order-status-annulee {
+    background-color: #f3d2d2;
+    color: #8a1f1f;
+}
+
+.account-order-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.order-action-btn {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 9px;
+    background-color: #c9973f;
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.order-action-btn:hover {
+    background-color: #b18435;
+    color: white;
+}
+
+.order-action-danger {
+    background-color: #8a1f1f;
+}
+
+.order-action-danger:hover {
+    background-color: #6d1717;
+}
+
+.auth-card form div {
+    margin-bottom: 16px;
+}
+
+.auth-card label {
+    display: block;
+    margin-bottom: 7px;
+    color: #2f3f2f;
+    font-weight: 700;
+}
+
+.auth-card input,
+.auth-card select,
+.auth-card textarea {
+    width: 100%;
+    border: 1px solid #d8d1c3;
+    border-radius: 12px;
+    padding: 12px 14px;
+    background-color: #fffdf8;
+    color: #2f3f2f;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.25s ease;
+}
+
+.auth-card input:focus,
+.auth-card select:focus,
+.auth-card textarea:focus {
+    border-color: #c9973f;
+    box-shadow: 0 0 0 3px rgba(201, 151, 63, 0.18);
+}
+
+.auth-card textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.admin-list-page {
+    background-color: #f7f3e8;
+    padding: 70px 0;
+    min-height: 75vh;
+}
+
+.admin-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 35px;
+}
+
+.admin-page-header h1 {
+    font-family: 'Playfair Display', serif;
+    color: #315c3b;
+    font-size: 2.8rem;
+    margin-bottom: 8px;
+}
+
+.admin-page-header p {
+    color: #2f3f2f;
+    margin: 0;
+}
+
+.admin-back-btn {
+    background-color: #315c3b;
+    color: white;
+    text-decoration: none;
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.admin-back-btn:hover {
+    background-color: #264a2f;
+    color: white;
+}
+
+.admin-table-card {
+    background-color: #f8f5ec;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.13);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table thead {
+    background-color: #315c3b;
+    color: white;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 16px 14px;
+    border-bottom: 1px solid #e0d6c7;
+    vertical-align: middle;
+}
+
+.admin-table th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.admin-table th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #fffaf0;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.admin-action-link {
+    display: inline-block;
+    background-color: #315c3b;
+    color: white;
+    text-decoration: none;
+    padding: 7px 11px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.admin-action-link:hover {
+    background-color: #264a2f;
+    color: white;
+}
+
+.admin-action-edit {
+    background-color: #c9973f;
+}
+
+.admin-action-edit:hover {
+    background-color: #b18435;
+}
+
+.admin-empty {
+    color: #555;
+    margin: 0;
+}
+
+@media (max-width: 900px) {
+    .admin-page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-page-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 12px 10px;
+        font-size: 0.9rem;
+    }
+}
+
+.admin-detail-card {
+    background-color: #f8f5ec;
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.13);
+}
+
+.admin-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+}
+
+.admin-detail-section {
+    background-color: #fffaf0;
+    border: 1px solid #eadcc4;
+    border-radius: 14px;
+    padding: 24px;
+}
+
+.admin-detail-section h2 {
+    font-family: 'Playfair Display', serif;
+    color: #315c3b;
+    font-size: 1.7rem;
+    margin-bottom: 18px;
+}
+
+.admin-detail-section p {
+    margin-bottom: 10px;
+    color: #2f3f2f;
+}
+
+.admin-detail-comment {
+    margin-top: 28px;
+}
+
+.admin-detail-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+}
+
+@media (max-width: 800px) {
+    .admin-detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.admin-form-card {
+    background-color: #f8f5ec;
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.13);
+}
+
+.admin-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.admin-form-card label {
+    display: block;
+    color: #2f3f2f;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+.admin-form-card input,
+.admin-form-card select,
+.admin-form-card textarea {
+    width: 100%;
+    border: 1px solid #d8d1c3;
+    border-radius: 12px;
+    padding: 12px 14px;
+    background-color: #fffdf8;
+    color: #2f3f2f;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.25s ease;
+}
+
+.admin-form-card input:focus,
+.admin-form-card select:focus,
+.admin-form-card textarea:focus {
+    border-color: #c9973f;
+    box-shadow: 0 0 0 3px rgba(201, 151, 63, 0.18);
+}
+
+.admin-form-card textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.admin-submit-btn {
+    margin-top: 28px;
+    background-color: #c9973f;
+    color: white;
+    border: none;
+    padding: 13px 22px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.admin-submit-btn:hover {
+    background-color: #b18435;
+}
+
+.admin-form-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+}
+
+@media (max-width: 800px) {
+    .admin-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.admin-delete-btn {
+    background-color: #8a1f1f;
+    color: white;
+    border: none;
+    text-decoration: none;
+    padding: 7px 11px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.admin-delete-btn:hover {
+    background-color: #6d1717;
+}
+
+.admin-header-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.admin-create-btn {
+    background-color: #c9973f;
+    color: white;
+    text-decoration: none;
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.admin-create-btn:hover {
+    background-color: #b18435;
+    color: white;
+}
+
+.admin-thumb {
+    width: 90px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.admin-no-image {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+.menu-admin-main-image {
+    width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+    border-radius: 14px;
+}
+
+.menu-admin-gallery {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.menu-admin-gallery img {
+    width: 180px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+}
+
+.admin-form-full {
+    margin-top: 28px;
+    background-color: #fffaf0;
+    border: 1px solid #eadcc4;
+    border-radius: 14px;
+    padding: 22px;
+}
+
+.admin-form-full h2 {
+    font-family: 'Playfair Display', serif;
+    color: #315c3b;
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+}
+
+.admin-form-full .form-check,
+.admin-form-full div {
+    margin-bottom: 8px;
+}
+

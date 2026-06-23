@@ -50,7 +50,9 @@ security:
     - { path: ^/regime, roles: ROLE_ADMIN }
     - { path: ^/horaire, roles: ROLE_ADMIN }
     - { path: ^/admin, roles: ROLE_ADMIN }
-    - { path: ^/commande, roles: ROLE_ADMIN }
+    - { path: ^/commande/new, roles: ROLE_ADMIN }
+    - { path: ^/commande/\d+/edit, roles: ROLE_ADMIN }
+    - { path: ^/commande/\d+$, roles: ROLE_ADMIN }
     - { path: ^/mon-compte, roles: ROLE_USER }
 
 when@test:

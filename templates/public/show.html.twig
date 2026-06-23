@@ -81,7 +81,7 @@
                         {{ menu.price|number_format(2, ',', ' ') }} €
                     </p>
 
-                    <a href="#" class="btn-menu-card menu-detail-btn">
+                    <a href="{{ path('app_order_create', {'id': menu.id}) }}" class="btn-menu-card menu-detail-btn">
                         Commander ce menu
                     </a>
                 </div>

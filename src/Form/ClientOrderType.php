@@ -4,26 +4,19 @@ namespace App\Form;
 
 use App\Entity\Commande;
 use App\Entity\Menu;
-use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CommandeType extends AbstractType
+class ClientOrderType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'email',
-                'label' => 'Client',
-            ])
             ->add('menu', EntityType::class, [
                 'class' => Menu::class,
                 'choice_label' => 'title',
@@ -35,17 +28,6 @@ class CommandeType extends AbstractType
             ])
             ->add('nombrePersonnes', IntegerType::class, [
                 'label' => 'Nombre de personnes',
-            ])
-            ->add('status', ChoiceType::class, [
-                'label' => 'Statut',
-                'choices' => [
-                    'En attente' => 'en_attente',
-                    'Confirmée' => 'confirmee',
-                    'En préparation' => 'en_preparation',
-                    'Prête' => 'prete',
-                    'Livrée' => 'livree',
-                    'Annulée' => 'annulee',
-                ],
             ])
             ->add('commentaire', TextareaType::class, [
                 'label' => 'Commentaire',

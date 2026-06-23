@@ -23,11 +23,13 @@ class PlatType extends AbstractType
             ->add('createAt', null, [
                 'widget' => 'single_text'
             ])
-            ->add('menu', EntityType::class, [
+            ->add('menus', EntityType::class, [
                 'class' => Menu::class,
                 'choice_label' => 'title',
-                'placeholder' => 'Choisir un menu',
+                'multiple' => true,
+                'expanded' => true,
                 'required' => false,
+                'label' => 'Menus',
             ])
             ->add('allergenes', EntityType::class, [
                 'class' => Allergene::class,
@@ -35,6 +37,7 @@ class PlatType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'required' => false,
+                'label' => 'Allergènes',
             ])
             ->add('photo')
         ;

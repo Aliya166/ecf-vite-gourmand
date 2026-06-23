@@ -71,10 +71,11 @@ final class MenuController extends AbstractController
     #[Route('/{id}', name: 'app_menu_delete', methods: ['POST'])]
     public function delete(Request $request, Menu $menu, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$menu->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($menu);
-            $entityManager->flush();
-        }
+        $menu->setIsActive(false);
+
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Le menu a bien été désactivé.');
 
         return $this->redirectToRoute('app_menu_index', [], Response::HTTP_SEE_OTHER);
     }

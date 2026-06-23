@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Commande;
 use App\Form\ChangePasswordType;
 use App\Form\ProfileType;
+use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -18,10 +20,16 @@ final class AccountController extends AbstractController
 {
     #[IsGranted('ROLE_USER')]
     #[Route('/mon-compte', name: 'app_account')]
-    public function index(): Response
+    public function index(CommandeRepository $commandeRepository): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $commandes = $commandeRepository->findBy(['user' => $user], ['dateCommande' => 'DESC']);
+
         return $this->render('account/index.html.twig', [
-            'user' => $this->getUser(),
+            'user' => $user,
+            'commandes' => $commandes,
         ]);
     }
 
@@ -86,5 +94,38 @@ final class AccountController extends AbstractController
         return $this->render('account/password.html.twig', [
             'passwordForm' => $form->createView(),
         ]);
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/commande/{id}/annuler', name: 'app_order_cancel')]
+    public function cancel(
+        Commande $commande,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        if ($commande->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if (!in_array($commande->getStatus(), ['en_attente', 'confirmee'])) {
+
+            $this->addFlash(
+                'error',
+                'Cette commande ne peut plus être annulée.'
+            );
+
+            return $this->redirectToRoute('app_account');
+        }
+
+        $commande->setStatus('annulee');
+
+        $entityManager->flush();
+
+        $this->addFlash(
+            'success',
+            'Commande annulée avec succès.'
+        );
+
+        return $this->redirectToRoute('app_account');
     }
 }

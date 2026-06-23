@@ -3,9 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Menu;
-use App\Entity\Plat;
 use App\Entity\Regime;
 use App\Entity\Theme;
+use App\Entity\Plat;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,15 +20,32 @@ class MenuType extends AbstractType
             ->add('nombrePersonneMinimum')
             ->add('description')
             ->add('price')
+            ->add('imageMain', null, [
+                'label' => 'Photo principale'
+            ])
+
+            ->add('imageSecond', null, [
+                'label' => 'Photo 2'
+            ])
+
+            ->add('imageThird', null, [
+                'label' => 'Photo 3'
+            ])
+
+            ->add('imageFourth', null, [
+                'label' => 'Photo 4'
+            ])
             ->add('isActive')
             ->add('createAt', null, [
                 'widget' => 'single_text'
             ])
-            ->add('plats', EntityType::class, [
+            ->add('platsMany', EntityType::class, [
                 'class' => Plat::class,
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
+                'required' => false,
+                'label' => 'Plats du menu',
             ])
             ->add('regime', EntityType::class, [
                 'class' => Regime::class,

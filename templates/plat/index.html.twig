@@ -29,7 +29,15 @@
             <td>{{ plat.description }}</td>
             <td>{{ plat.typePlat }}</td>
             <td>{{ plat.price }}</td>
-            <td>{{ plat.menu ? plat.menu.title : 'Aucun menu' }}</td>
+            <td>
+                {% if plat.menus is not empty %}
+                    {% for menu in plat.menus %}
+                        {{ menu.title }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                {% else %}
+                    Aucun menu
+                {% endif %}
+            </td>
             <td>{{ plat.isActive ? 'Yes' : 'No' }}</td>
             <td>{{ plat.createAt ? plat.createAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>

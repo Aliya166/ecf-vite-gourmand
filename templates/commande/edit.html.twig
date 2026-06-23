@@ -1,13 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Commande{% endblock %}
+{% block title %}Modifier commande #{{ commande.id }} - Vite & Gourmand{% endblock %}
 
 {% block body %}
-    <h1>Edit Commande</h1>
 
-    {{ include('commande/_form.html.twig', {'button_label': 'Update'}) }}
+<section class="admin-list-page">
+    <div class="container">
 
-    <a href="{{ path('app_commande_index') }}">back to list</a>
+        <div class="admin-page-header">
+            <div>
+                <h1>Modifier commande #{{ commande.id }}</h1>
+                <p>Mettez à jour les informations et le statut de la commande.</p>
+            </div>
 
-    {{ include('commande/_delete_form.html.twig') }}
+            <a href="{{ path('app_commande_index') }}" class="admin-back-btn">
+                Retour aux commandes
+            </a>
+        </div>
+
+        <div class="admin-form-card">
+
+            {{ form_start(form) }}
+
+                <div class="admin-form-grid">
+                    {{ form_row(form.user) }}
+                    {{ form_row(form.menu) }}
+                    {{ form_row(form.dateCommande) }}
+                    {{ form_row(form.nombrePersonnes) }}
+                    {{ form_row(form.status) }}
+                    {{ form_row(form.commentaire) }}
+                </div>
+
+                <button type="submit" class="admin-submit-btn">
+                    Enregistrer les modifications
+                </button>
+
+            {{ form_end(form, {'render_rest': false}) }}
+
+            <div class="admin-form-actions">
+                <a href="{{ path('app_commande_show', {'id': commande.id}) }}" class="admin-action-link">
+                    Voir le détail
+                </a>
+
+                <a href="{{ path('app_admin') }}" class="admin-action-link">
+                    Retour au dashboard
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
 {% endblock %}

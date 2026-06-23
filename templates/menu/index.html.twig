@@ -1,49 +1,116 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Menu index{% endblock %}
+{% block title %}Gestion des menus - Vite & Gourmand{% endblock %}
 
 {% block body %}
-    <h1>Menu index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Personnes</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>IsActive</th>
-                <th>CreateAt</th>
-                <th>Regime</th>
-                <th>Theme</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for menu in menus %}
-            <tr>
-                <td>{{ menu.id }}</td>
-                <td>{{ menu.title }}</td>
-                <td>{{ menu.nombrePersonneMinimum }}</td>
-                <td>{{ menu.description }}</td>
-                <td>{{ menu.price }}</td>
-                <td>{{ menu.isActive ? 'Yes' : 'No' }}</td>
-                <td>{{ menu.createAt ? menu.createAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ menu.regime ? menu.regime.libelle : 'Aucun régime' }}</td>
-                <td>{{ menu.theme ? menu.theme.libelle : 'Aucun thème' }}</td>
-                <td>
-                    <a href="{{ path('app_menu_show', {'id': menu.id}) }}">show</a>
-                    <a href="{{ path('app_menu_edit', {'id': menu.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<section class="admin-list-page">
+    <div class="container">
 
-    <a href="{{ path('app_menu_new') }}">Create new</a>
+        <div class="admin-page-header">
+            <div>
+                <h1>Gestion des menus</h1>
+                <p>Créez, modifiez et organisez les menus proposés aux clients.</p>
+            </div>
+
+            <div class="admin-header-actions">
+                <a href="{{ path('app_admin') }}" class="admin-back-btn">
+                    Retour au dashboard
+                </a>
+
+                <a href="{{ path('app_menu_new') }}" class="admin-create-btn">
+                    Ajouter un menu
+                </a>
+            </div>
+        </div>
+
+        <div class="admin-table-card">
+
+            {% if menus is empty %}
+            <p class="admin-empty">
+                Aucun menu pour le moment.
+            </p>
+            {% else %}
+
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Photo</th>
+                            <th>Menu</th>
+                            <th>Prix</th>
+                            <th>Personnes</th>
+                            <th>Régime</th>
+                            <th>Thème</th>
+                            <th>Actif</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for menu in menus %}
+                        <tr>
+                            <td>#{{ menu.id }}</td>
+
+                            <td>
+                                {% if menu.imageMain %}
+                                <img src="{{ menu.imageMain }}" alt="{{ menu.title }}" class="admin-thumb">
+                                {% else %}
+                                <span class="admin-no-image">Aucune photo</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <strong>{{ menu.title }}</strong>
+                                <br>
+                                <small>{{ menu.description|slice(0, 70) }}{% if menu.description|length > 70 %}...{%
+                                    endif %}</small>
+                            </td>
+
+                            <td>{{ menu.price }} €</td>
+
+                            <td>{{ menu.nombrePersonneMinimum }}</td>
+
+                            <td>
+                                {{ menu.regime ? menu.regime.libelle : 'Aucun' }}
+                            </td>
+
+                            <td>
+                                {{ menu.theme ? menu.theme.libelle : 'Aucun' }}
+                            </td>
+
+                            <td>
+                                {% if menu.isActive %}
+                                <span class="order-status order-status-confirmee">Oui</span>
+                                {% else %}
+                                <span class="order-status order-status-annulee">Non</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <div class="admin-actions">
+                                    <a href="{{ path('app_menu_show', {'id': menu.id}) }}" class="admin-action-link">
+                                        Voir
+                                    </a>
+
+                                    <a href="{{ path('app_menu_edit', {'id': menu.id}) }}"
+                                        class="admin-action-link admin-action-edit">
+                                        Modifier
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+</section>
+
 {% endblock %}

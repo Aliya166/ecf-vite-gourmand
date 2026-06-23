@@ -29,7 +29,15 @@
             </tr>
             <tr>
                 <th>Menu</th>
-                <td>{{ plat.menu ? plat.menu.title : 'Aucun menu' }}</td>
+                <td>
+                    {% if plat.menus is not empty %}
+                        {% for menu in plat.menus %}
+                            {{ menu.title }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        Aucun menu
+                    {% endif %}
+                </td>
             </tr>
             <tr>
                 <th>IsActive</th>

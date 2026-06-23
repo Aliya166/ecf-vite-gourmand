@@ -1,45 +1,114 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Commande index{% endblock %}
+{% block title %}Gestion des commandes - Vite & Gourmand{% endblock %}
 
 {% block body %}
-    <h1>Commande index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>DateCommande</th>
-                <th>NombrePersonnes</th>
-                <th>Status</th>
-                <th>Commentaire</th>
-                <th>User</th>
-                <th>Menu</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for commande in commandes %}
-            <tr>
-                <td>{{ commande.id }}</td>
-                <td>{{ commande.dateCommande ? commande.dateCommande|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ commande.nombrePersonnes }}</td>
-                <td>{{ commande.status }}</td>
-                <td>{{ commande.commentaire }}</td>
-                <td>{{ commande.user.email }}</td>
-                <td>{{ commande.menu ? commande.menu.title : 'Aucun menu' }}</td>
-                <td>
-                    <a href="{{ path('app_commande_show', {'id': commande.id}) }}">show</a>
-                    <a href="{{ path('app_commande_edit', {'id': commande.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Gestion des commandes</h1>
+                <p>Consultez et gérez les commandes clients.</p>
+            </div>
+
+            <a href="{{ path('app_admin') }}" class="admin-back-btn">
+                Retour au dashboard
+            </a>
+        </div>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_commande_new') }}">Create new</a>
+        <div class="admin-table-card">
+
+            {% if commandes is empty %}
+                <p class="admin-empty">
+                    Aucune commande pour le moment.
+                </p>
+            {% else %}
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Client</th>
+                                <th>Contact</th>
+                                <th>Menu</th>
+                                <th>Date livraison</th>
+                                <th>Personnes</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for commande in commandes %}
+                                <tr>
+                                    <td>#{{ commande.id }}</td>
+
+                                    <td>
+                                        <strong>
+                                            {{ commande.user.firstname ?? '' }}
+                                            {{ commande.user.lastname ?? '' }}
+                                        </strong>
+                                        <br>
+                                        <small>{{ commande.user.email }}</small>
+                                    </td>
+
+                                    <td>
+                                        <small>
+                                            {{ commande.user.phone ?? 'Téléphone non renseigné' }}
+                                            <br>
+                                            {{ commande.user.address ?? 'Adresse non renseignée' }}
+                                        </small>
+                                    </td>
+
+                                    <td>
+                                        {{ commande.menu ? commande.menu.title : 'Menu supprimé' }}
+                                    </td>
+
+                                    <td>
+                                        {{ commande.dateCommande|date('d/m/Y H:i') }}
+                                    </td>
+
+                                    <td>
+                                        {{ commande.nombrePersonnes }}
+                                    </td>
+
+                                    <td>
+                                        <span class="order-status order-status-{{ commande.status }}">
+                                            {{ commande.status|replace({'_': ' '})|capitalize }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="admin-actions">
+                                            <a href="{{ path('app_commande_show', {'id': commande.id}) }}" class="admin-action-link">
+                                                Voir
+                                            </a>
+
+                                            <a href="{{ path('app_commande_edit', {'id': commande.id}) }}" class="admin-action-link admin-action-edit">
+                                                Modifier
+                                            </a>
+                                            </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+</section>
+
 {% endblock %}

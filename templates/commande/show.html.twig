@@ -1,46 +1,87 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Commande{% endblock %}
+{% block title %}Commande #{{ commande.id }} - Vite & Gourmand{% endblock %}
 
 {% block body %}
-    <h1>Commande</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ commande.id }}</td>
-            </tr>
-            <tr>
-                <th>DateCommande</th>
-                <td>{{ commande.dateCommande ? commande.dateCommande|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>NombrePersonnes</th>
-                <td>{{ commande.nombrePersonnes }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ commande.status }}</td>
-            </tr>
-            <tr>
-                <th>Commentaire</th>
-                <td>{{ commande.commentaire }}</td>
-            </tr>
-            <tr>
-                <th>User</th>
-                <td>{{ commande.user.email }}</td>
-            </tr>
-            <tr>
-                <th>Menu</th>
-                <td>{{ commande.menu ? commande.menu.title : 'Aucun menu' }}</td>
-            </tr>
-        </tbody>
-    </table>
+<section class="admin-list-page">
+    <div class="container">
 
-    <a href="{{ path('app_commande_index') }}">back to list</a>
+        <div class="admin-page-header">
+            <div>
+                <h1>Commande #{{ commande.id }}</h1>
+                <p>Détail complet de la commande client.</p>
+            </div>
 
-    <a href="{{ path('app_commande_edit', {'id': commande.id}) }}">edit</a>
+            <a href="{{ path('app_commande_index') }}" class="admin-back-btn">
+                Retour aux commandes
+            </a>
+        </div>
 
-    {{ include('commande/_delete_form.html.twig') }}
+        <div class="admin-detail-card">
+
+            <div class="admin-detail-grid">
+
+                <div class="admin-detail-section">
+                    <h2>Informations client</h2>
+
+                    <p><strong>Prénom :</strong> {{ commande.user.firstname ?? 'Non renseigné' }}</p>
+                    <p><strong>Nom :</strong> {{ commande.user.lastname ?? 'Non renseigné' }}</p>
+                    <p><strong>Email :</strong> {{ commande.user.email }}</p>
+                    <p><strong>Téléphone :</strong> {{ commande.user.phone ?? 'Non renseigné' }}</p>
+                    <p><strong>Adresse :</strong> {{ commande.user.address ?? 'Non renseignée' }}</p>
+                </div>
+
+                <div class="admin-detail-section">
+                    <h2>Informations commande</h2>
+
+                    <p><strong>ID :</strong> #{{ commande.id }}</p>
+                    <p><strong>Menu :</strong> {{ commande.menu ? commande.menu.title : 'Menu supprimé' }}</p>
+                    <p><strong>Date de livraison :</strong> {{ commande.dateCommande|date('d/m/Y H:i') }}</p>
+                    <p><strong>Nombre de personnes :</strong> {{ commande.nombrePersonnes }}</p>
+
+                    <p>
+                        <strong>Statut :</strong>
+                        <span class="order-status order-status-{{ commande.status }}">
+                            {{ commande.status|replace({'_': ' '})|capitalize }}
+                        </span>
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="admin-detail-section admin-detail-comment">
+                <h2>Commentaire</h2>
+
+                <p>
+                    {{ commande.commentaire ?: 'Aucun commentaire pour cette commande.' }}
+                </p>
+            </div>
+
+            <div class="admin-detail-actions">
+                <a href="{{ path('app_commande_edit', {'id': commande.id}) }}" class="admin-action-link admin-action-edit">
+                    Modifier la commande
+                </a>
+
+                <form method="post"
+                    action="{{ path('app_commande_delete', {'id': commande.id}) }}"
+                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette commande ?');"
+
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ commande.id) }}">
+                    
+                    <button class="admin-delete-btn">
+                        Supprimer la commande
+                    </button>
+                </form>
+
+                <a href="{{ path('app_admin') }}" class="admin-action-link">
+                    Retour au dashboard
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
 {% endblock %}
