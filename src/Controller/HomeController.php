@@ -19,8 +19,12 @@ final class HomeController extends AbstractController
     ): Response {
         return $this->render('home/index.html.twig', [
             'menus' => $menuRepository->findBy(['isActive' => true], null, 4),
-            'avis' => $avisRepository->findAll(),
             'horaires' => $horaireRepository->findAll(),
+            'avis' => $avisRepository->findBy(
+                ['status' => 'approuve'],
+                ['id' => 'DESC'],
+                3
+            ),
         ]);
     }
 }

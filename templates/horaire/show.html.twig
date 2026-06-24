@@ -1,34 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Horaire{% endblock %}
+{% block title %}{{ horaire.jour }} - Administration{% endblock %}
 
 {% block body %}
-    <h1>Horaire</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ horaire.id }}</td>
-            </tr>
-            <tr>
-                <th>Jour</th>
-                <td>{{ horaire.jour }}</td>
-            </tr>
-            <tr>
-                <th>HeureOverture</th>
-                <td>{{ horaire.heureOverture }}</td>
-            </tr>
-            <tr>
-                <th>HeureFermeture</th>
-                <td>{{ horaire.heureFermeture }}</td>
-            </tr>
-        </tbody>
-    </table>
+<section class="admin-list-page">
+    <div class="container">
 
-    <a href="{{ path('app_horaire_index') }}">back to list</a>
+        <div class="admin-page-header">
+            <div>
+                <h1>{{ horaire.jour }}</h1>
+                <p>Détail de l’horaire sélectionné.</p>
+            </div>
 
-    <a href="{{ path('app_horaire_edit', {'id': horaire.id}) }}">edit</a>
+            <a href="{{ path('app_horaire_index') }}" class="admin-back-btn">
+                Retour aux horaires
+            </a>
+        </div>
 
-    {{ include('horaire/_delete_form.html.twig') }}
+        <div class="admin-detail-card">
+
+            <div class="admin-detail-section">
+                <h2>Informations de l’horaire</h2>
+
+                <p><strong>ID :</strong> #{{ horaire.id }}</p>
+                <p><strong>Jour :</strong> {{ horaire.jour }}</p>
+                <p><strong>Ouverture :</strong> {{ horaire.heureOverture }}</p>
+                <p><strong>Fermeture :</strong> {{ horaire.heureFermeture }}</p>
+            </div>
+
+            <div class="admin-detail-actions">
+
+                <a href="{{ path('app_horaire_edit', {'id': horaire.id}) }}"
+                   class="admin-action-link admin-action-edit">
+                    Modifier l’horaire
+                </a>
+
+                <a href="{{ path('app_admin') }}"
+                   class="admin-action-link">
+                    Retour au dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
 {% endblock %}

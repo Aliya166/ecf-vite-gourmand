@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Avis;
 use App\Entity\Commande;
 use App\Form\ChangePasswordType;
+use App\Form\ClientAvisType;
 use App\Form\ProfileType;
 use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -127,5 +129,33 @@ final class AccountController extends AbstractController
         );
 
         return $this->redirectToRoute('app_account');
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/mon-compte/laisser-un-avis', name: 'app_account_avis_new')]
+    public function newAvis(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $avis = new Avis();
+        $form = $this->createForm(ClientAvisType::class, $avis);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $avis->setUser($user);
+            $avis->setStatus('en_attente');
+
+            $entityManager->persist($avis);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre avis a bien été envoyé. Il sera publié après validation.');
+
+            return $this->redirectToRoute('app_account');
+        }
+
+        return $this->render('account/avis_new.html.twig', [
+            'avisForm' => $form->createView(),
+        ]);
     }
 }

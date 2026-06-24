@@ -1,35 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Allergene index{% endblock %}
+{% block title %}Gestion des allergènes - Vite & Gourmand{% endblock %}
 
 {% block body %}
-    <h1>Allergene index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Libelle</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for allergene in allergenes %}
-            <tr>
-                <td>{{ allergene.id }}</td>
-                <td>{{ allergene.libelle }}</td>
-                <td>
-                    <a href="{{ path('app_allergene_show', {'id': allergene.id}) }}">show</a>
-                    <a href="{{ path('app_allergene_edit', {'id': allergene.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<section class="admin-list-page">
+    <div class="container">
 
-    <a href="{{ path('app_allergene_new') }}">Create new</a>
+        <div class="admin-page-header">
+            <div>
+                <h1>Gestion des allergènes</h1>
+                <p>Créez, consultez et modifiez les allergènes associés aux plats.</p>
+            </div>
+
+            <div class="admin-header-actions">
+                <a href="{{ path('app_admin') }}" class="admin-back-btn">
+                    Retour au dashboard
+                </a>
+
+                <a href="{{ path('app_allergene_new') }}" class="admin-create-btn">
+                    Ajouter un allergène
+                </a>
+            </div>
+        </div>
+
+        <div class="admin-table-card">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Libellé</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for allergene in allergenes %}
+                        <tr>
+                            <td>#{{ allergene.id }}</td>
+                            <td><strong>{{ allergene.libelle }}</strong></td>
+                            <td>
+                                <div class="admin-actions">
+                                    <a href="{{ path('app_allergene_show', {'id': allergene.id}) }}" class="admin-action-link">
+                                        Voir
+                                    </a>
+
+                                    <a href="{{ path('app_allergene_edit', {'id': allergene.id}) }}" class="admin-action-link admin-action-edit">
+                                        Modifier
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">Aucun allergène trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</section>
+
 {% endblock %}

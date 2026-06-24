@@ -223,36 +223,61 @@ body {
     margin-top: 30px;
 }
 
+.avis-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .avis-card {
-    background-color: #f8f5ec;
-    border-radius: 8px;
-    padding: 18px 20px;
-    min-height: 120px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    background: #fffaf2;
+    border-radius: 18px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
     gap: 18px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
 .avis-icon {
-    width: 58px;
-    height: 58px;
-    min-width: 58px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-    background-color: #e8dfc8;
-    color: #315c3b;
+    background: #efe3bf;
+    color: #2f5d3a;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
+    font-size: 34px;
+    flex-shrink: 0;
 }
 
-.avis-card h6 {
-    font-weight: 700;
-    margin-bottom: 2px;
+.avis-stars {
+    color: #d6a33a;
+    font-size: 22px;
+    letter-spacing: 2px;
+    line-height: 1;
 }
 
-.avis-card p {
-    margin: 0;
-    font-size: 14px;
+.avis-content strong {
+    display: block;
+    color: #2f5d3a;
+    font-size: 1.1rem;
+    margin-top: 6px;
+}
+
+.avis-content p {
+    margin: 4px 0 0;
+    font-weight: 600;
+    color: #333;
+}
+
+@media (max-width: 900px) {
+    .avis-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .menus-hero-section {
@@ -1748,6 +1773,35 @@ body {
 
 .menu-composition-content {
     flex: 1;
+}
+
+.footer-hours-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-hour-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.footer-hour-day {
+    font-weight: 500;
+    color: #2f5d3a;
+}
+
+.footer-hour-time {
+    color: #4f4f4f;
+    font-size: 0.95rem;
+}
+
+.footer-hours-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #4f4f4f;
+    margin-bottom: 20px;
 }
 
 

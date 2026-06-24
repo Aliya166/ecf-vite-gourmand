@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Laisser un avis - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="auth-page">
+    <div class="auth-card">
+
+        <h1 class="auth-title">Laisser un avis</h1>
+
+        <p class="auth-subtitle">
+            Partagez votre expérience. Votre avis sera publié après validation.
+        </p>
+
+        {{ form_start(avisForm) }}
+
+            {{ form_row(avisForm.note) }}
+            {{ form_row(avisForm.description) }}
+
+            <button type="submit" class="auth-btn">
+                Envoyer mon avis
+            </button>
+
+        {{ form_end(avisForm) }}
+
+        <div class="auth-links">
+            <a href="{{ path('app_account') }}">
+                Retour à mon compte
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

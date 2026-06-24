@@ -1,42 +1,82 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}GalleryImage{% endblock %}
+{% block title %}{{ gallery_image.title }} - Administration{% endblock %}
 
 {% block body %}
-    <h1>GalleryImage</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ gallery_image.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ gallery_image.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ gallery_image.description }}</td>
-            </tr>
-            <tr>
-                <th>ImageUrl</th>
-                <td>{{ gallery_image.imageUrl }}</td>
-            </tr>
-            <tr>
-                <th>IsActive</th>
-                <td>{{ gallery_image.isActive ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ gallery_image.createdAt ? gallery_image.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+<section class="admin-list-page">
+    <div class="container">
 
-    <a href="{{ path('app_gallery_image_index') }}">back to list</a>
+        <div class="admin-page-header">
+            <div>
+                <h1>{{ gallery_image.title }}</h1>
+                <p>Détail de l’image sélectionnée.</p>
+            </div>
 
-    <a href="{{ path('app_gallery_image_edit', {'id': gallery_image.id}) }}">edit</a>
+            <a href="{{ path('app_gallery_image_index') }}" class="admin-back-btn">
+                Retour à la galerie
+            </a>
+        </div>
 
-    {{ include('gallery_image/_delete_form.html.twig') }}
+        <div class="admin-detail-card">
+
+            <div class="admin-detail-grid">
+
+                <div class="admin-detail-section">
+                    <h2>Informations de l’image</h2>
+
+                    <p><strong>ID :</strong> #{{ gallery_image.id }}</p>
+                    <p><strong>Titre :</strong> {{ gallery_image.title }}</p>
+                    <p><strong>Description :</strong> {{ gallery_image.description ?: 'Aucune description.' }}</p>
+
+                    <p>
+                        <strong>Active :</strong>
+                        {% if gallery_image.isActive %}
+                            <span class="order-status order-status-confirmee">Oui</span>
+                        {% else %}
+                            <span class="order-status order-status-annulee">Non</span>
+                        {% endif %}
+                    </p>
+
+                    <p>
+                        <strong>Créée le :</strong>
+                        {{ gallery_image.createdAt ? gallery_image.createdAt|date('d/m/Y H:i') : 'Non renseigné' }}
+                    </p>
+                </div>
+
+                <div class="admin-detail-section">
+                    <h2>Aperçu</h2>
+
+                    {% if gallery_image.imageUrl %}
+                        <img src="{{ gallery_image.imageUrl }}"
+                             alt="{{ gallery_image.title }}"
+                             class="menu-admin-main-image">
+                    {% else %}
+                        <p>Aucune image renseignée.</p>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <div class="admin-detail-actions">
+
+                <a href="{{ path('app_gallery_image_edit', {'id': gallery_image.id}) }}"
+                   class="admin-action-link admin-action-edit">
+                    Modifier l’image
+                </a>
+
+                {{ include('gallery_image/_delete_form.html.twig') }}
+
+                <a href="{{ path('app_admin') }}"
+                   class="admin-action-link">
+                    Retour au dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
 {% endblock %}

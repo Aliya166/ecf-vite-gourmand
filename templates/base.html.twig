@@ -140,10 +140,22 @@
                 </div>
 
                 <div class="col-lg-2 col-md-6 mb-4">
-                    <h6>Horaires</h6>
-                    <p class="mb-1">Lundi - Vendredi<br>09h00 - 18h00</p>
-                    <p class="mb-1">Samedi<br>10h00 - 21h00</p>
-                    <p class="mb-1">Dimanche fermé</p>
+                    <div class="footer-col">
+                        <h3 class="footer-hours-title">Horaires</h3>
+
+                        <div class="footer-hours-list">
+                            {% for horaire in get_horaires() %}
+                            <div class="footer-hour-item">
+                                <span class="footer-hour-day">{{ horaire.jour }}</span>
+                                <span class="footer-hour-time">
+                                    {{ horaire.heureOverture }} - {{ horaire.heureFermeture }}
+                                </span>
+                            </div>
+                            {% else %}
+                            <p>Horaires non renseignés.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-lg-3 col-md-6 mb-4">

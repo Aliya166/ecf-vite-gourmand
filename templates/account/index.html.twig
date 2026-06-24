@@ -39,6 +39,10 @@
                     <a href="{{ path('app_account_password') }}" class="account-btn account-btn-secondary">
                         Modifier mon mot de passe
                     </a>
+
+                    <a href="{{ path('app_account_avis_new') }}" class="account-btn">
+                        Laisser un avis
+                    </a>
                 </div>
             </div>
 
@@ -89,7 +93,8 @@
                                 Modifier
                             </a>
 
-                            <a href="{{ path('app_order_cancel', {'id': commande.id}) }}" class="order-action-btn order-action-danger">
+                            <a href="{{ path('app_order_cancel', {'id': commande.id}) }}"
+                                class="order-action-btn order-action-danger">
                                 Annuler
                             </a>
                         </div>

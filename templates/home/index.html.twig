@@ -50,9 +50,7 @@
             <div class="col-md-4">
                 <a href="{{ path('app_public_menu_show', {'id': menu.id}) }}" class="text-decoration-none text-dark">
                     <div class="home-menu-card d-flex align-items-center h-100">
-                        <img src="{{ menu.imageMain }}"
-                            alt="{{ menu.title }}"
-                            class="home-menu-img">
+                        <img src="{{ menu.imageMain }}" alt="{{ menu.title }}" class="home-menu-img">
 
                         <div class="home-menu-content">
                             <h5>{{ menu.title }}</h5>
@@ -146,63 +144,34 @@
     <div class="container">
         <h2 class="text-center mb-4 section-title">Avis clients</h2>
 
-        <div class="row g-4">
+        <div class="avis-grid">
+            {% for avi in avis %}
+            <div class="avis-card">
 
-            {% for avi in avis|slice(0, 3) %}
-            <div class="col-md-4">
-                <div class="avis-card d-flex align-items-center">
-                    <div class="avis-icon">
-                        <i class="bi bi-emoji-smile"></i>
-                    </div>
-
-                    <div>
-                        <div class="text-warning">★★★★★</div>
-                        <h6>Client</h6>
-                        <p>"{{ avi.description }}"</p>
-                    </div>
+                <div class="avis-icon">
+                    ☺
                 </div>
+
+                <div class="avis-content">
+                    <div class="avis-stars">
+                        {% for i in 1..avi.note %}
+                        ★
+                        {% endfor %}
+                    </div>
+
+                    <strong>
+                        {{ avi.user.firstname ?: avi.user.email }}
+                    </strong>
+
+                    <p>
+                        "{{ avi.description }}"
+                    </p>
+                </div>
+
             </div>
             {% else %}
-            <div class="col-md-4">
-                <div class="avis-card d-flex align-items-center">
-                    <div class="avis-icon">
-                        <i class="bi bi-emoji-smile"></i>
-                    </div>
-                    <div>
-                        <div class="text-warning">★★★★★</div>
-                        <h6>Sophie D.</h6>
-                        <p>"Repas délicieux et livraison ultra rapide!"</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="avis-card d-flex align-items-center">
-                    <div class="avis-icon">
-                        <i class="bi bi-emoji-smile"></i>
-                    </div>
-                    <div>
-                        <div class="text-warning">★★★★★</div>
-                        <h6>Tomas L.</h6>
-                        <p>"Des produits frais et des recettes variées."</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="avis-card d-flex align-items-center">
-                    <div class="avis-icon">
-                        <i class="bi bi-emoji-smile"></i>
-                    </div>
-                    <div>
-                        <div class="text-warning">★★★★★</div>
-                        <h6>Julie M.</h6>
-                        <p>"Service au top, livreur très sympa."</p>
-                    </div>
-                </div>
-            </div>
+            <p>Aucun avis pour le moment.</p>
             {% endfor %}
-
         </div>
     </div>
 </section>

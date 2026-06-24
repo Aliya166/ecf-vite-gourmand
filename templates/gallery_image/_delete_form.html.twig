@@ -1,4 +1,13 @@
-<form method="post" action="{{ path('app_gallery_image_delete', {'id': gallery_image.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ gallery_image.id) }}">
-    <button class="btn">Delete</button>
+<form method="post"
+      action="{{ path('app_gallery_image_delete', {'id': gallery_image.id}) }}"
+      onsubmit="return confirm('Supprimer définitivement cette image ?');">
+
+    <input type="hidden"
+           name="_token"
+           value="{{ csrf_token('delete' ~ gallery_image.id) }}">
+
+    <button class="admin-delete-btn">
+        Supprimer l’image
+    </button>
+
 </form>
