@@ -642,8 +642,8 @@ body {
 
 .menu-composition-item {
     display: flex;
-    align-items: flex-start;
-    gap: 18px;
+    align-items: center;
+    gap: 15px;
     padding-bottom: 16px;
     border-bottom: 1px solid #b8ad9d;
 }
@@ -801,7 +801,7 @@ body {
 }
 
 .menu-detail-thumb-active {
-    border: 3px solid #d4aa3a;
+    border: 3px solid #c9973f;
 }
 
 .gallery-page {
@@ -1719,4 +1719,36 @@ body {
 .admin-form-full div {
     margin-bottom: 8px;
 }
+
+.menu-card-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    border-radius: 20px 20px 0 0;
+}
+
+.menu-composition-img-wrapper {
+    width: 72px;
+    height: 72px;
+    min-width: 72px;
+    max-width: 72px;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.menu-composition-item-img {
+    width: 72px !important;
+    height: 72px !important;
+    max-width: 72px !important;
+    max-height: 72px !important;
+    object-fit: cover !important;
+    display: block;
+}
+
+.menu-composition-content {
+    flex: 1;
+}
+
+
 

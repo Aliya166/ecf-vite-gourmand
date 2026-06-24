@@ -1,13 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Regime{% endblock %}
+{% block title %}Modifier {{ regime.libelle }} - Administration{% endblock %}
 
 {% block body %}
-    <h1>Edit Regime</h1>
 
-    {{ include('regime/_form.html.twig', {'button_label': 'Update'}) }}
+<section class="admin-list-page">
+    <div class="container">
 
-    <a href="{{ path('app_regime_index') }}">back to list</a>
+        <div class="admin-page-header">
+            <div>
+                <h1>Modifier {{ regime.libelle }}</h1>
+                <p>Mettez à jour le libellé du régime alimentaire.</p>
+            </div>
 
-    {{ include('regime/_delete_form.html.twig') }}
+            <a href="{{ path('app_regime_index') }}" class="admin-back-btn">
+                Retour aux régimes
+            </a>
+        </div>
+
+        <div class="admin-form-card">
+
+            {{ form_start(form) }}
+
+                <div class="admin-form-grid">
+                    {{ form_row(form.libelle) }}
+                </div>
+
+                <button type="submit" class="admin-submit-btn">
+                    Enregistrer les modifications
+                </button>
+
+            {{ form_end(form, {'render_rest': false}) }}
+
+            <div class="admin-form-actions">
+                <a href="{{ path('app_regime_show', {'id': regime.id}) }}" class="admin-action-link">
+                    Voir le régime
+                </a>
+
+                <a href="{{ path('app_admin') }}" class="admin-action-link">
+                    Retour au dashboard
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
 {% endblock %}

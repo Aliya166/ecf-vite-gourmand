@@ -19,30 +19,36 @@
         <div class="menu-detail-hero">
 
             <div class="menu-detail-left">
-                <img id="mainMenuImage"src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=900"
-                    alt="{{ menu.title }}" class="menu-detail-main-img">
 
+                {% set menuImages = [
+                menu.imageMain,
+                menu.imageSecond,
+                menu.imageThird,
+                menu.imageFourth
+                ]|filter(image => image is not empty) %}
+
+                {% if menuImages is not empty %}
+                <img id="mainMenuImage" src="{{ menuImages[0] }}" alt="{{ menu.title }}" class="menu-detail-main-img">
 
                 <div class="menu-gallery-thumbs">
 
-                    <button class="thumb-arrow">‹</button>
+                    <button type="button" class="thumb-arrow" id="prevMenuImage">‹</button>
 
-                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=900"
-                        data-image="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=900"
-                        class="menu-detail-thumb js-menu-thumb"
+                    {% for image in menuImages %}
+                    <img src="{{ image }}" data-image="{{ image }}"
+                        class="menu-detail-thumb js-menu-thumb {% if loop.first %}menu-detail-thumb-active{% endif %}"
                         alt="{{ menu.title }}">
-                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=900"
-                        data-image="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=900"
-                        class="menu-detail-thumb js-menu-thumb"
-                        alt="{{ menu.title }}">
-                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=900"
-                        data-image="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=900"
-                        class="menu-detail-thumb js-menu-thumb"
-                        alt="{{ menu.title }}">
+                    {% endfor %}
 
-                    <button class="thumb-arrow">›</button>
+                    <button type="button" class="thumb-arrow" id="nextMenuImage">›</button>
 
                 </div>
+                {% else %}
+                <div class="menu-no-image">
+                    Aucune photo disponible
+                </div>
+                {% endif %}
+
             </div>
 
             <div class="menu-detail-right">
@@ -148,11 +154,18 @@
             <div class="col-md-7">
                 <div class="menu-composition-list">
 
-                    {% for plat in menu.plats %}
+                    {% for plat in menu.platsMany %}
                     <div class="menu-composition-item">
-                        <div class="composition-icon">🍽️</div>
 
-                        <div>
+                        {% if plat.photo %}
+                            <div class="menu-composition-img-wrapper">
+                                <img src="{{ plat.photo }}" alt="{{ plat.name }}" class="menu-composition-item-img">
+                            </div>
+                        {% else %}
+                            <div class="composition-icon">🍽️</div>
+                        {% endif %}
+
+                        <div class="menu-composition-content">
                             <strong>{{ plat.name }}</strong>
                             <p>{{ plat.description }}</p>
                         </div>
@@ -170,7 +183,7 @@
                     <h3>⚠️ Allergènes</h3>
 
                     <div class="menu-allergenes-list">
-                        {% for plat in menu.plats %}
+                        {% for plat in menu.platsMany %}
                         {% for allergene in plat.allergenes %}
                         <span class="allergene-pill">
                             {{ allergene.libelle }}
@@ -195,5 +208,49 @@
 
     </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const mainImage = document.getElementById('mainMenuImage');
+    const thumbnails = document.querySelectorAll('.js-menu-thumb');
+    const prevBtn = document.getElementById('prevMenuImage');
+    const nextBtn = document.getElementById('nextMenuImage');
+
+    if (!mainImage || thumbnails.length === 0) {
+        return;
+    }
+
+    let currentIndex = 0;
+
+    function updateImage(index) {
+        currentIndex = index;
+        mainImage.src = thumbnails[currentIndex].dataset.image;
+
+        thumbnails.forEach((thumb) => {
+            thumb.classList.remove('menu-detail-thumb-active');
+        });
+
+        thumbnails[currentIndex].classList.add('menu-detail-thumb-active');
+    }
+
+    thumbnails.forEach((thumb, index) => {
+        thumb.addEventListener('click', function () {
+            updateImage(index);
+        });
+    });
+
+    if (prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', function () {
+            const newIndex = currentIndex === 0 ? thumbnails.length - 1 : currentIndex - 1;
+            updateImage(newIndex);
+        });
+
+        nextBtn.addEventListener('click', function () {
+            const newIndex = currentIndex === thumbnails.length - 1 ? 0 : currentIndex + 1;
+            updateImage(newIndex);
+        });
+    }
+});
+</script>
 
 {% endblock %}

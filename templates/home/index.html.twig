@@ -50,8 +50,9 @@
             <div class="col-md-4">
                 <a href="{{ path('app_public_menu_show', {'id': menu.id}) }}" class="text-decoration-none text-dark">
                     <div class="home-menu-card d-flex align-items-center h-100">
-                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=300"
-                            alt="{{ menu.title }}" class="home-menu-img">
+                        <img src="{{ menu.imageMain }}"
+                            alt="{{ menu.title }}"
+                            class="home-menu-img">
 
                         <div class="home-menu-content">
                             <h5>{{ menu.title }}</h5>

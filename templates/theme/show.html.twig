@@ -1,26 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Theme{% endblock %}
+{% block title %}{{ theme.libelle }} - Administration{% endblock %}
 
 {% block body %}
-    <h1>Theme</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ theme.id }}</td>
-            </tr>
-            <tr>
-                <th>Libelle</th>
-                <td>{{ theme.libelle }}</td>
-            </tr>
-        </tbody>
-    </table>
+<section class="admin-list-page">
+    <div class="container">
 
-    <a href="{{ path('app_theme_index') }}">back to list</a>
+        <div class="admin-page-header">
+            <div>
+                <h1>{{ theme.libelle }}</h1>
+                <p>Détail du thème sélectionné.</p>
+            </div>
 
-    <a href="{{ path('app_theme_edit', {'id': theme.id}) }}">edit</a>
+            <a href="{{ path('app_theme_index') }}" class="admin-back-btn">
+                Retour aux thèmes
+            </a>
+        </div>
 
-    {{ include('theme/_delete_form.html.twig') }}
+        <div class="admin-detail-card">
+
+            <div class="admin-detail-section">
+                <h2>Informations du thème</h2>
+
+                <p><strong>ID :</strong> #{{ theme.id }}</p>
+                <p><strong>Libellé :</strong> {{ theme.libelle }}</p>
+            </div>
+
+            <div class="admin-detail-actions">
+
+                <a href="{{ path('app_theme_edit', {'id': theme.id}) }}"
+                   class="admin-action-link admin-action-edit">
+                    Modifier le thème
+                </a>
+
+                <a href="{{ path('app_admin') }}"
+                   class="admin-action-link">
+                    Retour au dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
 {% endblock %}

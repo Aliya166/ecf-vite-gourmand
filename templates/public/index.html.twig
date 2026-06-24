@@ -100,8 +100,13 @@
             <div class="col-md-4">
                 <div class="menu-page-card">
 
-                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800"
-                        class="menu-page-card-img" alt="{{ menu.title }}">
+                    {% if menu.imageMain %}
+                    <img src="{{ menu.imageMain }}" alt="{{ menu.title }}" class="menu-page-card-img">
+                    {% else %}
+                    <div class="menu-page-card-no-image">
+                        Aucune photo
+                    </div>
+                    {% endif %}
 
                     <div class="menu-page-card-body">
 

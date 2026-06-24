@@ -1,72 +1,120 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Plat{% endblock %}
+{% block title %}{{ plat.name }} - Administration{% endblock %}
 
 {% block body %}
-    <h1>Plat</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ plat.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ plat.name }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ plat.description }}</td>
-            </tr>
-            <tr>
-                <th>TypePlat</th>
-                <td>{{ plat.typePlat }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ plat.price }}</td>
-            </tr>
-            <tr>
-                <th>Menu</th>
-                <td>
-                    {% if plat.menus is not empty %}
-                        {% for menu in plat.menus %}
-                            {{ menu.title }}{% if not loop.last %}, {% endif %}
-                        {% endfor %}
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>{{ plat.name }}</h1>
+                <p>Détail complet du plat.</p>
+            </div>
+
+            <a href="{{ path('app_plat_index') }}" class="admin-back-btn">
+                Retour aux plats
+            </a>
+        </div>
+
+        <div class="admin-detail-card">
+
+            <div class="admin-detail-grid">
+
+                <div class="admin-detail-section">
+                    <h2>Informations du plat</h2>
+
+                    <p><strong>ID :</strong> #{{ plat.id }}</p>
+                    <p><strong>Nom :</strong> {{ plat.name }}</p>
+                    <p><strong>Type :</strong> {{ plat.typePlat }}</p>
+                    <p><strong>Prix :</strong> {{ plat.price }} €</p>
+
+                    <p>
+                        <strong>Actif :</strong>
+                        {% if plat.isActive %}
+                            <span class="order-status order-status-confirmee">Oui</span>
+                        {% else %}
+                            <span class="order-status order-status-annulee">Non</span>
+                        {% endif %}
+                    </p>
+
+                    <p><strong>Créé le :</strong> {{ plat.createAt ? plat.createAt|date('d/m/Y H:i') : 'Non renseigné' }}</p>
+                </div>
+
+                <div class="admin-detail-section">
+                    <h2>Photo</h2>
+
+                    {% if plat.photo %}
+                        <img src="{{ plat.photo }}" alt="{{ plat.name }}" class="menu-admin-main-image">
                     {% else %}
-                        Aucun menu
+                        <p>Aucune photo renseignée.</p>
                     {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <th>IsActive</th>
-                <td>{{ plat.isActive ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>CreateAt</th>
-                <td>{{ plat.createAt ? plat.createAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Allergenes</th>
-                <td>
-                    {% for allergene in plat.allergenes %}
-                        {{ allergene.libelle }}{% if not loop.last %}, {% endif %}
-                    {% else %}
-                        Aucun allergène
-                    {% endfor %}
-                </td>
-            </tr>
-            <tr>
-                <th>Photo</th>
-                <td>{{ plat.photo ?: 'Aucune photo' }}</td>
-            </tr>
-        </tbody>
-    </table>
+                </div>
 
-    <a href="{{ path('app_plat_index') }}">back to list</a>
+            </div>
 
-    <a href="{{ path('app_plat_edit', {'id': plat.id}) }}">edit</a>
+            <div class="admin-detail-section admin-detail-comment">
+                <h2>Description</h2>
+                <p>{{ plat.description ?: 'Aucune description.' }}</p>
+            </div>
 
-    {{ include('plat/_delete_form.html.twig') }}
+            <div class="admin-detail-section admin-detail-comment">
+                <h2>Menus associés</h2>
+
+                {% if plat.menus is not empty %}
+                    <div class="menu-allergenes-list">
+                        {% for menu in plat.menus %}
+                            <span class="allergene-pill">{{ menu.title }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Aucun menu associé.</p>
+                {% endif %}
+            </div>
+
+            <div class="admin-detail-section admin-detail-comment">
+                <h2>Allergènes</h2>
+
+                {% if plat.allergenes is not empty %}
+                    <div class="menu-allergenes-list">
+                        {% for allergene in plat.allergenes %}
+                            <span class="allergene-pill">{{ allergene.libelle }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Aucun allergène renseigné.</p>
+                {% endif %}
+            </div>
+
+            <div class="admin-detail-actions">
+
+                <a href="{{ path('app_plat_edit', {'id': plat.id}) }}"
+                   class="admin-action-link admin-action-edit">
+                    Modifier le plat
+                </a>
+
+                <form method="post" 
+                      action="{{ path('app_plat_delete', {'id': plat.id}) }}"
+                      onsubmit="return confirm('Etes-vous sure de vouloir supprimer ou désactiver ce plat ?');">
+                    
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ plat.id) }}">
+
+                    <button class="admin-delete-btn">
+                        Supprimer ou désactiver le plat
+                    </button>
+                </form>
+
+                <a href="{{ path('app_admin') }}"
+                   class="admin-action-link">
+                    Retour au dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
 {% endblock %}
