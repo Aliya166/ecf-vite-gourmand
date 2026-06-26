@@ -26,19 +26,18 @@ final class PublicController extends AbstractController
         $themeId = $request->query->get('theme');
         $regimeId = $request->query->get('regime');
 
-        $criteria = [
-            'isActive' => true,
-        ];
+        $maxPriceValue = $request->query->get('maxPrice');
+        $personnesValue = $request->query->get('personnes');
 
-        if ($themeId) {
-            $criteria['theme'] = $themeId;
-        }
+        $maxPrice = $maxPriceValue !== null && $maxPriceValue !== '' ? (float) $maxPriceValue : null;
+        $personnes = $personnesValue !== null && $personnesValue !== '' ? (int) $personnesValue : null;
 
-        if ($regimeId) {
-            $criteria['regime'] = $regimeId;
-        }
-
-        $menus = $menuRepository->findBy($criteria);
+        $menus = $menuRepository->findFilteredMenus(
+            $themeId ? (int) $themeId : null,
+            $regimeId ? (int) $regimeId : null,
+            $maxPrice,
+            $personnes,
+        );
 
         return $this->render('public/index.html.twig', [
             'menus' => $menus,
@@ -46,6 +45,8 @@ final class PublicController extends AbstractController
             'regimes' => $regimeRepository->findAll(),
             'selectedTheme' => $themeId,
             'selectedRegime' => $regimeId,
+            'selectedMaxPrice' => $maxPrice,
+            'selectedPersonnes' => $personnes,
             'horaires' => $horaireRepository->findAll(),
         ]);
     }
@@ -55,6 +56,30 @@ final class PublicController extends AbstractController
     {
         return $this->render('public/show.html.twig', [
             'menu' => $menu,
+            'horaires' => $horaireRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/a-propos', name: 'app_about')]
+    public function about(HoraireRepository $horaireRepository): Response
+    {
+        return $this->render('public/about.html.twig', [
+            'horaires' => $horaireRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/livraison', name: 'app_livraison')]
+    public function livraison(HoraireRepository $horaireRepository): Response
+    {
+        return $this->render('public/livraison.html.twig', [
+            'horaires' => $horaireRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/contact', name: 'app_contact')]
+    public function contact(HoraireRepository $horaireRepository): Response
+    {
+        return $this->render('public/contact.html.twig', [
             'horaires' => $horaireRepository->findAll(),
         ]);
     }

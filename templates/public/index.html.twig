@@ -26,69 +26,63 @@
 
 <section class="menus-filters-section">
     <div class="container">
-        <div class="menus-filters">
+
+        <form method="get" action="{{ path('app_public_menus') }}" class="menus-filters-form">
 
             <div class="menus-filters">
 
                 <a href="{{ path('app_public_menus') }}"
-                    class="filter-btn filter-btn-small {{ selectedTheme is empty and selectedRegime is empty ? 'filter-btn-active' : '' }}">
+                   class="filter-btn filter-btn-small {{ selectedTheme is empty and selectedRegime is empty and selectedMaxPrice is empty and selectedPersonnes is empty ? 'filter-btn-active' : '' }}">
                     Tous
                 </a>
 
-                <button class="filter-btn">
-                    Prix max <i class="bi bi-chevron-down"></i>
-                </button>
+                <input
+                    type="number"
+                    name="maxPrice"
+                    class="filter-btn filter-input {{ selectedMaxPrice is not empty ? 'filter-btn-active' : '' }}"
+                    placeholder="Prix max"
+                    min="0"
+                    value="{{ selectedMaxPrice }}">
 
-                <div class="dropdown">
-                    <button class="filter-btn {{ selectedTheme is not empty ? 'filter-btn-active' : '' }}" type="button"
-                        data-bs-toggle="dropdown">
-                        Thème <i class="bi bi-chevron-down"></i>
-                    </button>
+                <select name="theme"
+                        class="filter-btn filter-select {{ selectedTheme is not empty ? 'filter-btn-active' : '' }}">
+                    <option value="">Thème</option>
 
-                    <ul class="dropdown-menu">
-                        {% for theme in themes %}
-                        <li>
-                            <a class="dropdown-item" href="{{ path('app_public_menus', {
-                           theme: theme.id,
-                           regime: selectedRegime
-                       }) }}">
-                                {{ theme.libelle }}
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                    {% for theme in themes %}
+                        <option value="{{ theme.id }}" {{ selectedTheme == theme.id ? 'selected' : '' }}>
+                            {{ theme.libelle }}
+                        </option>
+                    {% endfor %}
+                </select>
 
-                <div class="dropdown">
-                    <button class="filter-btn {{ selectedRegime is not empty ? 'filter-btn-active' : '' }}"
-                        type="button" data-bs-toggle="dropdown">
-                        Régime <i class="bi bi-chevron-down"></i>
-                    </button>
+                <select name="regime"
+                        class="filter-btn filter-select {{ selectedRegime is not empty ? 'filter-btn-active' : '' }}">
+                    <option value="">Régime</option>
 
-                    <ul class="dropdown-menu">
-                        {% for regime in regimes %}
-                        <li>
-                            <a class="dropdown-item" href="{{ path('app_public_menus', {
-                           regime: regime.id,
-                           theme: selectedTheme
-                       }) }}">
-                                {{ regime.libelle }}
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                    {% for regime in regimes %}
+                        <option value="{{ regime.id }}" {{ selectedRegime == regime.id ? 'selected' : '' }}>
+                            {{ regime.libelle }}
+                        </option>
+                    {% endfor %}
+                </select>
 
-                <button class="filter-btn">
-                    Personnes <i class="bi bi-chevron-down"></i>
-                </button>
+                <input
+                    type="number"
+                    name="personnes"
+                    class="filter-btn filter-input {{ selectedPersonnes is not empty ? 'filter-btn-active' : '' }}"
+                    placeholder="Personnes"
+                    min="1"
+                    value="{{ selectedPersonnes }}">
 
-                <button class="filter-btn">
-                    Fourchette de prix <i class="bi bi-chevron-down"></i>
+                <button type="submit" class="filter-search-btn">
+                    <i class="bi bi-search"></i>
+                    Rechercher
                 </button>
 
             </div>
-        </div>
+
+        </form>
+
     </div>
 </section>
 
@@ -129,12 +123,16 @@
                             <div class="menu-page-tags">
 
                                 <span class="menu-tag">
-                                    <span class="menu-tag-icon">🎉</span>
+                                    <span class="menu-tag-icon">
+                                        <i class="bi bi-bookmark-star-fill"></i>
+                                    </span>
                                     <span>{{ menu.theme.libelle }}</span>
                                 </span>
 
                                 <span class="menu-tag">
-                                    <span class="menu-tag-icon">🌱</span>
+                                    <span class="menu-tag-icon">
+                                        <i class="bi bi-flower1"></i>
+                                    </span>
                                     <span>{{ menu.regime.libelle }}</span>
                                 </span>
 

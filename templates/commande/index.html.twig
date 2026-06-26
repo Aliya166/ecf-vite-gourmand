@@ -19,90 +19,92 @@
         </div>
 
         {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
         {% endfor %}
 
         <div class="admin-table-card">
 
             {% if commandes is empty %}
-                <p class="admin-empty">
-                    Aucune commande pour le moment.
-                </p>
+            <p class="admin-empty">
+                Aucune commande pour le moment.
+            </p>
             {% else %}
 
-                <div class="table-responsive">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Client</th>
-                                <th>Contact</th>
-                                <th>Menu</th>
-                                <th>Date livraison</th>
-                                <th>Personnes</th>
-                                <th>Statut</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Client</th>
+                            <th>Contact</th>
+                            <th>Menu</th>
+                            <th>Date livraison</th>
+                            <th>Personnes</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
 
-                        <tbody>
-                            {% for commande in commandes %}
-                                <tr>
-                                    <td>#{{ commande.id }}</td>
+                    <tbody>
+                        {% for commande in commandes %}
+                        <tr>
+                            <td>#{{ commande.id }}</td>
 
-                                    <td>
-                                        <strong>
-                                            {{ commande.user.firstname ?? '' }}
-                                            {{ commande.user.lastname ?? '' }}
-                                        </strong>
-                                        <br>
-                                        <small>{{ commande.user.email }}</small>
-                                    </td>
+                            <td>
+                                <strong>
+                                    {{ commande.user.firstname ?? '' }}
+                                    {{ commande.user.lastname ?? '' }}
+                                </strong>
+                                <br>
+                                <small>{{ commande.user.email }}</small>
+                            </td>
 
-                                    <td>
-                                        <small>
-                                            {{ commande.user.phone ?? 'Téléphone non renseigné' }}
-                                            <br>
-                                            {{ commande.user.address ?? 'Adresse non renseignée' }}
-                                        </small>
-                                    </td>
+                            <td>
+                                <small>
+                                    {{ commande.user.phone ?? 'Téléphone non renseigné' }}
+                                    <br>
+                                    {{ commande.user.address ?? 'Adresse non renseignée' }}
+                                </small>
+                            </td>
 
-                                    <td>
-                                        {{ commande.menu ? commande.menu.title : 'Menu supprimé' }}
-                                    </td>
+                            <td>
+                                {{ commande.menu ? commande.menu.title : 'Menu supprimé' }}
+                            </td>
 
-                                    <td>
-                                        {{ commande.dateCommande|date('d/m/Y H:i') }}
-                                    </td>
+                            <td>
+                                {{ commande.dateCommande|date('d/m/Y H:i') }}
+                            </td>
 
-                                    <td>
-                                        {{ commande.nombrePersonnes }}
-                                    </td>
+                            <td>
+                                {{ commande.nombrePersonnes }}
+                            </td>
 
-                                    <td>
-                                        <span class="order-status order-status-{{ commande.status }}">
-                                            {{ commande.status|replace({'_': ' '})|capitalize }}
-                                        </span>
-                                    </td>
+                            <td>
+                                <span class="order-status order-status-{{ commande.status }}">
+                                    {{ commande.status|replace({'_': ' '})|capitalize }}
+                                </span>
+                            </td>
 
-                                    <td>
-                                        <div class="admin-actions">
-                                            <a href="{{ path('app_commande_show', {'id': commande.id}) }}" class="admin-action-link">
-                                                Voir
-                                            </a>
+                            <td>
+                                <div class="admin-actions">
+                                    <a href="{{ path('app_commande_show', {'id': commande.id}) }}"
+                                        class="admin-action-link">
+                                        Voir
+                                    </a>
 
-                                            <a href="{{ path('app_commande_edit', {'id': commande.id}) }}" class="admin-action-link admin-action-edit">
-                                                Modifier
-                                            </a>
-                                            </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                                    <a href="{{ path('app_commande_edit', {'id': commande.id}) }}"
+                                        class="admin-action-link admin-action-edit">
+                                        Modifier
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
             {% endif %}
 

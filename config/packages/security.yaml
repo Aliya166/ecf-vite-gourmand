@@ -41,19 +41,19 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
-    - { path: ^/menu/new, roles: ROLE_ADMIN }
-    - { path: ^/menu/\d+/edit, roles: ROLE_ADMIN }
-    - { path: ^/menu/\d+$, roles: ROLE_ADMIN }
-    - { path: ^/plat, roles: ROLE_ADMIN }
-    - { path: ^/allergene, roles: ROLE_ADMIN }
-    - { path: ^/theme, roles: ROLE_ADMIN }
-    - { path: ^/regime, roles: ROLE_ADMIN }
-    - { path: ^/horaire, roles: ROLE_ADMIN }
+    - { path: ^/menu($|/), roles: ROLE_ADMIN }
+    - { path: ^/plat($|/), roles: ROLE_ADMIN }
+    - { path: ^/allergene($|/), roles: ROLE_ADMIN }
+    - { path: ^/theme($|/), roles: ROLE_ADMIN }
+    - { path: ^/regime($|/), roles: ROLE_ADMIN }
+    - { path: ^/horaire($|/), roles: ROLE_ADMIN }
     - { path: ^/admin, roles: ROLE_ADMIN }
-    - { path: ^/commande/new, roles: ROLE_ADMIN }
-    - { path: ^/commande/\d+/edit, roles: ROLE_ADMIN }
-    - { path: ^/commande/\d+$, roles: ROLE_ADMIN }
+    - { path: ^/commande/\d+/annuler, roles: ROLE_USER }
+    - { path: ^/commande($|/), roles: ROLE_ADMIN }
     - { path: ^/mon-compte, roles: ROLE_USER }
+    - { path: ^/avis($|/), roles: ROLE_ADMIN }
+    - { path: ^/gallery/image($|/), roles: ROLE_ADMIN }
+
 
 when@test:
     security:

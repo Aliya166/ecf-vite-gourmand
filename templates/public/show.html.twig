@@ -60,17 +60,23 @@
                 <div class="menu-detail-tags">
 
                     <span class="menu-tag">
-                        <span class="menu-tag-icon">🎉</span>
+                        <span class="menu-tag-icon">
+                            <i class="bi bi-bookmark-star"></i>
+                        </span>
                         <span>{{ menu.theme ? menu.theme.libelle : 'Aucun thème' }}</span>
                     </span>
 
                     <span class="menu-tag">
-                        <span class="menu-tag-icon">🌱</span>
+                        <span class="menu-tag-icon">
+                            <i class="bi bi-flower1"></i>
+                        </span>
                         <span>{{ menu.regime ? menu.regime.libelle : 'Aucun régime' }}</span>
                     </span>
 
                     <span class="menu-tag">
-                        <span class="menu-tag-icon">👥</span>
+                        <span class="menu-tag-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </span>
                         <span>{{ menu.nombrePersonneMinimum }} personnes minimum</span>
                     </span>
 
@@ -109,33 +115,43 @@
         <div class="menu-detail-info-box">
 
             <div class="menu-detail-info-item">
-                <span class="menu-detail-info-icon">🎁</span>
+                <span class="menu-detail-info-icon">
+                    <i class="bi bi-bookmark-star-fill"></i>
+                </span>
                 <strong>Thème</strong>
                 <p>{{ menu.theme ? menu.theme.libelle : 'Aucun thème' }}</p>
             </div>
 
             <div class="menu-detail-info-item">
-                <span class="menu-detail-info-icon">🌱</span>
+                <span class="menu-detail-info-icon">
+                    <i class="bi bi-flower1"></i>
+                </span>
                 <strong>Régime</strong>
                 <p>{{ menu.regime ? menu.regime.libelle : 'Aucun régime' }}</p>
             </div>
 
             <div class="menu-detail-info-item">
-                <span class="menu-detail-info-icon">👥</span>
+                <span class="menu-detail-info-icon">
+                    <i class="bi bi-people-fill"></i>
+                </span>
                 <strong>Nombre minimum</strong>
                 <p>{{ menu.nombrePersonneMinimum }} personnes</p>
             </div>
 
             <div class="menu-detail-info-item">
-                <span class="menu-detail-info-icon">💳</span>
+                <span class="menu-detail-info-icon">
+                    <i class="bi bi-currency-euro"></i>
+                </span>
                 <strong>Prix</strong>
                 <p>{{ menu.price }} €</p>
             </div>
 
             <div class="menu-detail-info-item">
-                <span class="menu-detail-info-icon">📦</span>
+                <span class="menu-detail-info-icon">
+                    <i class="bi bi-box-seam-fill"></i>
+                </span>
                 <strong>Stock disponible</strong>
-                <p>5 menus disponibles</p>
+                <p>Selon les stocks du jour</p>
             </div>
 
         </div>
@@ -162,7 +178,9 @@
                                 <img src="{{ plat.photo }}" alt="{{ plat.name }}" class="menu-composition-item-img">
                             </div>
                         {% else %}
-                            <div class="composition-icon">🍽️</div>
+                            <div class="composition-icon">
+                            <span class="site-icon site-icon-sm"><i class="bi bi-egg-fried"></i></span>
+                            </div>
                         {% endif %}
 
                         <div class="menu-composition-content">
@@ -180,7 +198,7 @@
             <div class="menu-composition-section col-md-5">
 
                 <div class="menu-allergenes-box">
-                    <h3>⚠️ Allergènes</h3>
+                    <h3><i class="bi bi-exclamation-triangle-fill"></i> Allergènes</h3>
 
                     <div class="menu-allergenes-list">
                         {% for plat in menu.platsMany %}

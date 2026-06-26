@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À propos - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="about-main-section">
+    <div class="container">
+
+        <div class="about-main-grid">
+
+            <div class="about-main-image">
+                <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1200"
+                     alt="Préparation de repas frais">
+            </div>
+
+            <div class="about-main-content">
+                <span class="hero-badge">Notre histoire</span>
+
+                <h1>À propos de Vite & Gourmand</h1>
+
+                <p>
+                    Vite & Gourmand propose des repas frais, équilibrés et gourmands,
+                    préparés avec soin et livrés rapidement chez vous.
+                </p>
+
+                <p>
+                    Notre objectif est simple : vous aider à trouver facilement le menu
+                    qui correspond à vos goûts, votre budget, votre régime alimentaire
+                    et votre nombre de convives.
+                </p>
+
+                <a href="{{ path('app_public_menus') }}" class="btn-primary-custom">
+                    Découvrir nos menus
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="about-numbers-section">
+    <div class="container">
+        <div class="about-numbers-grid">
+
+            <div class="about-number-card">
+                <strong>100%</strong>
+                <span>menus personnalisables</span>
+            </div>
+
+            <div class="about-number-card">
+                <strong>48h</strong>
+                <span>commande à l’avance</span>
+            </div>
+
+            <div class="about-number-card">
+                <strong>4</strong>
+                <span>filtres de recherche</span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="about-values-home-style">
+    <div class="container">
+
+        <h2 class="section-title">Nos valeurs</h2>
+
+        <div class="features-grid">
+
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="bi bi-basket2-fill"></i>
+                </div>
+                <h3>Produits frais</h3>
+                <p>Des ingrédients simples, savoureux et sélectionnés avec soin.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="bi bi-truck"></i>
+                </div>
+                <h3>Livraison rapide</h3>
+                <p>Un service pensé pour recevoir vos repas facilement et rapidement.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="bi bi-heart-fill"></i>
+                </div>
+                <h3>Fait avec soin</h3>
+                <p>Des menus gourmands créés pour apporter plaisir et simplicité.</p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="about-how-section">
+    <div class="container">
+
+        <h2 class="section-title">Comment ça fonctionne ?</h2>
+
+        <div class="about-how-grid">
+
+            <div class="about-how-card">
+                <span>01</span>
+                <h3>Choisissez</h3>
+                <p>Parcourez nos menus et filtrez selon vos envies.</p>
+            </div>
+
+            <div class="about-how-card">
+                <span>02</span>
+                <h3>Commandez</h3>
+                <p>Connectez-vous et validez votre commande en quelques clics.</p>
+            </div>
+
+            <div class="about-how-card">
+                <span>03</span>
+                <h3>Dégustez</h3>
+                <p>Recevez votre repas et profitez d’un moment gourmand.</p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="about-final-section">
+    <div class="container">
+        <div class="about-final-box">
+            <h2>Prête à trouver le menu parfait ?</h2>
+            <p>Découvrez nos menus et choisissez celui qui correspond à votre occasion.</p>
+            <a href="{{ path('app_public_menus') }}" class="btn-primary-custom">
+                Voir nos menus
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -94,7 +94,8 @@
                             </a>
 
                             <a href="{{ path('app_order_cancel', {'id': commande.id}) }}"
-                                class="order-action-btn order-action-danger">
+                                class="order-action-btn order-action-danger"
+                                onclick="return confirm('Eres-vous sure de vouloir annuler cette commande ?');">
                                 Annuler
                             </a>
                         </div>
