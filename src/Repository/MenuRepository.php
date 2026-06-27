@@ -26,7 +26,7 @@ class MenuRepository extends ServiceEntityRepository
             ->andWhere('m.isActive = true');
 
         if ($themeId !== null) {
-            $qb->andWhere('IDENTITY(m.theme) = :themeId') 
+            $qb->andWhere('IDENTITY(m.theme) = :themeId')
                 ->setParameter('themeId', $themeId);
         }
 
@@ -49,6 +49,57 @@ class MenuRepository extends ServiceEntityRepository
             ->orderBy('m.price', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findFilteredMenusPaginated(
+        ?int $themeId,
+        ?int $regimeId,
+        ?float $maxPrice,
+        ?int $personnes,
+        int $page,
+        int $limit
+    ): array {
+        $qb = $this->createQueryBuilder('m')
+            ->andWhere('m.isActive = true');
+
+        if ($themeId !== null) {
+            $qb->andWhere('IDENTITY(m.theme) = :themeId')
+                ->setParameter('themeId', $themeId);
+        }
+
+        if ($regimeId !== null) {
+            $qb->andWhere('IDENTITY(m.regime) = :regimeId')
+                ->setParameter('regimeId', $regimeId);
+        }
+
+        if ($maxPrice !== null) {
+            $qb->andWhere('m.price <= :maxPrice')
+                ->setParameter('maxPrice', $maxPrice);
+        }
+
+        if ($personnes !== null) {
+            $qb->andWhere('m.nombrePersonneMinimum <= :personnes')
+                ->setParameter('personnes', $personnes);
+        }
+
+        $countQb = clone $qb;
+
+        $total = (int) $countQb
+            ->select('COUNT(m.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $menus = $qb
+            ->orderBy('m.price', 'ASC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        return [
+            'menus' => $menus,
+            'total' => $total,
+        ];
     }
 
 
@@ -79,5 +130,5 @@ class MenuRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    
+
 }

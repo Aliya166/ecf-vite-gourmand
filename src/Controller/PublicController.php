@@ -32,12 +32,21 @@ final class PublicController extends AbstractController
         $maxPrice = $maxPriceValue !== null && $maxPriceValue !== '' ? (float) $maxPriceValue : null;
         $personnes = $personnesValue !== null && $personnesValue !== '' ? (int) $personnesValue : null;
 
-        $menus = $menuRepository->findFilteredMenus(
+        $page = max(1, $request->query->getInt('page', 1));
+        $limit = 6;
+
+        $result = $menuRepository->findFilteredMenusPaginated(
             $themeId ? (int) $themeId : null,
             $regimeId ? (int) $regimeId : null,
             $maxPrice,
             $personnes,
+            $page,
+            $limit
         );
+
+        $menus = $result['menus'];
+        $totalMenus = $result['total'];
+        $totalPages = (int) ceil($totalMenus / $limit);
 
         return $this->render('public/index.html.twig', [
             'menus' => $menus,
@@ -48,6 +57,8 @@ final class PublicController extends AbstractController
             'selectedMaxPrice' => $maxPrice,
             'selectedPersonnes' => $personnes,
             'horaires' => $horaireRepository->findAll(),
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
         ]);
     }
 
