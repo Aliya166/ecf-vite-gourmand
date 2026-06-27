@@ -87,6 +87,12 @@ final class PublicController extends AbstractController
         ]);
     }
 
+    #[Route('/informations', name: 'app_informations')]
+    public function informations(): Response
+    {
+        return $this->render('public/informations.html.twig');
+    }
+
     #[Route('/contact', name: 'app_contact')]
     public function contact(HoraireRepository $horaireRepository): Response
     {

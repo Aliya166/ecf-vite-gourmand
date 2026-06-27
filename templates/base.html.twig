@@ -29,7 +29,7 @@
                 </span>
 
                 <span class="brand-logo"></span>
-                        <h5 class="brand-title">VITE & GOURMAND</h5>
+                <h5 class="brand-title">VITE & GOURMAND</h5>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -130,20 +130,25 @@
 
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h6 class="footer-title">Navigation</h6>
-                    <p class="mb-1">Accueil</p>
-                    <p class="mb-1">Menus</p>
-                    <p class="mb-1">À propos</p>
-                    <p class="mb-1">Livraison</p>
-                    <p class="mb-1">Contact</p>
+                    <a href="{{ path('app_home') }}" class="footer-link">Accueil</a>
+
+                    <a href="{{ path('app_public_menus') }}" class="footer-link">Menus</a>
+
+                    <a href="{{ path('app_about') }}" class="footer-link">À propos</a>
+
+                    <a href="{{ path('app_livraison') }}" class="footer-link">Livraison</a>
+
+                    <a href="{{ path('app_contact') }}" class="footer-link">Contact</a>
                 </div>
 
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h6 class="footer-title">Informations</h6>
-                    <p class="mb-1">FAQ</p>
-                    <p class="mb-1">Mentions légales</p>
-                    <p class="mb-1">Politique de confidentialité</p>
-                    <p class="mb-1">Conditions générales</p>
-                    <p class="mb-1">CGV</p>
+                    <a href="{{ path('app_informations') }}#faq" class="footer-link">FAQ</a>
+                    <a href="{{ path('app_informations') }}#mentions" class="footer-link">Mentions légales</a>
+                    <a href="{{ path('app_informations') }}#confidentialite" class="footer-link">Politique de
+                        confidentialité</a>
+                    <a href="{{ path('app_informations') }}#conditions" class="footer-link">Conditions générales</a>
+                    <a href="{{ path('app_informations') }}#cgv" class="footer-link">CGV</a>
                 </div>
 
                 <div class="col-lg-2 col-md-6 mb-4">
