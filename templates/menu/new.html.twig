@@ -22,33 +22,34 @@
 
             {{ form_start(form) }}
 
-                <div class="admin-form-grid">
-                    {{ form_row(form.title) }}
-                    {{ form_row(form.nombrePersonneMinimum) }}
-                    {{ form_row(form.description) }}
-                    {{ form_row(form.price) }}
+            <div class="admin-form-grid">
+                {{ form_row(form.title) }}
+                {{ form_row(form.nombrePersonneMinimum) }}
+                {{ form_row(form.description) }}
+                {{ form_row(form.price) }}
 
-                    {{ form_row(form.imageMain) }}
-                    {{ form_row(form.imageSecond) }}
-                    {{ form_row(form.imageThird) }}
-                    {{ form_row(form.imageFourth) }}
+                {{ form_row(form.imageMain) }}
+                {{ form_row(form.imageSecond) }}
+                {{ form_row(form.imageThird) }}
+                {{ form_row(form.imageFourth) }}
 
-                    {{ form_row(form.isActive) }}
-                    {{ form_row(form.createAt) }}
-                    {{ form_row(form.regime) }}
-                    {{ form_row(form.theme) }}
-                </div>
+                {{ form_row(form.isActive) }}
+                {{ form_row(form.createAt) }}
+                {{ form_row(form.regime) }}
+                {{ form_row(form.theme) }}
+            </div>
 
-                <div class="admin-form-full">
-                    <h2>Plats du menu</h2>
-                    {{ form_row(form.platsMany) }}
-                </div>
+            <div class="admin-form-full">
+                <h2>Plats du menu</h2>
+                {{ form_row(form.platsMany) }}
+            </div>
 
-                <button type="submit" class="admin-submit-btn">
-                    Créer le menu
-                </button>
+            <button type="submit" class="admin-submit-btn">
+                Créer le menu
+            </button>
 
-            {{ form_end(form, {'render_rest': false}) }}
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
 
             <div class="admin-form-actions">
                 <a href="{{ path('app_menu_index') }}" class="admin-action-link">

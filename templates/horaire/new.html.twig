@@ -22,17 +22,18 @@
 
             {{ form_start(form) }}
 
-                <div class="admin-form-grid">
-                    {{ form_row(form.jour) }}
-                    {{ form_row(form.heureOverture) }}
-                    {{ form_row(form.heureFermeture) }}
-                </div>
+            <div class="admin-form-grid">
+                {{ form_row(form.jour) }}
+                {{ form_row(form.heureOverture) }}
+                {{ form_row(form.heureFermeture) }}
+            </div>
 
-                <button type="submit" class="admin-submit-btn">
-                    Créer l’horaire
-                </button>
+            <button type="submit" class="admin-submit-btn">
+                Créer l’horaire
+            </button>
 
-            {{ form_end(form, {'render_rest': false}) }}
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
 
             <div class="admin-form-actions">
                 <a href="{{ path('app_horaire_index') }}" class="admin-action-link">

@@ -22,15 +22,16 @@
 
             {{ form_start(form) }}
 
-                <div class="admin-form-grid">
-                    {{ form_row(form.libelle) }}
-                </div>
+            <div class="admin-form-grid">
+                {{ form_row(form.libelle) }}
+            </div>
 
-                <button type="submit" class="admin-submit-btn">
-                    Enregistrer les modifications
-                </button>
+            <button type="submit" class="admin-submit-btn">
+                Enregistrer les modifications
+            </button>
 
-            {{ form_end(form, {'render_rest': false}) }}
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
 
             <div class="admin-form-actions">
                 <a href="{{ path('app_theme_show', {'id': theme.id}) }}" class="admin-action-link">

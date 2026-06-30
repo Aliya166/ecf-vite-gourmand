@@ -15,16 +15,17 @@
 
         {{ form_start(profileForm) }}
 
-            {{ form_row(profileForm.firstname) }}
-            {{ form_row(profileForm.lastname) }}
-            {{ form_row(profileForm.phone) }}
-            {{ form_row(profileForm.address) }}
+        {{ form_row(profileForm.firstname) }}
+        {{ form_row(profileForm.lastname) }}
+        {{ form_row(profileForm.phone) }}
+        {{ form_row(profileForm.address) }}
 
-            <button type="submit" class="auth-btn">
-                Enregistrer les modifications
-            </button>
+        <button type="submit" class="auth-btn">
+            Enregistrer les modifications
+        </button>
 
-        {{ form_end(profileForm, {'render_rest': false}) }}
+        {{ form_rest(profileForm) }}
+        {{ form_end(profileForm) }}
 
         <div class="auth-links">
             <a href="{{ path('app_account') }}">

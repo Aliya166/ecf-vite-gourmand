@@ -58,7 +58,6 @@ class CommandeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Commande::class,
-            'csrf_protection' => false,
         ]);
     }
 }

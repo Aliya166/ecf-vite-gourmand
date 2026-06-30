@@ -15,16 +15,17 @@
 
         {{ form_start(orderForm) }}
 
-            {{ form_row(orderForm.menu) }}
-            {{ form_row(orderForm.dateCommande) }}
-            {{ form_row(orderForm.nombrePersonnes) }}
-            {{ form_row(orderForm.commentaire) }}
+        {{ form_row(orderForm.menu) }}
+        {{ form_row(orderForm.dateCommande) }}
+        {{ form_row(orderForm.nombrePersonnes) }}
+        {{ form_row(orderForm.commentaire) }}
 
-            <button type="submit" class="auth-btn">
-                Enregistrer les modifications
-            </button>
+        <button type="submit" class="auth-btn">
+            Enregistrer les modifications
+        </button>
 
-        {{ form_end(orderForm, {'render_rest': false}) }}
+        {{ form_rest(orderForm) }}
+        {{ form_end(orderForm) }}
 
         <div class="auth-links">
             <a href="{{ path('app_account') }}">

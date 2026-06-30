@@ -22,20 +22,21 @@
 
             {{ form_start(form) }}
 
-                <div class="admin-form-grid">
-                    {{ form_row(form.user) }}
-                    {{ form_row(form.menu) }}
-                    {{ form_row(form.dateCommande) }}
-                    {{ form_row(form.nombrePersonnes) }}
-                    {{ form_row(form.status) }}
-                    {{ form_row(form.commentaire) }}
-                </div>
+            <div class="admin-form-grid">
+                {{ form_row(form.user) }}
+                {{ form_row(form.menu) }}
+                {{ form_row(form.dateCommande) }}
+                {{ form_row(form.nombrePersonnes) }}
+                {{ form_row(form.status) }}
+                {{ form_row(form.commentaire) }}
+            </div>
 
-                <button type="submit" class="admin-submit-btn">
-                    Enregistrer les modifications
-                </button>
+            <button type="submit" class="admin-submit-btn">
+                Enregistrer les modifications
+            </button>
 
-            {{ form_end(form, {'render_rest': false}) }}
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
 
             <div class="admin-form-actions">
                 <a href="{{ path('app_commande_show', {'id': commande.id}) }}" class="admin-action-link">

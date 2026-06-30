@@ -66,7 +66,6 @@ class MenuType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Menu::class,
-            'csrf_protection' => false, // Désactiver la protection CSRF pour les tests
         ]);
     }
 }
