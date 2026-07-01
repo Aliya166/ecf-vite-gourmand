@@ -25,8 +25,18 @@
             <div class="admin-form-grid">
                 {{ form_row(form.user) }}
                 {{ form_row(form.menu) }}
-                {{ form_row(form.dateCommande) }}
+
+                {{ form_row(form.dateLivraison) }}
+                {{ form_row(form.heureLivraison) }}
+                {{ form_row(form.adresseLivraison) }}
+                {{ form_row(form.villeLivraison) }}
+                {{ form_row(form.distanceKm) }}
+
                 {{ form_row(form.nombrePersonnes) }}
+                {{ form_row(form.prixLivraison) }}
+                {{ form_row(form.reduction) }}
+                {{ form_row(form.prixTotal) }}
+
                 {{ form_row(form.status) }}
                 {{ form_row(form.commentaire) }}
             </div>

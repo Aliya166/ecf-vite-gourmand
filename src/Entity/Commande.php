@@ -33,6 +33,30 @@ class Commande
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     private ?Menu $menu = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTime $dateLivraison = null;
+
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    private ?\DateTime $heureLivraison = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $adresseLivraison = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $villeLivraison = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $distanceKm = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $prixLivraison = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $reduction = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $prixTotal = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +130,102 @@ class Commande
     public function setMenu(?Menu $menu): static
     {
         $this->menu = $menu;
+
+        return $this;
+    }
+
+    public function getDateLivraison(): ?\DateTime
+    {
+        return $this->dateLivraison;
+    }
+
+    public function setDateLivraison(\DateTime $dateLivraison): static
+    {
+        $this->dateLivraison = $dateLivraison;
+
+        return $this;
+    }
+
+    public function getHeureLivraison(): ?\DateTime
+    {
+        return $this->heureLivraison;
+    }
+
+    public function setHeureLivraison(\DateTime $heureLivraison): static
+    {
+        $this->heureLivraison = $heureLivraison;
+
+        return $this;
+    }
+
+    public function getAdresseLivraison(): ?string
+    {
+        return $this->adresseLivraison;
+    }
+
+    public function setAdresseLivraison(string $adresseLivraison): static
+    {
+        $this->adresseLivraison = $adresseLivraison;
+
+        return $this;
+    }
+
+    public function getVilleLivraison(): ?string
+    {
+        return $this->villeLivraison;
+    }
+
+    public function setVilleLivraison(string $villeLivraison): static
+    {
+        $this->villeLivraison = $villeLivraison;
+
+        return $this;
+    }
+
+    public function getDistanceKm(): ?float
+    {
+        return $this->distanceKm;
+    }
+
+    public function setDistanceKm(?float $distanceKm): static
+    {
+        $this->distanceKm = $distanceKm;
+
+        return $this;
+    }
+
+    public function getPrixLivraison(): ?string
+    {
+        return $this->prixLivraison;
+    }
+
+    public function setPrixLivraison(?string $prixLivraison): static
+    {
+        $this->prixLivraison = $prixLivraison;
+
+        return $this;
+    }
+
+    public function getReduction(): ?string
+    {
+        return $this->reduction;
+    }
+
+    public function setReduction(?string $reduction): static
+    {
+        $this->reduction = $reduction;
+
+        return $this;
+    }
+
+    public function getPrixTotal(): ?string
+    {
+        return $this->prixTotal;
+    }
+
+    public function setPrixTotal(string $prixTotal): static
+    {
+        $this->prixTotal = $prixTotal;
 
         return $this;
     }

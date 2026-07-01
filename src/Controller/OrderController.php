@@ -16,29 +16,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class OrderController extends AbstractController
 {
     #[IsGranted('ROLE_USER')]
-    #[Route('/commander/{id}', name: 'app_order_create')]
-    public function create(Menu $menu, EntityManagerInterface $entityManager): Response
-    {
-        /** @var User $user */
-        $user = $this->getUser();
-
-        $commande = new Commande();
-        $commande->setUser($user);
-        $commande->setMenu($menu);
-        $commande->setDateCommande(new \DateTimeImmutable());
-        $commande->setNombrePersonnes($menu->getNombrePersonneMinimum());
-        $commande->setStatus('en_attente');
-        $commande->setCommentaire(null);
-
-        $entityManager->persist($commande);
-        $entityManager->flush();
-
-        $this->addFlash('success', 'Votre commande a bien été créée.');
-
-        return $this->redirectToRoute('app_account');
-    }
-
-    #[IsGranted('ROLE_USER')]
     #[Route('/commande-client/{id}/modifier', name: 'app_order_edit')]
     public function edit(
         Commande $commande,

@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
+use App\Entity\Menu;
+use App\Entity\User;
 use App\Form\CommandeType;
+use App\Form\CommandeClientType;
 use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,10 +14,76 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('/commande')]
 final class CommandeController extends AbstractController
 {
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/menu/{id}', name: 'app_order_create', methods: ['GET', 'POST'])]
+    public function createFromMenu(
+        Menu $menu,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        #[CurrentUser] User $user
+    ): Response {
+        $commande = new Commande();
+
+        $commande->setMenu($menu);
+        $commande->setUser($user);
+        $commande->setDateCommande(new \DateTimeImmutable());
+        $commande->setStatus('en_attente');
+        $commande->setNombrePersonnes($menu->getNombrePersonneMinimum());
+
+        $form = $this->createForm(CommandeClientType::class, $commande, [
+            'min_personnes' => $menu->getNombrePersonneMinimum(),
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $nombrePersonnes = $commande->getNombrePersonnes();
+            $prixMenu = (float) $menu->getPrice();
+
+            $sousTotal = $prixMenu * $nombrePersonnes;
+
+            $reduction = 0;
+            if ($nombrePersonnes >= $menu->getNombrePersonneMinimum() + 5) {
+                $reduction = $sousTotal * 0.10;
+            }
+
+            $ville = strtolower(trim($commande->getVilleLivraison() ?? ''));
+            $distanceKm = $commande->getDistanceKm() ?? 0;
+
+            if ($ville === 'bordeaux') {
+                $prixLivraison = 0;
+            } else {
+                $prixLivraison = 5 + (0.59 * $distanceKm);
+            }
+
+            $prixTotal = $sousTotal - $reduction + $prixLivraison;
+
+            $commande->setPrixLivraison(number_format($prixLivraison, 2, '.', ''));
+            $commande->setReduction(number_format($reduction, 2, '.', ''));
+            $commande->setPrixTotal(number_format($prixTotal, 2, '.', ''));
+
+            $entityManager->persist($commande);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre commande a bien été enregistrée.');
+
+            return $this->redirectToRoute('app_account');
+        }
+
+        return $this->render('commande/client_new.html.twig', [
+            'form' => $form,
+            'menu' => $menu,
+            'commande' => $commande,
+        ]);
+    }
+
+
     #[IsGranted('ROLE_ADMIN')]
     #[Route(name: 'app_commande_index', methods: ['GET'])]
     public function index(CommandeRepository $commandeRepository): Response

@@ -71,13 +71,40 @@
                         </div>
 
                         <p>
-                            <strong>Date :</strong>
-                            {{ commande.dateCommande|date('d/m/Y H:i') }}
+                            <strong>Date de livraison :</strong>
+                            {{ commande.dateLivraison ? commande.dateLivraison|date('d/m/Y') : 'Non renseignée' }}
+                        </p>
+
+                        <p>
+                            <strong>Heure souhaitée :</strong>
+                            {{ commande.heureLivraison ? commande.heureLivraison|date('H:i') : 'Non renseignée' }}
+                        </p>
+
+                        <p>
+                            <strong>Adresse de livraison:</strong>
+                            {{ commande.adresseLivraison }}, {{ commande.villeLivraison }}
                         </p>
 
                         <p>
                             <strong>Nombre de personnes :</strong>
                             {{ commande.nombrePersonnes }}
+                        </p>
+
+                        <p>
+                            <strong>Livraison :</strong>
+                            {{ commande.prixLivraison|number_format(2, ',', ' ') }} €
+                        </p>
+
+                        {% if commande.reduction and commande.reduction > 0 %}
+                        <p>
+                            <strong>Réduction :</strong>
+                            -{{ commande.reduction|number_format(2, ',', ' ') }} €
+                        </p>
+                        {% endif %}
+
+                        <p class="account-order-total">
+                            <strong>Total :</strong>
+                            {{ commande.prixTotal|number_format(2, ',', ' ') }} €
                         </p>
 
                         {% if commande.commentaire %}

@@ -42,6 +42,7 @@
                             <th>Menu</th>
                             <th>Date livraison</th>
                             <th>Personnes</th>
+                            <th>Total</th>
                             <th>Statut</th>
                             <th>Actions</th>
                         </tr>
@@ -65,7 +66,9 @@
                                 <small>
                                     {{ commande.user.phone ?? 'Téléphone non renseigné' }}
                                     <br>
-                                    {{ commande.user.address ?? 'Adresse non renseignée' }}
+                                    {{ commande.adresseLivraison }}
+                                    <br>
+                                    {{ commande.villeLivraison }}
                                 </small>
                             </td>
 
@@ -74,11 +77,17 @@
                             </td>
 
                             <td>
-                                {{ commande.dateCommande|date('d/m/Y H:i') }}
+                                <strong>{{ commande.dateLivraison|date('d/m/Y') }}</strong>
+                                <br>
+                                <small>{{ commande.heureLivraison|date('H:i') }}</small>
                             </td>
 
                             <td>
                                 {{ commande.nombrePersonnes }}
+                            </td>
+
+                            <td>
+                                <strong>{{ commande.prixTotal|number_format(2, ',', '') }} €</strong>
                             </td>
 
                             <td>

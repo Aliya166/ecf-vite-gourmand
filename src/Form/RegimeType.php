@@ -20,7 +20,6 @@ class RegimeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Regime::class,
-            'csrf_protection' => false,
         ]);
     }
 }

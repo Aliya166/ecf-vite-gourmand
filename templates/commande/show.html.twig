@@ -37,8 +37,24 @@
 
                     <p><strong>ID :</strong> #{{ commande.id }}</p>
                     <p><strong>Menu :</strong> {{ commande.menu ? commande.menu.title : 'Menu supprimé' }}</p>
-                    <p><strong>Date de livraison :</strong> {{ commande.dateCommande|date('d/m/Y H:i') }}</p>
+
+                    <p><strong>Date de livraison :</strong> {{ commande.dateLivraison|date('d/m/Y') }}</p>
+                    <p><strong>Heure souhaitée :</strong> {{ commande.heureLivraison|date('H:i') }}</p>
+
+                    <p>
+                        <strong>Adresse de livraison :</strong>
+                        {{ commande.adresseLivraison }}, {{ commande.villeLivraison }}
+                    </p>
+
                     <p><strong>Nombre de personnes :</strong> {{ commande.nombrePersonnes }}</p>
+                    <p><strong>Distance estimée :</strong> {{ commande.distanceKm|number_format(1, ',', ' ') }} km</p>
+                    <p><strong>Livraison :</strong> {{ commande.prixLivraison|number_format(2, ',', ' ') }} €</p>
+
+                    {% if commande.reduction and commande.reduction > 0 %}
+                    <p><strong>Réduction :</strong> -{{ commande.reduction|number_format(2, ',', ' ') }} €</p>
+                    {% endif %}
+
+                    <p><strong>Total :</strong> {{ commande.prixTotal|number_format(2, ',', ' ') }} €</p>
 
                     <p>
                         <strong>Statut :</strong>
@@ -59,16 +75,15 @@
             </div>
 
             <div class="admin-detail-actions">
-                <a href="{{ path('app_commande_edit', {'id': commande.id}) }}" class="admin-action-link admin-action-edit">
+                <a href="{{ path('app_commande_edit', {'id': commande.id}) }}"
+                    class="admin-action-link admin-action-edit">
                     Modifier la commande
                 </a>
 
-                <form method="post"
-                    action="{{ path('app_commande_delete', {'id': commande.id}) }}"
-                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette commande ?');"
-
+                <form method="post" action="{{ path('app_commande_delete', {'id': commande.id}) }}"
+                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette commande ?');">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ commande.id) }}">
-                    
+
                     <button class="admin-delete-btn">
                         Supprimer la commande
                     </button>

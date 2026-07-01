@@ -31,9 +31,6 @@ class Menu
     #[ORM\Column]
     private ?\DateTimeImmutable $createAt = null;
 
-    #[ORM\ManyToMany(targetEntity: Plat::class, inversedBy: 'menus')]
-    private Collection $plats;
-
     /**
      * @var Collection<int, Commande>
      */
@@ -69,7 +66,6 @@ class Menu
 
     public function __construct()
     {
-        $this->plats = new ArrayCollection();
         $this->commandes = new ArrayCollection();
         $this->platsMany = new ArrayCollection();
     }
