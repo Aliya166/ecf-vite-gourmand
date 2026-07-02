@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employés - Administration{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Gestion des employés</h1>
+                <p>Créez et consultez les comptes employés.</p>
+            </div>
+
+            <a href="{{ path('app_employee_new') }}" class="admin-back-btn">
+                Ajouter un employé
+            </a>
+        </div>
+
+        {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+
+        {% if employees is empty %}
+        <p>Aucun employé pour le moment.</p>
+        {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Créé le</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for employee in employees %}
+                <tr>
+                    <td>{{ employee.firstname }} {{ employee.lastname }}</td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.phone }}</td>
+                    <td>{{ employee.createdAt|date('d/m/Y') }}</td>
+                    <td>
+                        <form method="post" action="{{ path('app_employee_delete', {'id': employee.id}) }}"
+                            onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet employé ?');">
+                            <input type="hidden" name="_token"
+                                value="{{ csrf_token('delete_employee' ~ employee.id) }}">
+                            <button class="admin-delete-btn">
+                                Supprimer
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

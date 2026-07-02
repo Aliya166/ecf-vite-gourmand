@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un employé - Administration{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Ajouter un employé</h1>
+                <p>Créez un compte employé avec un accès limité à la gestion des commandes.</p>
+            </div>
+
+            <a href="{{ path('app_employee_index') }}" class="admin-back-btn">
+                Retour aux employés
+            </a>
+        </div>
+
+        <div class="admin-form-card">
+            {{ form_start(form) }}
+
+                <div class="admin-form-grid">
+                    {{ form_row(form.firstname) }}
+                    {{ form_row(form.lastname) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.phone) }}
+                    {{ form_row(form.address) }}
+                </div>
+
+                <button type="submit" class="admin-submit-btn">
+                    Créer le compte employé
+                </button>
+
+                {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 
 #[Route('/commande')]
 final class CommandeController extends AbstractController
@@ -26,6 +29,7 @@ final class CommandeController extends AbstractController
         Menu $menu,
         Request $request,
         EntityManagerInterface $entityManager,
+        MailerInterface $mailer,
         #[CurrentUser] User $user
     ): Response {
         $commande = new Commande();
@@ -71,7 +75,33 @@ final class CommandeController extends AbstractController
             $entityManager->persist($commande);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Votre commande a bien été enregistrée.');
+            $email = (new TemplatedEmail())
+                ->from(new Address('contact@vitegourmand.fr', 'Vite & Gourmand'))
+                ->to($user->getEmail())
+                ->subject('Confirmation de votre commande - Vite & Gourmand')
+                ->htmlTemplate('emails/order_confirmation.html.twig')
+                ->context([
+                    'user' => $user,
+                    'commande' => $commande,
+                    'menu' => $menu,
+                ]);
+
+            $mailer->send($email);
+
+            $this->addFlash('success', 'Votre commande a bien été enregistrée. Un email de confirmation vous a été envoyé.');
+
+            # $adminEmail = (new TemplatedEmail())
+                #->from(new Address('noreply@vitegourmand.fr', 'Vite & Gourmand'))
+                #->to('admin@vitegourmand.fr')
+                #->subject('Nouvelle commande reçue - Vite & Gourmand')
+                #->htmlTemplate('emails/admin_new_order.html.twig')
+                #->context([
+                    #'user' => $user,
+                    #'commande' => $commande,
+                    #'menu' => $menu,
+                #]);
+
+            # $mailer->send($adminEmail);
 
             return $this->redirectToRoute('app_account');
         }

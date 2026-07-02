@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le statut - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Modifier le statut</h1>
+                <p>Commande #{{ commande.id }} - {{ commande.menu.title }}</p>
+            </div>
+
+            <a href="{{ path('app_employee_dashboard') }}" class="admin-back-btn">
+                Retour à l’espace employé
+            </a>
+        </div>
+
+        <div class="admin-form-card">
+            <form method="post">
+
+                <label for="status">Statut de la commande</label>
+
+                <select name="status" id="status" class="form-control">
+                    <option value="en_attente" {{ commande.status == 'en_attente' ? 'selected' : '' }}>En attente</option>
+                    <option value="confirmee" {{ commande.status == 'confirmee' ? 'selected' : '' }}>Confirmée</option>
+                    <option value="en_preparation" {{ commande.status == 'en_preparation' ? 'selected' : '' }}>En préparation</option>
+                    <option value="prete" {{ commande.status == 'prete' ? 'selected' : '' }}>Prête</option>
+                    <option value="livree" {{ commande.status == 'livree' ? 'selected' : '' }}>Livrée</option>
+                    <option value="terminee" {{ commande.status == 'terminee' ? 'selected' : '' }}>Terminée</option>
+                    <option value="annulee" {{ commande.status == 'annulee' ? 'selected' : '' }}>Annulée</option>
+                </select>
+
+                <button type="submit" class="admin-submit-btn">
+                    Enregistrer le statut
+                </button>
+
+            </form>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

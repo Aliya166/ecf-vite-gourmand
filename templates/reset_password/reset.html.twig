@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau mot de passe - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="auth-page">
+    <div class="auth-card">
+
+        <h1 class="auth-title">Nouveau mot de passe</h1>
+
+        <p class="auth-subtitle">
+            Choisissez un nouveau mot de passe sécurisé pour votre compte.
+        </p>
+
+        {{ form_start(resetForm) }}
+
+            {{ form_row(resetForm.plainPassword) }}
+
+            <button class="auth-btn">
+                Modifier mon mot de passe
+            </button>
+
+        {{ form_end(resetForm) }}
+
+        <div class="auth-links">
+            <a href="{{ path('app_login') }}">
+                Retour à la connexion
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

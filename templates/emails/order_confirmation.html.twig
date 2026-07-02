@@ -1,0 +1,51 @@
+<div style="font-family: Arial, sans-serif; background-color: #f7f1e8; padding: 30px;">
+    <div style="max-width: 650px; margin: 0 auto; background: #ffffff; border-radius: 18px; padding: 30px;">
+
+        <h1 style="color: #2f5d45; margin-bottom: 20px;">
+            Confirmation de votre commande
+        </h1>
+
+        <p>Bonjour {{ user.firstname }},</p>
+
+        <p>
+            Merci pour votre commande chez <strong>Vite & Gourmand</strong>.
+            Votre commande a bien été enregistrée.
+        </p>
+
+        <h2 style="color: #2f5d45; margin-top: 30px;">
+            Détail de votre commande
+        </h2>
+
+        <div style="background-color: #f7f1e8; border-radius: 14px; padding: 20px; margin: 20px 0;">
+            <p><strong>Menu :</strong> {{ menu.title }}</p>
+            <p><strong>Date de livraison :</strong> {{ commande.dateLivraison|date('d/m/Y') }}</p>
+            <p><strong>Heure souhaitée :</strong> {{ commande.heureLivraison|date('H:i') }}</p>
+            <p><strong>Adresse :</strong> {{ commande.adresseLivraison }}, {{ commande.villeLivraison }}</p>
+            <p><strong>Nombre de personnes :</strong> {{ commande.nombrePersonnes }}</p>
+            <p><strong>Livraison :</strong> {{ commande.prixLivraison|number_format(2, ',', ' ') }} €</p>
+
+            {% if commande.reduction and commande.reduction > 0 %}
+                <p><strong>Réduction :</strong> -{{ commande.reduction|number_format(2, ',', ' ') }} €</p>
+            {% endif %}
+
+            <p style="font-size: 20px; color: #2f5d45; margin-top: 18px;">
+                <strong>Total :</strong> {{ commande.prixTotal|number_format(2, ',', ' ') }} €
+            </p>
+        </div>
+
+        {% if commande.commentaire %}
+            <h2 style="color: #2f5d45;">Commentaire</h2>
+            <p>{{ commande.commentaire }}</p>
+        {% endif %}
+
+        <p>
+            Notre équipe reviendra vers vous pour confirmer la préparation et la livraison.
+        </p>
+
+        <p style="margin-top: 30px;">
+            Merci pour votre confiance.<br>
+            <strong>L’équipe Vite & Gourmand</strong>
+        </p>
+
+    </div>
+</div>

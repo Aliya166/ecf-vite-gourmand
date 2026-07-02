@@ -49,7 +49,8 @@ security:
     - { path: ^/horaire($|/), roles: ROLE_ADMIN }
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/commande/\d+/annuler, roles: ROLE_USER }
-    - { path: ^/commande($|/), roles: ROLE_ADMIN }
+    - { path: ^/commande/menu/\d+, roles: ROLE_USER }
+    - { path: ^/commande($|/), roles: [ROLE_ADMIN, ROLE_EMPLOYE] }
     - { path: ^/mon-compte, roles: ROLE_USER }
     - { path: ^/avis($|/), roles: ROLE_ADMIN }
     - { path: ^/gallery/image($|/), roles: ROLE_ADMIN }

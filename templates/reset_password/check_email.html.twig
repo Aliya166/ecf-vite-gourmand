@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Email envoyé - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="auth-page">
+    <div class="auth-card">
+
+        <h1 class="auth-title">Email envoyé</h1>
+
+        <p class="auth-subtitle">
+            Si un compte correspond à cette adresse email, un lien de réinitialisation vient d’être envoyé.
+        </p>
+
+        <p>
+            Ce lien expirera dans
+            <strong>{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}</strong>.
+        </p>
+
+        <div class="auth-links">
+            <a href="{{ path('app_forgot_password_request') }}">
+                Renvoyer un email
+            </a>
+
+            <a href="{{ path('app_login') }}">
+                Retour à la connexion
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
