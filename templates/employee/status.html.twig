@@ -31,6 +31,7 @@
                     <option value="livree" {{ commande.status == 'livree' ? 'selected' : '' }}>Livrée</option>
                     <option value="terminee" {{ commande.status == 'terminee' ? 'selected' : '' }}>Terminée</option>
                     <option value="annulee" {{ commande.status == 'annulee' ? 'selected' : '' }}>Annulée</option>
+                    <option value="en_attente_retour_materiel" {{ commande.status == 'en_attente_retour_materiel' ? 'selected' : '' }}>En attente du retour matériel</option>
                 </select>
 
                 <button type="submit" class="admin-submit-btn">

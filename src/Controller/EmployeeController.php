@@ -97,13 +97,4 @@ final class EmployeeController extends AbstractController
 
         return $this->redirectToRoute('app_employee_index');
     }
-
-    #[IsGranted('ROLE_EMPLOYE')]
-    #[Route('/espace-employe', name: 'app_employee_dashboard', methods: ['GET'])]
-    public function dashboard(CommandeRepository $commandeRepository): Response
-    {
-        return $this->render('employee/dashboard.html.twig', [
-            'commandes' => $commandeRepository->findBy([], ['dateCommande' => 'DESC']),
-        ]);
-    }
 }

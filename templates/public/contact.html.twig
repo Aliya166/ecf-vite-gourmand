@@ -3,6 +3,15 @@
 {% block title %}À propos - Vite & Gourmand{% endblock %}
 
 {% block body %}
+{% for message in app.flashes('success') %}
+<div class="contact-success-message">
+    <i class="bi bi-check-circle-fill"></i>
+    <div>
+        <strong>Message envoyé avec succès !</strong>
+        <p>{{ message }}</p>
+    </div>
+</div>
+{% endfor %}
 
 <section class="py-5" style="background-color: #f2eadc;">
     <div class="container">
@@ -19,7 +28,7 @@
                 </h1>
 
                 <p class="mb-4">
-                    Notre équipe est disponible pour répondre à toutes vos questions 
+                    Notre équipe est disponible pour répondre à toutes vos questions
                     concernant les menus, les commandes ou la livraison.
                 </p>
             </div>
@@ -73,6 +82,42 @@
 
         </div>
 
+        <div class="contact-form-card">
+
+            <form method="post" action="{{ path('app_contact') }}">
+                <div class="admin-form-grid">
+                    <div>
+                        <label for="name">Nom complet</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div>
+                        <label for="phone">Téléphone</label>
+                        <input type="text" id="phone" name="phone">
+                    </div>
+
+                    <div>
+                        <label for="subject">Sujet</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+
+                <button type="submit" class="admin-submit-btn">
+                    Envoyer le message
+                </button>
+            </form>
+        </div>
+
     </div>
 </section>
 
@@ -82,7 +127,7 @@
 
             <div class="about-cuisine-image">
                 <img src="https://images.unsplash.com/photo-1556745757-8d76bdb6984b?auto=format&fit=crop&w=1200&q=80"
-                     alt="Service client">
+                    alt="Service client">
             </div>
 
             <div class="about-cuisine-content">
@@ -119,8 +164,8 @@
             </div>
 
             <a href="{{ path('app_public_menus') }}" class="about-link">
-                    Voir les menus →
-                </a>
+                Voir les menus →
+            </a>
 
         </div>
     </div>

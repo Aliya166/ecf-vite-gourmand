@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
+use App\Entity\CommandeStatusHistory;
 use App\Entity\Menu;
 use App\Entity\User;
 use App\Form\CommandeType;
@@ -73,6 +74,13 @@ final class CommandeController extends AbstractController
             $commande->setPrixTotal(number_format($prixTotal, 2, '.', ''));
 
             $entityManager->persist($commande);
+
+            $history = new CommandeStatusHistory();
+            $history->setCommande($commande);
+            $history->setStatus('en_attente');
+            $history->setCreatedAt(new \DateTimeImmutable());
+
+            $entityManager->persist($history);
             $entityManager->flush();
 
             $email = (new TemplatedEmail())
@@ -91,15 +99,15 @@ final class CommandeController extends AbstractController
             $this->addFlash('success', 'Votre commande a bien été enregistrée. Un email de confirmation vous a été envoyé.');
 
             # $adminEmail = (new TemplatedEmail())
-                #->from(new Address('noreply@vitegourmand.fr', 'Vite & Gourmand'))
-                #->to('admin@vitegourmand.fr')
-                #->subject('Nouvelle commande reçue - Vite & Gourmand')
-                #->htmlTemplate('emails/admin_new_order.html.twig')
-                #->context([
-                    #'user' => $user,
-                    #'commande' => $commande,
-                    #'menu' => $menu,
-                #]);
+            #->from(new Address('noreply@vitegourmand.fr', 'Vite & Gourmand'))
+            #->to('admin@vitegourmand.fr')
+            #->subject('Nouvelle commande reçue - Vite & Gourmand')
+            #->htmlTemplate('emails/admin_new_order.html.twig')
+            #->context([
+            #'user' => $user,
+            #'commande' => $commande,
+            #'menu' => $menu,
+            #]);
 
             # $mailer->send($adminEmail);
 

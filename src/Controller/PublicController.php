@@ -12,6 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 
 final class PublicController extends AbstractController
 {
@@ -93,9 +96,40 @@ final class PublicController extends AbstractController
         return $this->render('public/informations.html.twig');
     }
 
-    #[Route('/contact', name: 'app_contact')]
-    public function contact(HoraireRepository $horaireRepository): Response
-    {
+    #[Route('/contact', name: 'app_contact', methods: ['GET', 'POST'])]
+    public function contact(
+        Request $request,
+        HoraireRepository $horaireRepository,
+        MailerInterface $mailer
+    ): Response {
+        if ($request->isMethod('POST')) {
+            $name = $request->request->get('name');
+            $email = $request->request->get('email');
+            $phone = $request->request->get('phone');
+            $subject = $request->request->get('subject');
+            $message = $request->request->get('message');
+
+            $contactEmail = (new TemplatedEmail())
+                ->from(new Address('noreply@vitegourmand.fr', 'Vite & Gourmand'))
+                ->to('contact@vitegourmand.fr')
+                ->replyTo($email)
+                ->subject('Nouveau message de contact - Vite & Gourmand')
+                ->htmlTemplate('emails/contact.html.twig')
+                ->context([
+                    'name' => $name,
+                    'senderEmail' => $email,
+                    'phone' => $phone,
+                    'subject' => $subject,
+                    'message' => $message,
+                ]);
+
+            $mailer->send($contactEmail);
+
+            $this->addFlash('success', 'Votre message a bien été envoyé. Notre équipe vous répondra rapidement.');
+
+            return $this->redirectToRoute('app_contact');
+        }
+
         return $this->render('public/contact.html.twig', [
             'horaires' => $horaireRepository->findAll(),
         ]);

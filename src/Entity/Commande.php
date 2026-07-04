@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommandeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -56,6 +58,17 @@ class Commande
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $prixTotal = null;
+
+    /**
+     * @var Collection<int, CommandeStatusHistory>
+     */
+    #[ORM\OneToMany(targetEntity: CommandeStatusHistory::class, mappedBy: 'commande')]
+    private Collection $statusHistories;
+
+    public function __construct()
+    {
+        $this->statusHistories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -226,6 +239,36 @@ class Commande
     public function setPrixTotal(string $prixTotal): static
     {
         $this->prixTotal = $prixTotal;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CommandeStatusHistory>
+     */
+    public function getStatusHistories(): Collection
+    {
+        return $this->statusHistories;
+    }
+
+    public function addStatusHistory(CommandeStatusHistory $statusHistory): static
+    {
+        if (!$this->statusHistories->contains($statusHistory)) {
+            $this->statusHistories->add($statusHistory);
+            $statusHistory->setCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatusHistory(CommandeStatusHistory $statusHistory): static
+    {
+        if ($this->statusHistories->removeElement($statusHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($statusHistory->getCommande() === $this) {
+                $statusHistory->setCommande(null);
+            }
+        }
 
         return $this;
     }

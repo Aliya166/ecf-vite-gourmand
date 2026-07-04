@@ -2950,45 +2950,124 @@ body {
     font-size: 1.1rem;
 }
 
-.admin-card{
-    background:#fff;
-    border-radius:22px;
-    padding:35px;
-    box-shadow:0 12px 35px rgba(0,0,0,.08);
-    transition:.35s;
+.contact-form-card {
+    max-width: 900px;
+    margin: 50px auto 0;
+    background: #fffaf2;
+    border-radius: 26px;
+    padding: 34px;
+    box-shadow: 0 18px 45px rgba(0,0,0,.08);
 }
 
-.admin-card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 18px 45px rgba(0,0,0,.12);
+.contact-form-card label {
+    display: block;
+    color: #2f5d45;
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
-.admin-card h2{
-    color:#234b34;
-    font-size:32px;
-    margin-bottom:15px;
-    font-family:'Cormorant Garamond', serif;
+.contact-form-card input,
+.contact-form-card textarea {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid rgba(47,93,69,.18);
+    border-radius: 14px;
+    background: #fff;
+    padding: 12px 14px;
 }
 
-.admin-card p{
-    color:#666;
-    margin-bottom:30px;
-    font-size:16px;
-    line-height:1.7;
+.contact-form-card textarea {
+    min-height: 150px;
+    margin-bottom: 18px;
 }
 
-.admin-btn{
-    display:inline-block;
-    background:#c89a43;
-    color:white;
-    padding:14px 28px;
-    border-radius:12px;
-    text-decoration:none;
-    font-weight:600;
-    transition:.3s;
+.contact-success-message {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: #e7f3ec;
+    color: #2f5d45;
+    border: 1px solid rgba(47, 93, 69, 0.18);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
 }
 
-.admin-btn:hover{
-    background:#b68734;
-    transform:translateY(-2px);
+.contact-success-message i {
+    font-size: 24px;
+    color: #2f5d45;
+}
+
+.contact-success-message p {
+    margin: 6px 0 0;
+}
+
+.order-status-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.order-tracking {
+    min-width: 190px;
+    background: #fffaf2;
+    border: 1px solid rgba(47, 93, 69, 0.15);
+    border-radius: 14px;
+    padding: 10px 12px;
+}
+
+.order-tracking summary {
+    cursor: pointer;
+    color: #2f5d45;
+    font-size: 14px;
+    font-weight: 700;
+    list-style: none;
+}
+
+.order-tracking summary::-webkit-details-marker {
+    display: none;
+}
+
+.order-tracking summary::before {
+    content: "▸";
+    margin-right: 7px;
+    color: #c89a43;
+}
+
+.order-tracking[open] summary::before {
+    content: "▾";
+}
+
+.order-tracking-list {
+    margin-top: 12px;
+    border-left: 2px solid rgba(47, 93, 69, 0.18);
+    padding-left: 16px;
+}
+
+.order-tracking-item {
+    position: relative;
+    margin-bottom: 13px;
+}
+
+.order-tracking-dot {
+    position: absolute;
+    left: -22px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background: #2f5d45;
+    border: 2px solid #fffaf2;
+    border-radius: 50%;
+}
+
+.order-tracking-item strong {
+    color: #2f5d45;
+    font-size: 14px;
+}
+
+.order-tracking-item p {
+    margin: 3px 0 0;
+    color: #777;
+    font-size: 12px;
 }
