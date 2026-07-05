@@ -19,6 +19,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use App\Repository\MenuRepository;
 
 #[Route('/commande')]
 final class CommandeController extends AbstractController
@@ -84,7 +85,7 @@ final class CommandeController extends AbstractController
             $entityManager->flush();
 
             $email = (new TemplatedEmail())
-                ->from(new Address('contact@vitegourmand.fr', 'Vite & Gourmand'))
+                ->from(new Address('alisazamkovaya@gmail.com', 'Vite & Gourmand'))
                 ->to($user->getEmail())
                 ->subject('Confirmation de votre commande - Vite & Gourmand')
                 ->htmlTemplate('emails/order_confirmation.html.twig')
@@ -99,8 +100,8 @@ final class CommandeController extends AbstractController
             $this->addFlash('success', 'Votre commande a bien été enregistrée. Un email de confirmation vous a été envoyé.');
 
             # $adminEmail = (new TemplatedEmail())
-            #->from(new Address('noreply@vitegourmand.fr', 'Vite & Gourmand'))
-            #->to('admin@vitegourmand.fr')
+            #->from(new Address('alisazamkovaya@gmail.com', 'Vite & Gourmand'))
+            #->to('alisazamkovaya@gmail.com')
             #->subject('Nouvelle commande reçue - Vite & Gourmand')
             #->htmlTemplate('emails/admin_new_order.html.twig')
             #->context([
@@ -124,10 +125,27 @@ final class CommandeController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route(name: 'app_commande_index', methods: ['GET'])]
-    public function index(CommandeRepository $commandeRepository): Response
-    {
+    public function index(
+        Request $request,
+        CommandeRepository $commandeRepository,
+        MenuRepository $menuRepository
+    ): Response {
+        $status = $request->query->get('status');
+        $client = $request->query->get('client');
+        $dateStart = $request->query->get('dateStart');
+        $dateEnd = $request->query->get('dateEnd');
+        $menu = $request->query->get('menu');
+
+        $commandes = $commandeRepository->findForEmployeeFilters($status, $client, $dateStart, $dateEnd, $menu);
+
         return $this->render('commande/index.html.twig', [
-            'commandes' => $commandeRepository->findBy([], ['dateCommande' => 'DESC']),
+            'commandes' => $commandes,
+            'menus' => $menuRepository->findAll(),
+            'selectedStatus' => $status,
+            'clientSearch' => $client,
+            'dateStart' => $dateStart,
+            'dateEnd' => $dateEnd,
+            'selectedMenu' => $menu,
         ]);
     }
 

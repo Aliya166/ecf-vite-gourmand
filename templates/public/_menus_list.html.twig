@@ -1,0 +1,67 @@
+{% for menu in menus %}
+    <div class="col-md-4">
+        <div class="menu-page-card">
+
+            {% if menu.imageMain %}
+                <img src="{{ menu.imageMain }}" alt="{{ menu.title }}" class="menu-page-card-img">
+            {% else %}
+                <div class="menu-page-card-no-image">
+                    Aucune photo
+                </div>
+            {% endif %}
+
+            <div class="menu-page-card-body">
+
+                <div class="d-flex justify-content-between align-items-start">
+                    <h2 class="menu-page-card-title">
+                        {{ menu.title }}
+                    </h2>
+
+                    <span class="menu-personnes">
+                        <i class="bi bi-people-fill"></i>
+                        {{ menu.nombrePersonneMinimum }}
+                    </span>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+                    <p class="menu-page-card-text">
+                        {{ menu.description }}
+                    </p>
+
+                    <div class="menu-page-tags">
+                        <span class="menu-tag">
+                            <span class="menu-tag-icon">
+                                <i class="bi bi-bookmark-star-fill"></i>
+                            </span>
+                            <span>{{ menu.theme.libelle }}</span>
+                        </span>
+
+                        <span class="menu-tag">
+                            <span class="menu-tag-icon">
+                                <i class="bi bi-flower1"></i>
+                            </span>
+                            <span>{{ menu.regime.libelle }}</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="menu-separator"></div>
+
+                <p class="menu-page-card-price">
+                    {{ menu.price }} €
+                </p>
+
+                <a href="{{ path('app_public_menu_show', {'id': menu.id}) }}" class="btn-menu-card">
+                    Voir le menu
+                </a>
+
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="col-12">
+        <p class="text-center">
+            Aucun menu ne correspond à votre recherche.
+        </p>
+    </div>
+{% endfor %}

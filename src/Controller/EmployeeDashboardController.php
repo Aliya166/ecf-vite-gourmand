@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Commande;
 use App\Entity\CommandeStatusHistory;
 use App\Repository\CommandeRepository;
+use App\Repository\MenuRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -20,10 +21,27 @@ final class EmployeeDashboardController extends AbstractController
 {
     #[IsGranted('ROLE_EMPLOYE')]
     #[Route('/espace-employe', name: 'app_employee_dashboard', methods: ['GET'])]
-    public function index(CommandeRepository $commandeRepository): Response
-    {
+    public function index(
+        Request $request,
+        CommandeRepository $commandeRepository,
+        MenuRepository $menuRepository
+    ): Response {
+        $status = $request->query->get('status');
+        $client = $request->query->get('client');
+        $dateStart = $request->query->get('dateStart');
+        $dateEnd = $request->query->get('dateEnd');
+        $menu = $request->query->get('menu');
+
+        $commandes = $commandeRepository->findForEmployeeFilters($status, $client, $dateStart, $dateEnd, $menu);
+
         return $this->render('employee/dashboard.html.twig', [
-            'commandes' => $commandeRepository->findBy([], ['dateCommande' => 'DESC']),
+            'commandes' => $commandes,
+            'menus' => $menuRepository->findAll(),
+            'selectedStatus' => $status,
+            'clientSearch' => $client,
+            'dateStart' => $dateStart,
+            'dateEnd' => $dateEnd,
+            'selectedMenu' => $menu,
         ]);
     }
 
@@ -53,7 +71,7 @@ final class EmployeeDashboardController extends AbstractController
 
                 if ($status === 'terminee') {
                     $email = (new TemplatedEmail())
-                        ->from(new Address('noreply@vitegourmand.fr', 'Vite & Gourmand'))
+                        ->from(new Address('alisazamkovaya@gmail.com', 'Vite & Gourmand'))
                         ->to($commande->getUser()->getEmail())
                         ->subject('Votre commande a été livrée')
                         ->htmlTemplate('emails/order_completed.html.twig')
@@ -67,7 +85,7 @@ final class EmployeeDashboardController extends AbstractController
 
                 if ($status === 'en_attente_retour_materiel') {
                     $email = (new TemplatedEmail())
-                        ->from(new Address('noreply@vitegourmand.fr', 'Vite & Gourmand'))
+                        ->from(new Address('alisazamkovaya@gmail.com', 'Vite & Gourmand'))
                         ->to($commande->getUser()->getEmail())
                         ->subject('Retour du matériel de livraison')
                         ->htmlTemplate('emails/material_return.html.twig')

@@ -120,7 +120,7 @@ class ResetPasswordController extends AbstractController
             $this->entityManager->flush();
 
             $email = (new TemplatedEmail())
-                ->from(new Address('noreply@vitegourmand.fr', 'Vite & Gourmand'))
+                ->from(new Address('alisazamkovaya@gmail.com', 'Vite & Gourmand'))
                 ->to((string) $user->getEmail())
                 ->subject('Votre mot de passe a été modifié')
                 ->htmlTemplate('reset_password/password_changed_email.html.twig')
@@ -169,7 +169,7 @@ class ResetPasswordController extends AbstractController
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('noreply@vitegourmand.fr', 'Vite & Gourmand'))
+            ->from(new Address('alisazamkovaya@gmail.com', 'Vite & Gourmand'))
             ->to((string) $user->getEmail())
             ->subject('Your password reset request')
             ->htmlTemplate('reset_password/email.html.twig')

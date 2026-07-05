@@ -3071,3 +3071,72 @@ body {
     color: #777;
     font-size: 12px;
 }
+
+.employee-filter-card {
+    background: #fffaf2;
+    border: 1px solid rgba(47, 93, 69, 0.12);
+    border-radius: 22px;
+    padding: 24px;
+    margin: 28px 0;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.06);
+}
+
+.employee-filter-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 18px;
+    align-items: end;
+}
+
+.filter-field label {
+    display: block;
+    color: #2f5d45;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.filter-field input,
+.filter-field select {
+    width: 100%;
+    min-height: 46px;
+    border: 1px solid rgba(47, 93, 69, 0.18);
+    border-radius: 14px;
+    padding: 10px 14px;
+    background: #fff;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+@media (max-width: 900px) {
+    .employee-filter-form {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+.employee-filter-form-large {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.employee-filter-form-large .filter-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+}
+
+@media (max-width: 900px) {
+    .employee-filter-form-large {
+        grid-template-columns: 1fr;
+    }
+
+    .employee-filter-form-large .filter-actions {
+        justify-content: stretch;
+    }
+}

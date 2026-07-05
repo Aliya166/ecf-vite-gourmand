@@ -51,6 +51,12 @@ final class PublicController extends AbstractController
         $totalMenus = $result['total'];
         $totalPages = (int) ceil($totalMenus / $limit);
 
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('public/_menus_list.html.twig', [
+                'menus' => $menus,
+            ]);
+        }
+
         return $this->render('public/index.html.twig', [
             'menus' => $menus,
             'themes' => $themeRepository->findAll(),
@@ -110,8 +116,8 @@ final class PublicController extends AbstractController
             $message = $request->request->get('message');
 
             $contactEmail = (new TemplatedEmail())
-                ->from(new Address('noreply@vitegourmand.fr', 'Vite & Gourmand'))
-                ->to('contact@vitegourmand.fr')
+                ->from(new Address('alisazamkovaya@gmail.com', 'Vite & Gourmand'))
+                ->to('alisazamkovaya@gmail.com')
                 ->replyTo($email)
                 ->subject('Nouveau message de contact - Vite & Gourmand')
                 ->htmlTemplate('emails/contact.html.twig')

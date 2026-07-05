@@ -15,68 +15,127 @@
         </div>
 
         {% for message in app.flashes('success') %}
-            <div class="alert alert-success">{{ message }}</div>
+        <div class="alert alert-success">{{ message }}</div>
         {% endfor %}
+
+        <div class="employee-filter-card">
+            <form method="get" action="{{ path('app_employee_dashboard') }}"
+                class="employee-filter-form employee-filter-form-large">
+
+                <div class="filter-field">
+                    <label for="status">Statut</label>
+                    <select name="status" id="status">
+                        <option value="">Tous les statuts</option>
+                        <option value="en_attente" {{ selectedStatus=='en_attente' ? 'selected' : '' }}>En attente
+                        </option>
+                        <option value="confirmee" {{ selectedStatus=='confirmee' ? 'selected' : '' }}>Confirmée</option>
+                        <option value="en_preparation" {{ selectedStatus=='en_preparation' ? 'selected' : '' }}>En
+                            préparation</option>
+                        <option value="prete" {{ selectedStatus=='prete' ? 'selected' : '' }}>Prête</option>
+                        <option value="livree" {{ selectedStatus=='livree' ? 'selected' : '' }}>Livrée</option>
+                        <option value="en_attente_retour_materiel" {{ selectedStatus=='en_attente_retour_materiel'
+                            ? 'selected' : '' }}>Retour matériel</option>
+                        <option value="terminee" {{ selectedStatus=='terminee' ? 'selected' : '' }}>Terminée</option>
+                        <option value="annulee" {{ selectedStatus=='annulee' ? 'selected' : '' }}>Annulée</option>
+                    </select>
+                </div>
+
+                <div class="filter-field">
+                    <label for="client">Client</label>
+                    <input type="text" id="client" name="client" value="{{ clientSearch }}"
+                        placeholder="Nom, prénom ou email">
+                </div>
+
+                <div class="filter-field">
+                    <label for="menu">Menu</label>
+                    <select name="menu" id="menu">
+                        <option value="">Tous les menus</option>
+                        {% for menu in menus %}
+                        <option value="{{ menu.id }}" {{ selectedMenu==menu.id ? 'selected' : '' }}>
+                            {{ menu.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-field">
+                    <label for="dateStart">Date début</label>
+                    <input type="date" id="dateStart" name="dateStart" value="{{ dateStart }}">
+                </div>
+
+                <div class="filter-field">
+                    <label for="dateEnd">Date fin</label>
+                    <input type="date" id="dateEnd" name="dateEnd" value="{{ dateEnd }}">
+                </div>
+
+                <div class="filter-actions">
+                    <button type="submit" class="admin-submit-btn">Rechercher</button>
+                    <a href="{{ path('app_employee_dashboard') }}" class="admin-back-btn">Réinitialiser</a>
+                </div>
+
+            </form>
+        </div>
 
         <div class="admin-table-card">
             {% if commandes is empty %}
-                <p class="admin-empty">Aucune commande pour le moment.</p>
+            <p class="admin-empty">Aucune commande pour le moment.</p>
             {% else %}
-                <div class="table-responsive">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Client</th>
-                                <th>Menu</th>
-                                <th>Livraison</th>
-                                <th>Total</th>
-                                <th>Statut</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Client</th>
+                            <th>Menu</th>
+                            <th>Livraison</th>
+                            <th>Total</th>
+                            <th>Statut</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-                        <tbody>
-                            {% for commande in commandes %}
-                                <tr>
-                                    <td>#{{ commande.id }}</td>
+                    <tbody>
+                        {% for commande in commandes %}
+                        <tr>
+                            <td>#{{ commande.id }}</td>
 
-                                    <td>
-                                        {{ commande.user.firstname }} {{ commande.user.lastname }}<br>
-                                        <small>{{ commande.user.email }}</small>
-                                    </td>
+                            <td>
+                                {{ commande.user.firstname }} {{ commande.user.lastname }}<br>
+                                <small>{{ commande.user.email }}</small>
+                            </td>
 
-                                    <td>
-                                        {{ commande.menu ? commande.menu.title : 'Menu indisponible' }}
-                                    </td>
+                            <td>
+                                {{ commande.menu ? commande.menu.title : 'Menu indisponible' }}
+                            </td>
 
-                                    <td>
-                                        {{ commande.dateLivraison|date('d/m/Y') }}
-                                        à
-                                        {{ commande.heureLivraison|date('H:i') }}<br>
-                                        <small>{{ commande.adresseLivraison }}, {{ commande.villeLivraison }}</small>
-                                    </td>
+                            <td>
+                                {{ commande.dateLivraison|date('d/m/Y') }}
+                                à
+                                {{ commande.heureLivraison|date('H:i') }}<br>
+                                <small>{{ commande.adresseLivraison }}, {{ commande.villeLivraison }}</small>
+                            </td>
 
-                                    <td>
-                                        {{ commande.prixTotal|number_format(2, ',', ' ') }} €
-                                    </td>
+                            <td>
+                                {{ commande.prixTotal|number_format(2, ',', ' ') }} €
+                            </td>
 
-                                    <td>
-                                        <span class="order-status order-status-{{ commande.status }}">
-                                            {{ commande.status|replace({'_': ' '})|capitalize }}
-                                        </span>
-                                    </td>
+                            <td>
+                                <span class="order-status order-status-{{ commande.status }}">
+                                    {{ commande.status|replace({'_': ' '})|capitalize }}
+                                </span>
+                            </td>
 
-                                    <td>
-                                        <a href="{{ path('app_employee_order_status', {'id': commande.id}) }}" class="admin-action-link">
-                                            Modifier statut
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                            <td>
+                                <a href="{{ path('app_employee_order_status', {'id': commande.id}) }}"
+                                    class="admin-action-link">
+                                    Modifier statut
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             {% endif %}
         </div>
 
