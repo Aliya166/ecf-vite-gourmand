@@ -1,6 +1,7 @@
 <form method="post"
       action="{{ path('app_gallery_image_delete', {'id': gallery_image.id}) }}"
-      onsubmit="return confirm('Supprimer définitivement cette image ?');">
+      class="js-confirm-form"
+      data-confirm-message="Supprimer définitivement cette image ?">
 
     <input type="hidden"
            name="_token"

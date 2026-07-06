@@ -5,18 +5,23 @@
 {% block body %}
 
 <div class="admin-stats-page">
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success stats-alert">
+        ✅ {{ message }}
+    </div>
+    {% endfor %}
 
-    <div class="admin-stats-header">
-        <span class="section-kicker">Espace administrateur</span>
-        <h1>Statistiques des commandes</h1>
-        {% for message in app.flashes('success') %}
-        <div class="alert alert-success stats-alert">
-            ✅ {{ message }}
+    <div class="admin-page-header">
+        <div>
+            <h1>Statistiques des commandes</h1>
+            <p>Analyse des commandes par menu, chiffre d'affaires et synchronisation NoSQL MongoDB.</p>
         </div>
-        {% endfor %}
-        <p>
-            Analyse des commandes par menu, chiffre d'affaires et synchronisation NoSQL MongoDB.
-        </p>
+
+        <div class="admin-header-actions">
+            <a href="{{ path('app_admin') }}" class="admin-back-btn">
+                Retour au dashboard
+            </a>
+        </div>
     </div>
 
     <form method="get" class="stats-filters-card">

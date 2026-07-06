@@ -107,6 +107,14 @@
         </div>
     </nav>
 
+    {% for label, messages in app.flashes %}
+    {% for message in messages %}
+    <div class="site-flash site-flash-{{ label }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endfor %}
+
     <main>
         {% block body %}{% endblock %}
     </main>
@@ -187,6 +195,33 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     {% block javascripts %}{% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.js-confirm-form').forEach((form) => {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+
+                    Swal.fire({
+                        title: 'Confirmation',
+                        text: form.dataset.confirmMessage,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#b68c5a',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Oui',
+                        cancelButtonText: 'Annuler'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 
 </body>
 

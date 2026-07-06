@@ -96,7 +96,8 @@
 
                 <form method="post" 
                       action="{{ path('app_plat_delete', {'id': plat.id}) }}"
-                      onsubmit="return confirm('Etes-vous sure de vouloir supprimer ou désactiver ce plat ?');">
+                      class="js-confirm-form"
+                      data-confirm-message="Etes-vous sure de vouloir supprimer ou désactiver ce plat ?">
                     
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ plat.id) }}">
 

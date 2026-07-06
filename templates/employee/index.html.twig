@@ -16,6 +16,12 @@
             <a href="{{ path('app_employee_new') }}" class="admin-back-btn">
                 Ajouter un employé
             </a>
+
+            <a href="{{ path('app_admin') }}" class="admin-back-btn">
+                Retour au dashboard
+            </a>
+
+
         </div>
 
         {% for message in app.flashes('success') %}
@@ -45,7 +51,8 @@
                     <td>{{ employee.createdAt|date('d/m/Y') }}</td>
                     <td>
                         <form method="post" action="{{ path('app_employee_delete', {'id': employee.id}) }}"
-                            onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet employé ?');">
+                        class="js-confirm-form"
+                            data-confirm-message="Êtes-vous sûr de vouloir supprimer cet employé ?">
                             <input type="hidden" name="_token"
                                 value="{{ csrf_token('delete_employee' ~ employee.id) }}">
                             <button class="admin-delete-btn">

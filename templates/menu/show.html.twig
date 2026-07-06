@@ -38,9 +38,9 @@
                         <strong>Actif :</strong>
 
                         {% if menu.isActive %}
-                            <span class="order-status order-status-confirmee">Oui</span>
+                        <span class="order-status order-status-confirmee">Oui</span>
                         {% else %}
-                            <span class="order-status order-status-annulee">Non</span>
+                        <span class="order-status order-status-annulee">Non</span>
                         {% endif %}
                     </p>
 
@@ -61,9 +61,9 @@
                     <h2>Photo principale</h2>
 
                     {% if menu.imageMain %}
-                        <img src="{{ menu.imageMain }}" alt="{{ menu.title }}" class="menu-admin-main-image">
+                    <img src="{{ menu.imageMain }}" alt="{{ menu.title }}" class="menu-admin-main-image">
                     {% else %}
-                        <p>Aucune photo principale.</p>
+                    <p>Aucune photo principale.</p>
                     {% endif %}
 
                 </div>
@@ -87,15 +87,15 @@
                 <div class="menu-admin-gallery">
 
                     {% if menu.imageSecond %}
-                        <img src="{{ menu.imageSecond }}" alt="">
+                    <img src="{{ menu.imageSecond }}" alt="">
                     {% endif %}
 
                     {% if menu.imageThird %}
-                        <img src="{{ menu.imageThird }}" alt="">
+                    <img src="{{ menu.imageThird }}" alt="">
                     {% endif %}
 
                     {% if menu.imageFourth %}
-                        <img src="{{ menu.imageFourth }}" alt="">
+                    <img src="{{ menu.imageFourth }}" alt="">
                     {% endif %}
 
                 </div>
@@ -104,24 +104,21 @@
 
             <div class="admin-detail-actions">
 
-                <a href="{{ path('app_menu_edit', {'id': menu.id}) }}"
-                   class="admin-action-link admin-action-edit">
+                <a href="{{ path('app_menu_edit', {'id': menu.id}) }}" class="admin-action-link admin-action-edit">
                     Modifier le menu
                 </a>
 
-                <form method="post"
-                    action="{{ path('app_menu_delete', {'id': menu.id}) }}"
-                    onsubmit="return confirm('Êtes-vous sûr de vouloir désactiver ce menu ?');">
+                <form method="post" action="{{ path('app_menu_delete', {'id': menu.id}) }}" class="js-confirm-form"
+                    data-confirm-message="Êtes-vous sûr de vouloir supprimer ce menu ?">
 
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ menu.id) }}">
-                    
+
                     <button class="admin-delete-btn">
                         Désactiver le menu
                     </button>
                 </form>
 
-                <a href="{{ path('app_admin') }}"
-                   class="admin-action-link">
+                <a href="{{ path('app_admin') }}" class="admin-action-link">
                     Retour au dashboard
                 </a>
 

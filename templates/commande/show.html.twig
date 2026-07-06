@@ -80,15 +80,6 @@
                     Modifier la commande
                 </a>
 
-                <form method="post" action="{{ path('app_commande_delete', {'id': commande.id}) }}"
-                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette commande ?');">
-                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ commande.id) }}">
-
-                    <button class="admin-delete-btn">
-                        Supprimer la commande
-                    </button>
-                </form>
-
                 <a href="{{ path('app_admin') }}" class="admin-action-link">
                     Retour au dashboard
                 </a>

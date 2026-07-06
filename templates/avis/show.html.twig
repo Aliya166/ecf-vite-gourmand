@@ -65,7 +65,8 @@
 
                 <form method="post"
                       action="{{ path('app_avis_delete', {'id': avi.id}) }}"
-                      onsubmit="return confirm('Supprimer définitivement cet avis ?');">
+                      class="js-confirm-form"
+                      data-confirm-message="Supprimer définitivement cet avis ?">
 
                     <input type="hidden"
                            name="_token"
