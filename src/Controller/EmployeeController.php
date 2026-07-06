@@ -54,7 +54,7 @@ final class EmployeeController extends AbstractController
             $entityManager->flush();
 
             $email = (new TemplatedEmail())
-                ->from(new Address('noreply@vitegourmand.fr', 'Vite & Gourmand'))
+                ->from(new Address('alisazamkovaya@gmail.com', 'Vite & Gourmand'))
                 ->to($employee->getEmail())
                 ->subject('Votre compte employé a été créé')
                 ->htmlTemplate('emails/employee_created.html.twig')

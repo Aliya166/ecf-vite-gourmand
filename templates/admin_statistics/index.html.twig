@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques admin{% endblock %}
+
+{% block body %}
+
+<div class="admin-stats-page">
+
+    <div class="admin-stats-header">
+        <span class="section-kicker">Espace administrateur</span>
+        <h1>Statistiques des commandes</h1>
+        {% for message in app.flashes('success') %}
+        <div class="alert alert-success stats-alert">
+            ✅ {{ message }}
+        </div>
+        {% endfor %}
+        <p>
+            Analyse des commandes par menu, chiffre d'affaires et synchronisation NoSQL MongoDB.
+        </p>
+    </div>
+
+    <form method="get" class="stats-filters-card">
+
+        <div class="stats-filter-field">
+            <label>Menu</label>
+            <select name="menu">
+                <option value="">Tous les menus</option>
+
+                {% for menu in menuOptions %}
+                <option value="{{ menu.menuId }}" {% if selectedMenu==menu.menuId %}selected{% endif %}>
+                    {{ menu.menuTitle }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="stats-filter-field">
+            <label>Date début</label>
+            <input type="date" name="dateStart" value="{{ dateStart }}">
+        </div>
+
+        <div class="stats-filter-field">
+            <label>Date fin</label>
+            <input type="date" name="dateEnd" value="{{ dateEnd }}">
+        </div>
+
+        <div class="stats-filter-actions">
+            <button type="submit" class="stats-btn stats-btn-dark">
+                Filtrer
+            </button>
+
+            <a href="{{ path('app_admin_statistics') }}" class="stats-btn stats-btn-reset">
+                Réinitialiser
+            </a>
+
+            <a href="{{ path('app_admin_statistics', {
+                refresh: 1,
+                menu: selectedMenu,
+                dateStart: dateStart,
+                dateEnd: dateEnd
+            }) }}" class="stats-btn stats-btn-green">
+                Mettre à jour NoSQL
+            </a>
+        </div>
+
+    </form>
+
+    {% set totalCommandes = 0 %}
+    {% set totalRevenue = 0 %}
+
+    {% for menu in menusStats %}
+    {% set totalCommandes = totalCommandes + menu.ordersCount %}
+    {% set totalRevenue = totalRevenue + menu.revenue %}
+    {% endfor %}
+
+    <div class="stats-summary-grid">
+        <div class="stats-summary-card">
+            <span>Total commandes</span>
+            <strong>{{ totalCommandes }}</strong>
+        </div>
+
+        <div class="stats-summary-card">
+            <span>Chiffre d'affaires total</span>
+            <strong>{{ totalRevenue|number_format(2, ',', ' ') }} €</strong>
+        </div>
+
+        <div class="stats-summary-card">
+            <span>Dernière mise à jour NoSQL</span>
+            <strong>{{ stats.generatedAt ?? 'Non disponible' }}</strong>
+        </div>
+    </div>
+
+    <div class="stats-table-card">
+        <h2>Détail par menu</h2>
+
+        <table class="stats-table">
+            <thead>
+                <tr>
+                    <th>Menu</th>
+                    <th>Commandes</th>
+                    <th>Chiffre d'affaires</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for menu in menusStats %}
+                <tr>
+                    <td>{{ menu.menuTitle }}</td>
+                    <td>{{ menu.ordersCount }}</td>
+                    <td>{{ menu.revenue|number_format(2, ',', ' ') }} €</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="text-center">
+                        Aucune donnée disponible.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% set maxRevenue = 0 %}
+    {% for menu in menusStats %}
+    {% if menu.revenue > maxRevenue %}
+    {% set maxRevenue = menu.revenue %}
+    {% endif %}
+    {% endfor %}
+
+    <div class="stats-chart-card">
+        <h2>Graphique comparatif du chiffre d'affaires</h2>
+
+        {% for menu in menuOptions %}
+        {% set barWidth = maxRevenue > 0 ? (menu.revenue / maxRevenue * 100) : 0 %}
+
+        <div class="chart-row">
+            <div class="chart-label">{{ menu.menuTitle }}</div>
+
+            <div class="chart-bar-wrap">
+                <div class="chart-bar" style="width: {{ barWidth }}%"></div>
+            </div>
+
+            <div class="chart-value">
+                {{ menu.revenue|number_format(2, ',', ' ') }} €
+            </div>
+        </div>
+        {% else %}
+        <p>Aucune donnée disponible pour le graphique.</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}
