@@ -32,6 +32,8 @@ final class AdminStatisticsController extends AbstractController
             $stats = $statisticsService->read($dateStart, $dateEnd, $selectedMenu);
             $menusStats = $stats['menus'] ?? [];
 
+            $mongoStatisticsService->clearStatistics();
+
             foreach ($menusStats as $menuStat) {
                 $mongoStatisticsService->saveMenuStatistic(
                     $menuStat['menuTitle'] ?? 'Menu inconnu',

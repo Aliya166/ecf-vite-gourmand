@@ -20,7 +20,7 @@
 
         <div class="admin-form-card">
 
-            {{ form_start(form) }}
+            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
 
             <div class="admin-form-grid">
                 {{ form_row(form.title) }}
@@ -28,10 +28,10 @@
                 {{ form_row(form.description) }}
                 {{ form_row(form.price) }}
 
-                {{ form_row(form.imageMain) }}
-                {{ form_row(form.imageSecond) }}
-                {{ form_row(form.imageThird) }}
-                {{ form_row(form.imageFourth) }}
+                {{ form_row(form.imageMainFile) }}
+                {{ form_row(form.imageSecondFile) }}
+                {{ form_row(form.imageThirdFile) }}
+                {{ form_row(form.imageFourthFile) }}
 
                 {{ form_row(form.isActive) }}
                 {{ form_row(form.createAt) }}

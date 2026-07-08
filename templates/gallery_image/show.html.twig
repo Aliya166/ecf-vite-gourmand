@@ -48,7 +48,7 @@
                     <h2>Aperçu</h2>
 
                     {% if gallery_image.imageUrl %}
-                        <img src="{{ gallery_image.imageUrl }}"
+                        <img src="{{ asset('uploads/gallery/' ~ gallery_image.imageUrl) }}"
                              alt="{{ gallery_image.title }}"
                              class="menu-admin-main-image">
                     {% else %}

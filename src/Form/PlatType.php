@@ -9,6 +9,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class PlatType extends AbstractType
 {
@@ -39,7 +41,18 @@ class PlatType extends AbstractType
                 'required' => false,
                 'label' => 'Allergènes',
             ])
-            ->add('photo')
+            ->add('photoFile', FileType::class, [
+                'label' => 'Photo du plat',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '10M',
+                        'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
+                        'mimeTypesMessage' => 'Veuillez ajouter une image valide.',
+                    ])
+                ],
+            ])
         ;
     }
 

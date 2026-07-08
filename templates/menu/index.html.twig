@@ -55,7 +55,7 @@
 
                             <td>
                                 {% if menu.imageMain %}
-                                <img src="{{ menu.imageMain }}" alt="{{ menu.title }}" class="admin-thumb">
+                                <img src="{{ asset('uploads/menus/' ~ menu.imageMain) }}" alt="{{ menu.title }}" class="admin-thumb">
                                 {% else %}
                                 <span class="admin-no-image">Aucune photo</span>
                                 {% endif %}

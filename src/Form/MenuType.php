@@ -9,6 +9,8 @@ use App\Entity\Plat;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuType extends AbstractType
@@ -20,21 +22,6 @@ class MenuType extends AbstractType
             ->add('nombrePersonneMinimum')
             ->add('description')
             ->add('price')
-            ->add('imageMain', null, [
-                'label' => 'Photo principale'
-            ])
-
-            ->add('imageSecond', null, [
-                'label' => 'Photo 2'
-            ])
-
-            ->add('imageThird', null, [
-                'label' => 'Photo 3'
-            ])
-
-            ->add('imageFourth', null, [
-                'label' => 'Photo 4'
-            ])
             ->add('isActive')
             ->add('createAt', null, [
                 'widget' => 'single_text'
@@ -58,6 +45,54 @@ class MenuType extends AbstractType
                 'choice_label' => 'libelle',
                 'placeholder' => 'Choisir un thème',
                 'required' => false,
+            ])
+            ->add('imageMainFile', FileType::class, [
+                'label' => 'Photo principale',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '10M',
+                        'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
+                        'mimeTypesMessage' => 'Veuillez ajouter une image valide.',
+                    ])
+                ],
+            ])
+            ->add('imageSecondFile', FileType::class, [
+                'label' => 'Photo 2',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '10M',
+                        'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
+                        'mimeTypesMessage' => 'Veuillez ajouter une image valide.',
+                    ])
+                ],
+            ])
+            ->add('imageThirdFile', FileType::class, [
+                'label' => 'Photo 3',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '10M',
+                        'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
+                        'mimeTypesMessage' => 'Veuillez ajouter une image valide.',
+                    ])
+                ],
+            ])
+            ->add('imageFourthFile', FileType::class, [
+                'label' => 'Photo 4',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '10M',
+                        'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
+                        'mimeTypesMessage' => 'Veuillez ajouter une image valide.',
+                    ])
+                ],
             ])
         ;
     }

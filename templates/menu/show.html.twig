@@ -61,7 +61,7 @@
                     <h2>Photo principale</h2>
 
                     {% if menu.imageMain %}
-                    <img src="{{ menu.imageMain }}" alt="{{ menu.title }}" class="menu-admin-main-image">
+                    <img src="{{ asset('uploads/menus/' ~ menu.imageMain) }}" alt="{{ menu.title }}" class="menu-admin-main-image">
                     {% else %}
                     <p>Aucune photo principale.</p>
                     {% endif %}

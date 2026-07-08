@@ -45,7 +45,7 @@
 
                             <td>
                                 {% if gallery_image.imageUrl %}
-                                    <img src="{{ gallery_image.imageUrl }}"
+                                    <img src="{{ asset('uploads/gallery/' ~ gallery_image.imageUrl) }}"
                                          alt="{{ gallery_image.title }}"
                                          class="admin-thumb">
                                 {% else %}

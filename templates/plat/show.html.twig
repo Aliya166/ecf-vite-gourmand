@@ -46,7 +46,7 @@
                     <h2>Photo</h2>
 
                     {% if plat.photo %}
-                        <img src="{{ plat.photo }}" alt="{{ plat.name }}" class="menu-admin-main-image">
+                        <img src="{{ asset('uploads/plats/' ~ plat.photo) }}" alt="{{ plat.name }}" class="menu-admin-main-image">
                     {% else %}
                         <p>Aucune photo renseignée.</p>
                     {% endif %}

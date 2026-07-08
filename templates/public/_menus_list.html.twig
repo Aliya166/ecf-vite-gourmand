@@ -3,7 +3,7 @@
         <div class="menu-page-card">
 
             {% if menu.imageMain %}
-                <img src="{{ menu.imageMain }}" alt="{{ menu.title }}" class="menu-page-card-img">
+                <img src="{{ asset('uploads/menus/' ~ menu.imageMain) }}" alt="{{ menu.title }}" class="menu-page-card-img">
             {% else %}
                 <div class="menu-page-card-no-image">
                     Aucune photo

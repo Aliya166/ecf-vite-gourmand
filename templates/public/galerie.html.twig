@@ -16,7 +16,7 @@
 
             {% for image in images %}
                 <div class="gallery-item">
-                    <img src="{{ image.imageUrl }}" alt="{{ image.title }}">
+                    <img src="{{ asset('uploads/gallery/' ~ image.imageUrl) }}" alt="{{ image.title }}">
 
                     <div class="gallery-overlay">
                         <h2>{{ image.title }}</h2>

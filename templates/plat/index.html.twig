@@ -55,7 +55,7 @@
 
                                     <td>
                                         {% if plat.photo %}
-                                            <img src="{{ plat.photo }}" alt="{{ plat.name }}" class="admin-thumb">
+                                            <img src="{{ asset('uploads/plats/' ~ plat.photo) }}" alt="{{ plat.name }}" class="admin-thumb">
                                         {% else %}
                                             <span class="admin-no-image">Aucune photo</span>
                                         {% endif %}
