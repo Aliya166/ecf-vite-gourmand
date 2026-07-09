@@ -12,6 +12,9 @@
                 <h1>Espace employé</h1>
                 <p>Consultez les commandes et mettez à jour leur statut.</p>
             </div>
+            <a href="{{ path('app_dashboard_redirect') }}" class="admin-back-btn">
+                    Retour au dashboard
+                </a>
         </div>
 
         {% for message in app.flashes('success') %}

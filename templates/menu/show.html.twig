@@ -34,6 +34,8 @@
 
                     <p><strong>Nombre minimum :</strong> {{ menu.nombrePersonneMinimum }}</p>
 
+                    <p><strong>Stock disponible :</strong> {{ menu.stockDisponible }}</p>
+
                     <p>
                         <strong>Actif :</strong>
 
@@ -118,7 +120,7 @@
                     </button>
                 </form>
 
-                <a href="{{ path('app_admin') }}" class="admin-action-link">
+                <a href="{{ path('app_dashboard_redirect') }}" class="admin-action-link">
                     Retour au dashboard
                 </a>
 

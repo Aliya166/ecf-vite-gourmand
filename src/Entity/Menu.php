@@ -46,6 +46,9 @@ class Menu
     #[ORM\Column]
     private ?int $nombrePersonneMinimum = null;
 
+    #[ORM\Column]
+    private ?int $stockDisponible = 5;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageMain = null;
 
@@ -197,6 +200,18 @@ class Menu
     public function setNombrePersonneMinimum(int $nombrePersonneMinimum): static
     {
         $this->nombrePersonneMinimum = $nombrePersonneMinimum;
+
+        return $this;
+    }
+
+    public function getStockDisponible(): ?int
+    {
+        return $this->stockDisponible;
+    }
+
+    public function setStockDisponible(int $stockDisponible): static
+    {
+        $this->stockDisponible = $stockDisponible;
 
         return $this;
     }

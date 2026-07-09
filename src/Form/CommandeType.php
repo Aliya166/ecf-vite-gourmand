@@ -73,8 +73,23 @@ class CommandeType extends AbstractType
                     'En préparation' => 'en_preparation',
                     'Prête' => 'prete',
                     'Livrée' => 'livree',
+                    'Terminée' => 'terminee',
+                    'En attente retour matériel' => 'en_attente_retour_materiel',
                     'Annulée' => 'annulee',
                 ],
+            ])
+            ->add('modeContactClient', ChoiceType::class, [
+                'label' => 'Mode de contact client',
+                'required' => false,
+                'choices' => [
+                    'Appel GSM' => 'appel_gsm',
+                    'Email' => 'email',
+                ],
+                'placeholder' => 'Choisir un mode de contact',
+            ])
+            ->add('motifAnnulation', TextareaType::class, [
+                'label' => 'Motif d’annulation',
+                'required' => false,
             ])
             ->add('commentaire', TextareaType::class, [
                 'label' => 'Commentaire',

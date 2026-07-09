@@ -18,6 +18,10 @@
             </a>
         </div>
 
+        {% for message in app.flashes('danger') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
         <div class="admin-form-card">
             <form method="post">
 
@@ -34,6 +38,28 @@
                     <option value="en_attente_retour_materiel" {{ commande.status == 'en_attente_retour_materiel' ? 'selected' : '' }}>En attente du retour matériel</option>
                 </select>
 
+                <div id="cancelFields" class="cancel-fields" style="display: none; margin-top: 24px;">
+
+                    <label for="modeContactClient">Mode de contact client</label>
+                    <select name="modeContactClient" id="modeContactClient" class="form-control">
+                        <option value="">Choisir un mode de contact</option>
+                        <option value="appel_gsm" {{ commande.modeContactClient == 'appel_gsm' ? 'selected' : '' }}>Appel GSM</option>
+                        <option value="email" {{ commande.modeContactClient == 'email' ? 'selected' : '' }}>Email</option>
+                    </select>
+
+                    <label for="motifAnnulation" style="margin-top: 16px;">Motif d’annulation</label>
+                    <textarea
+                        name="motifAnnulation"
+                        id="motifAnnulation"
+                        class="form-control"
+                        rows="5"
+                        placeholder="Expliquez le motif après contact avec le client.">{{ commande.motifAnnulation }}</textarea>
+
+                    <p style="margin-top: 10px; font-size: 0.9rem; color: #6b5f55;">
+                        Cette information est obligatoire si la commande est annulée.
+                    </p>
+                </div>
+
                 <button type="submit" class="admin-submit-btn">
                     Enregistrer le statut
                 </button>
@@ -43,5 +69,21 @@
 
     </div>
 </section>
+
+<script>
+    const statusSelect = document.getElementById('status');
+    const cancelFields = document.getElementById('cancelFields');
+
+    function toggleCancelFields() {
+        if (statusSelect.value === 'annulee') {
+            cancelFields.style.display = 'block';
+        } else {
+            cancelFields.style.display = 'none';
+        }
+    }
+
+    statusSelect.addEventListener('change', toggleCancelFields);
+    toggleCancelFields();
+</script>
 
 {% endblock %}

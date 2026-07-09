@@ -38,6 +38,10 @@
                 {{ form_row(form.prixTotal) }}
 
                 {{ form_row(form.status) }}
+                <div id="adminCancelFields" style="display: none;">
+                    {{ form_row(form.modeContactClient) }}
+                    {{ form_row(form.motifAnnulation) }}
+                </div>
                 {{ form_row(form.commentaire) }}
             </div>
 
@@ -53,7 +57,7 @@
                     Voir le détail
                 </a>
 
-                <a href="{{ path('app_admin') }}" class="admin-action-link">
+                <a href="{{ path('app_dashboard_redirect') }}" class="admin-action-link">
                     Retour au dashboard
                 </a>
             </div>
@@ -62,5 +66,21 @@
 
     </div>
 </section>
+
+<script>
+    const adminStatusSelect = document.getElementById('commande_status');
+    const adminCancelFields = document.getElementById('adminCancelFields');
+
+    function toggleAdminCancelFields() {
+        if (adminStatusSelect.value === 'annulee') {
+            adminCancelFields.style.display = 'block';
+        } else {
+            adminCancelFields.style.display = 'none';
+        }
+    }
+
+    adminStatusSelect.addEventListener('change', toggleAdminCancelFields);
+    toggleAdminCancelFields();
+</script>
 
 {% endblock %}

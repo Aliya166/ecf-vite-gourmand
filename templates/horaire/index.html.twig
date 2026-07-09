@@ -14,13 +14,15 @@
             </div>
 
             <div class="admin-header-actions">
-                <a href="{{ path('app_admin') }}" class="admin-back-btn">
+                <a href="{{ path('app_dashboard_redirect') }}" class="admin-back-btn">
                     Retour au dashboard
                 </a>
 
-                <a href="{{ path('app_horaire_new') }}" class="admin-create-btn">
-                    Ajouter un horaire
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_menu_new') }}" class="admin-submit-btn">
+                    Ajouter un menu
                 </a>
+                {% endif %}
             </div>
         </div>
 

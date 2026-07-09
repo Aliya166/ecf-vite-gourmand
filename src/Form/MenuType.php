@@ -22,6 +22,7 @@ class MenuType extends AbstractType
             ->add('nombrePersonneMinimum')
             ->add('description')
             ->add('price')
+            ->add('stockDisponible')
             ->add('isActive')
             ->add('createAt', null, [
                 'widget' => 'single_text'

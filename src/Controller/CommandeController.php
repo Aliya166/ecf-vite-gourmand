@@ -187,6 +187,17 @@ final class CommandeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (
+                $commande->getStatus() === 'annulee'
+                && (!$commande->getModeContactClient() || !$commande->getMotifAnnulation())
+            ) {
+                $this->addFlash('danger', 'Pour annuler une commande, vous devez indiquer le mode de contact client et le motif d’annulation.');
+
+                return $this->redirectToRoute('app_commande_edit', [
+                    'id' => $commande->getId(),
+                ]);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);

@@ -2,6 +2,9 @@ security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_EMPLOYE
 
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
@@ -41,19 +44,24 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
-    - { path: ^/menu($|/), roles: ROLE_ADMIN }
-    - { path: ^/plat($|/), roles: ROLE_ADMIN }
+    - { path: ^/menu/new, roles: ROLE_ADMIN }
+    - { path: ^/plat/new, roles: ROLE_ADMIN }
+    - { path: ^/horaire/new, roles: ROLE_ADMIN }
+    - { path: ^/menu($|/), roles: [ROLE_ADMIN, ROLE_EMPLOYE] }
+    - { path: ^/plat($|/), roles: [ROLE_ADMIN, ROLE_EMPLOYE] }
     - { path: ^/allergene($|/), roles: ROLE_ADMIN }
     - { path: ^/theme($|/), roles: ROLE_ADMIN }
     - { path: ^/regime($|/), roles: ROLE_ADMIN }
-    - { path: ^/horaire($|/), roles: ROLE_ADMIN }
+    - { path: ^/horaire($|/), roles: [ROLE_ADMIN, ROLE_EMPLOYE] }
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/commande/\d+/annuler, roles: ROLE_USER }
     - { path: ^/commande/menu/\d+, roles: ROLE_USER }
     - { path: ^/commande($|/), roles: [ROLE_ADMIN, ROLE_EMPLOYE] }
     - { path: ^/mon-compte, roles: ROLE_USER }
-    - { path: ^/avis($|/), roles: ROLE_ADMIN }
+    - { path: ^/avis($|/), roles: [ROLE_ADMIN, ROLE_EMPLOYE] }
     - { path: ^/gallery/image($|/), roles: ROLE_ADMIN }
+
+
 
 
 when@test:

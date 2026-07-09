@@ -25,6 +25,12 @@ class Commande
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $modeContactClient = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $motifAnnulation = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $commentaire = null;
 
@@ -107,6 +113,30 @@ class Commande
     public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getModeContactClient(): ?string
+    {
+        return $this->modeContactClient;
+    }
+
+    public function setModeContactClient(?string $modeContactClient): static
+    {
+        $this->modeContactClient = $modeContactClient;
+
+        return $this;
+    }
+
+    public function getMotifAnnulation(): ?string
+    {
+        return $this->motifAnnulation;
+    }
+
+    public function setMotifAnnulation(?string $motifAnnulation): static
+    {
+        $this->motifAnnulation = $motifAnnulation;
 
         return $this;
     }

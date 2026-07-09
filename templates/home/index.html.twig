@@ -50,7 +50,12 @@
             <div class="col-md-4">
                 <a href="{{ path('app_public_menu_show', {'id': menu.id}) }}" class="text-decoration-none text-dark">
                     <div class="home-menu-card d-flex align-items-center h-100">
-                        <img src="{{ menu.imageMain }}" alt="{{ menu.title }}" class="home-menu-img">
+                        {% if menu.imageMain %}
+                        <img src="{{ asset('uploads/menus/' ~ menu.imageMain) }}" alt="{{ menu.title }}"
+                            class="home-menu-img">
+                        {% else %}
+                        <div class="home-menu-no-image">Aucune photo</div>
+                        {% endif %}
 
                         <div class="home-menu-content">
                             <h5>{{ menu.title }}</h5>

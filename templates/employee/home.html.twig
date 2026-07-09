@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace employé - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page employee-home-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Espace employé</h1>
+                <p>Accédez rapidement aux fonctionnalités autorisées pour gérer le service.</p>
+            </div>
+        </div>
+
+        <div class="admin-grid">
+
+            <div class="admin-card">
+                <div class="admin-icon">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+                <h2>Commandes</h2>
+                <p>Consulter et gérer les commandes effectuées par les clients.</p>
+                <a href="{{ path('app_employee_dashboard') }}" class="admin-btn">Voir les commandes</a>
+            </div>
+
+            <div class="admin-card">
+                <div class="admin-icon">
+                    <i class="bi bi-journal-richtext"></i>
+                </div>
+                <h2>Menus</h2>
+                <p>Modifier ou supprimer les menus proposés aux clients.</p>
+                <a href="{{ path('app_menu_index') }}" class="admin-btn">Gérer les menus</a>
+            </div>
+
+            <div class="admin-card">
+                <div class="admin-icon">
+                    <i class="bi bi-cup-hot"></i>
+                </div>
+                <h2>Plats</h2>
+                <p>Gérer les plats associés aux menus et leurs informations.</p>
+                <a href="{{ path('app_plat_index') }}" class="admin-btn">Gérer les plats</a>
+            </div>
+
+            <div class="admin-card">
+                <div class="admin-icon">
+                    <i class="bi bi-clock"></i>
+                </div>
+                <h2>Horaires</h2>
+                <p>Mettre à jour les horaires affichés dans le pied de page.</p>
+                <a href="{{ path('app_horaire_index') }}" class="admin-btn">Gérer les horaires</a>
+            </div>
+
+            <div class="admin-card">
+                <div class="admin-icon">
+                    <i class="bi bi-star"></i>
+                </div>
+                <h2>Avis</h2>
+                <p>Consulter et modérer les avis laissés par les clients.</p>
+
+                <a href="{{ path('app_avis_index') }}" class="admin-btn">
+                    Gérer les avis
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

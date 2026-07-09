@@ -19,6 +19,14 @@ use Symfony\Component\Mime\Address;
 
 final class EmployeeDashboardController extends AbstractController
 {
+
+    #[IsGranted('ROLE_EMPLOYE')]
+    #[Route('/employe', name: 'app_employee_home', methods: ['GET'])]
+    public function home(): Response
+    {
+        return $this->render('employee/home.html.twig');
+    }
+
     #[IsGranted('ROLE_EMPLOYE')]
     #[Route('/espace-employe', name: 'app_employee_dashboard', methods: ['GET'])]
     public function index(
@@ -55,8 +63,22 @@ final class EmployeeDashboardController extends AbstractController
     ): Response {
         if ($request->isMethod('POST')) {
             $status = $request->request->get('status');
+            $modeContactClient = $request->request->get('modeContactClient');
+            $motifAnnulation = $request->request->get('motifAnnulation');
+
+            if ($status === 'annulee' && (!$modeContactClient || !$motifAnnulation)) {
+                $this->addFlash('danger', 'Pour annuler une commande, vous devez indiquer le mode de contact client et le motif d’annulation.');
+
+                return $this->redirectToRoute('app_employee_order_status', [
+                    'id' => $commande->getId(),
+                ]);
+            }
 
             if (in_array($status, ['en_attente', 'confirmee', 'en_preparation', 'prete', 'livree', 'terminee', 'annulee', 'en_attente_retour_materiel'], true)) {
+                if ($status === 'annulee') {
+                    $commande->setModeContactClient($modeContactClient);
+                    $commande->setMotifAnnulation($motifAnnulation);
+                }
                 $commande->setStatus($status);
 
                 $history = new CommandeStatusHistory();

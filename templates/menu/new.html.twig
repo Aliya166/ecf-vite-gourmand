@@ -27,6 +27,7 @@
                 {{ form_row(form.nombrePersonneMinimum) }}
                 {{ form_row(form.description) }}
                 {{ form_row(form.price) }}
+                {{ form_row(form.stockDisponible) }}
 
                 {{ form_row(form.imageMainFile) }}
                 {{ form_row(form.imageSecondFile) }}
@@ -56,7 +57,7 @@
                     Retour à la liste
                 </a>
 
-                <a href="{{ path('app_admin') }}" class="admin-action-link">
+                <a href="{{ path('app_dashboard_redirect') }}" class="admin-action-link">
                     Retour au dashboard
                 </a>
             </div>

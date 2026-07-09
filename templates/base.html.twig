@@ -73,6 +73,14 @@
                         </li>
                         {% endif %}
 
+                        {% if is_granted('ROLE_EMPLOYE') and not is_granted('ROLE_ADMIN') %}
+                        <li>
+                            <a class="dropdown-item" href="{{ path('app_employee_home') }}">
+                                Espace employé
+                            </a>
+                        </li>
+                        {% endif %}
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>
