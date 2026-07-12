@@ -32,13 +32,63 @@ final class OrderController extends AbstractController
             return $this->redirectToRoute('app_account');
         }
 
+        $originalMenu = $commande->getMenu();
         $form = $this->createForm(ClientOrderType::class, $commande);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $commande->setMenu($originalMenu);
+
+            $nombrePersonnes = $commande->getNombrePersonnes();
+            $prixMenu = (float) $originalMenu->getPrice();
+
+            // Prix du menu selon le nombre de personnes
+            $sousTotal = $prixMenu * $nombrePersonnes;
+
+            // Réduction de 10 % à partir de 5 personnes
+            // supplémentaires par rapport au minimum du menu
+            $reduction = 0;
+
+            if (
+                $nombrePersonnes
+                >= $originalMenu->getNombrePersonneMinimum() + 5
+            ) {
+                $reduction = $sousTotal * 0.10;
+            }
+
+            // Recalcul du prix de livraison
+            $ville = strtolower(
+                trim($commande->getVilleLivraison() ?? '')
+            );
+
+            $distanceKm = $commande->getDistanceKm() ?? 0;
+
+            if ($ville === 'bordeaux') {
+                $prixLivraison = 0;
+            } else {
+                $prixLivraison = 5 + (0.59 * $distanceKm);
+            }
+
+            $prixTotal = $sousTotal - $reduction + $prixLivraison;
+
+            $commande->setPrixLivraison(
+                number_format($prixLivraison, 2, '.', '')
+            );
+
+            $commande->setReduction(
+                number_format($reduction, 2, '.', '')
+            );
+
+            $commande->setPrixTotal(
+                number_format($prixTotal, 2, '.', '')
+            );
+
             $entityManager->flush();
 
-            $this->addFlash('success', 'Votre commande a bien été modifiée.');
+            $this->addFlash(
+                'success',
+                'Votre commande a bien été modifiée.'
+            );
 
             return $this->redirectToRoute('app_account');
         }
@@ -49,3 +99,4 @@ final class OrderController extends AbstractController
         ]);
     }
 }
+

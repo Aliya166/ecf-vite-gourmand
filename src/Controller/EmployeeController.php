@@ -74,6 +74,41 @@ final class EmployeeController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/edit', name: 'app_employee_edit', methods: ['GET', 'POST'])]
+    public function edit(
+        User $employee,
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if (!in_array('ROLE_EMPLOYE', $employee->getRoles(), true)) {
+            $this->addFlash('danger', 'Cet utilisateur n’est pas un employé.');
+
+            return $this->redirectToRoute('app_employee_index');
+        }
+
+        $form = $this->createForm(EmployeeType::class, $employee);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // On conserve obligatoirement le rôle employé.
+            $employee->setRoles(['ROLE_EMPLOYE']);
+
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Les informations de l’employé ont bien été modifiées.'
+            );
+
+            return $this->redirectToRoute('app_employee_index');
+        }
+
+        return $this->render('employee/edit.html.twig', [
+            'employee' => $employee,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}/delete', name: 'app_employee_delete', methods: ['POST'])]
     public function delete(
         User $employee,

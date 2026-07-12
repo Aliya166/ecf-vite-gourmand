@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Tests\Functional;
+
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+final class PublicPagesTest extends WebTestCase
+{
+    public function testHomePageIsSuccessful(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/');
+
+        self::assertResponseIsSuccessful();
+    }
+}

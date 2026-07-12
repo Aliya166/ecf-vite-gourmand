@@ -148,6 +148,15 @@
                         </p>
                         {% endif %}
 
+                        {% if commande.status == 'annulee' and commande.motifAnnulation %}
+                        <div class="order-cancel-reason">
+                            <div class="order-cancel-reason-title">
+                                ⚠ Message de l’équipe
+                            </div>
+                            <p>{{ commande.motifAnnulation }}</p>
+                        </div>
+                        {% endif %}
+
                         {% if commande.status in ['en_attente', 'confirmee'] %}
                         <div class="account-order-actions">
                             <a href="{{ path('app_order_edit', {'id': commande.id}) }}" class="order-action-btn">

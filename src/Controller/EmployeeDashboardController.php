@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Commande;
 use App\Entity\CommandeStatusHistory;
 use App\Repository\CommandeRepository;
+use App\Service\OrderStatusMailer;
 use App\Repository\MenuRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,9 +13,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 
 
 final class EmployeeDashboardController extends AbstractController
@@ -59,7 +57,7 @@ final class EmployeeDashboardController extends AbstractController
         Commande $commande,
         Request $request,
         EntityManagerInterface $entityManager,
-        MailerInterface $mailer
+        OrderStatusMailer $orderStatusMailer
     ): Response {
         if ($request->isMethod('POST')) {
             $status = $request->request->get('status');
@@ -89,35 +87,9 @@ final class EmployeeDashboardController extends AbstractController
                 $entityManager->persist($history);
                 $entityManager->flush();
 
+                $orderStatusMailer->sendForStatus($commande, $status);
+
                 $this->addFlash('success', 'Le statut de la commande a bien été modifié.');
-
-                if ($status === 'terminee') {
-                    $email = (new TemplatedEmail())
-                        ->from(new Address('alisazamkovaya@gmail.com', 'Vite & Gourmand'))
-                        ->to($commande->getUser()->getEmail())
-                        ->subject('Votre commande a été livrée')
-                        ->htmlTemplate('emails/order_completed.html.twig')
-                        ->context([
-                            'user' => $commande->getUser(),
-                            'commande' => $commande,
-                        ]);
-
-                    $mailer->send($email);
-                }
-
-                if ($status === 'en_attente_retour_materiel') {
-                    $email = (new TemplatedEmail())
-                        ->from(new Address('alisazamkovaya@gmail.com', 'Vite & Gourmand'))
-                        ->to($commande->getUser()->getEmail())
-                        ->subject('Retour du matériel de livraison')
-                        ->htmlTemplate('emails/material_return.html.twig')
-                        ->context([
-                            'user' => $commande->getUser(),
-                            'commande' => $commande,
-                        ]);
-
-                    $mailer->send($email);
-                }
             }
 
             return $this->redirectToRoute('app_employee_dashboard');

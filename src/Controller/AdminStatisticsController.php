@@ -23,18 +23,23 @@ final class AdminStatisticsController extends AbstractController
         $dateEnd = $request->query->get('dateEnd');
         $selectedMenu = $request->query->get('menu');
 
+        $allStats = $statisticsService->read();
+        $menuOptions = $allStats['menus'] ?? [];
+
         if ($request->query->get('refresh') === '1') {
             $statisticsService->generate();
 
-            $allStats = $statisticsService->read();
-            $menuOptions = $allStats['menus'] ?? [];
+            $filteredStats = $statisticsService->read(
+                $dateStart,
+                $dateEnd,
+                $selectedMenu
+            );
 
-            $stats = $statisticsService->read($dateStart, $dateEnd, $selectedMenu);
-            $menusStats = $stats['menus'] ?? [];
+            $menusStatsFromSql = $filteredStats['menus'] ?? [];
 
             $mongoStatisticsService->clearStatistics();
 
-            foreach ($menusStats as $menuStat) {
+            foreach ($menusStatsFromSql as $menuStat) {
                 $mongoStatisticsService->saveMenuStatistic(
                     $menuStat['menuTitle'] ?? 'Menu inconnu',
                     (int) ($menuStat['ordersCount'] ?? 0),
@@ -44,18 +49,33 @@ final class AdminStatisticsController extends AbstractController
 
             $mongoStatisticsService->flush();
 
-            $this->addFlash('success', 'Les statistiques NoSQL ont été mises à jour dans MongoDB.');
+            $this->addFlash(
+                'success',
+                'Les statistiques NoSQL ont été mises à jour dans MongoDB.'
+            );
         }
 
-        $stats = $statisticsService->read($dateStart, $dateEnd, $selectedMenu);
-        $allStats = $statisticsService->read();
-        $menuOptions = $allStats['menus'] ?? [];
+        $filteredStats = $statisticsService->read(
+            $dateStart,
+            $dateEnd,
+            $selectedMenu
+        );
 
-        $allStats = $statisticsService->read();
-        $menuOptions = $allStats['menus'] ?? [];
+        $menusStats = $filteredStats['menus'] ?? [];
 
-        $stats = $statisticsService->read($dateStart, $dateEnd, $selectedMenu);
-        $menusStats = $stats['menus'] ?? [];
+        $totalOrders = array_sum(
+            array_column($menusStats, 'ordersCount')
+        );
+
+        $totalRevenue = array_sum(
+            array_column($menusStats, 'revenue')
+        );
+
+        $stats = [
+            'menus' => $menusStats,
+            'totalOrders' => $totalOrders,
+            'totalRevenue' => $totalRevenue,
+        ];
 
         return $this->render('admin_statistics/index.html.twig', [
             'stats' => $stats,

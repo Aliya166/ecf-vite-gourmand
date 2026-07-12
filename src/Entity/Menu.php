@@ -49,6 +49,9 @@ class Menu
     #[ORM\Column]
     private ?int $stockDisponible = 5;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $conditions = null;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageMain = null;
 
@@ -212,6 +215,18 @@ class Menu
     public function setStockDisponible(int $stockDisponible): static
     {
         $this->stockDisponible = $stockDisponible;
+
+        return $this;
+    }
+
+    public function getConditions(): ?string
+    {
+        return $this->conditions;
+    }
+
+    public function setConditions(?string $conditions): static
+    {
+        $this->conditions = $conditions;
 
         return $this;
     }

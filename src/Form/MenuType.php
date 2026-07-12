@@ -21,6 +21,10 @@ class MenuType extends AbstractType
             ->add('title')
             ->add('nombrePersonneMinimum')
             ->add('description')
+            ->add('conditions', null, [
+                'label' => 'Conditions du menu',
+                'required' => false,
+            ])
             ->add('price')
             ->add('stockDisponible')
             ->add('isActive')

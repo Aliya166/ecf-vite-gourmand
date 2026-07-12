@@ -21,9 +21,16 @@ class MongoStatisticsService
             ->execute();
     }
 
-    public function saveMenuStatistic(string $menuTitle, int $ordersCount, float $revenue): void
-    {
-        $statistic = new Statistic($menuTitle, $ordersCount, $revenue);
+    public function saveMenuStatistic(
+        string $menuTitle,
+        int $ordersCount,
+        float $revenue
+    ): void {
+        $statistic = new Statistic(
+            $menuTitle,
+            $ordersCount,
+            $revenue
+        );
 
         $this->documentManager->persist($statistic);
     }
@@ -31,5 +38,21 @@ class MongoStatisticsService
     public function flush(): void
     {
         $this->documentManager->flush();
+    }
+
+    public function getStatistics(): array
+    {
+        $statistics = $this->documentManager
+            ->getRepository(Statistic::class)
+            ->findAll();
+
+        return array_map(
+            static fn (Statistic $statistic): array => [
+                'menuTitle' => $statistic->getMenuTitle(),
+                'ordersCount' => $statistic->getOrdersCount(),
+                'revenue' => $statistic->getRevenue(),
+            ],
+            $statistics
+        );
     }
 }

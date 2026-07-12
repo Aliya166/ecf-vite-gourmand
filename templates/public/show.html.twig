@@ -28,7 +28,8 @@
                 ]|filter(image => image is not empty) %}
 
                 {% if menuImages is not empty %}
-                <img id="mainMenuImage" src="{{ asset('uploads/menus/' ~ menuImages[0]) }}" alt="{{ menu.title }}" class="menu-detail-main-img">
+                <img id="mainMenuImage" src="{{ asset('uploads/menus/' ~ menuImages[0]) }}" alt="{{ menu.title }}"
+                    class="menu-detail-main-img">
 
                 <div class="menu-gallery-thumbs">
 
@@ -174,13 +175,14 @@
                     <div class="menu-composition-item">
 
                         {% if plat.photo %}
-                            <div class="menu-composition-img-wrapper">
-                                <img src="{{ asset('uploads/plats/' ~ plat.photo) }}" alt="{{ plat.name }}" class="menu-composition-item-img">
-                            </div>
+                        <div class="menu-composition-img-wrapper">
+                            <img src="{{ asset('uploads/plats/' ~ plat.photo) }}" alt="{{ plat.name }}"
+                                class="menu-composition-item-img">
+                        </div>
                         {% else %}
-                            <div class="composition-icon">
+                        <div class="composition-icon">
                             <span class="site-icon site-icon-sm"><i class="bi bi-egg-fried"></i></span>
-                            </div>
+                        </div>
                         {% endif %}
 
                         <div class="menu-composition-content">
@@ -213,13 +215,13 @@
                     </div>
                 </div>
 
+                {% if menu.conditions %}
                 <div class="menu-condition-box">
-                    <h3>Condition du menu</h3>
+                    <h3>Conditions du menu</h3>
 
-                    <p>✓ Commande minimum 48h avant la livraison</p>
-                    <p>✓ Livraison du lundi au samedi</p>
-                    <p>✓ Photos non contractuelles</p>
+                    <p>{{ menu.conditions|nl2br }}</p>
                 </div>
+                {% endif %}
             </div>
 
         </div>
@@ -228,47 +230,47 @@
 </section>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const mainImage = document.getElementById('mainMenuImage');
-    const thumbnails = document.querySelectorAll('.js-menu-thumb');
-    const prevBtn = document.getElementById('prevMenuImage');
-    const nextBtn = document.getElementById('nextMenuImage');
+    document.addEventListener('DOMContentLoaded', function () {
+        const mainImage = document.getElementById('mainMenuImage');
+        const thumbnails = document.querySelectorAll('.js-menu-thumb');
+        const prevBtn = document.getElementById('prevMenuImage');
+        const nextBtn = document.getElementById('nextMenuImage');
 
-    if (!mainImage || thumbnails.length === 0) {
-        return;
-    }
+        if (!mainImage || thumbnails.length === 0) {
+            return;
+        }
 
-    let currentIndex = 0;
+        let currentIndex = 0;
 
-    function updateImage(index) {
-        currentIndex = index;
-        mainImage.src = thumbnails[currentIndex].dataset.image;
+        function updateImage(index) {
+            currentIndex = index;
+            mainImage.src = thumbnails[currentIndex].dataset.image;
 
-        thumbnails.forEach((thumb) => {
-            thumb.classList.remove('menu-detail-thumb-active');
+            thumbnails.forEach((thumb) => {
+                thumb.classList.remove('menu-detail-thumb-active');
+            });
+
+            thumbnails[currentIndex].classList.add('menu-detail-thumb-active');
+        }
+
+        thumbnails.forEach((thumb, index) => {
+            thumb.addEventListener('click', function () {
+                updateImage(index);
+            });
         });
 
-        thumbnails[currentIndex].classList.add('menu-detail-thumb-active');
-    }
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', function () {
+                const newIndex = currentIndex === 0 ? thumbnails.length - 1 : currentIndex - 1;
+                updateImage(newIndex);
+            });
 
-    thumbnails.forEach((thumb, index) => {
-        thumb.addEventListener('click', function () {
-            updateImage(index);
-        });
+            nextBtn.addEventListener('click', function () {
+                const newIndex = currentIndex === thumbnails.length - 1 ? 0 : currentIndex + 1;
+                updateImage(newIndex);
+            });
+        }
     });
-
-    if (prevBtn && nextBtn) {
-        prevBtn.addEventListener('click', function () {
-            const newIndex = currentIndex === 0 ? thumbnails.length - 1 : currentIndex - 1;
-            updateImage(newIndex);
-        });
-
-        nextBtn.addEventListener('click', function () {
-            const newIndex = currentIndex === thumbnails.length - 1 ? 0 : currentIndex + 1;
-            updateImage(newIndex);
-        });
-    }
-});
 </script>
 
 {% endblock %}
