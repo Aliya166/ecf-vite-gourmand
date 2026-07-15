@@ -21,11 +21,48 @@ class MongoStatisticsService
             ->execute();
     }
 
-    public function saveMenuStatistic(string $menuTitle, int $ordersCount, float $revenue): void
-    {
-        $statistic = new Statistic($menuTitle, $ordersCount, $revenue);
+    public function saveMenuStatistic(
+        string $menuTitle,
+        int $ordersCount,
+        float $revenue
+    ): void {
+        $statistic = new Statistic(
+            $menuTitle,
+            $ordersCount,
+            $revenue
+        );
 
         $this->documentManager->persist($statistic);
+    }
+
+    /**
+     * Lit les statistiques directement depuis MongoDB.
+     */
+    public function readStatistics(): array
+    {
+        $documents = $this->documentManager
+            ->getRepository(Statistic::class)
+            ->findAll();
+
+        $statistics = [];
+
+        foreach ($documents as $document) {
+            $statistics[] = [
+                'id' => $document->getId(),
+                'menuTitle' => $document->getMenuTitle(),
+                'ordersCount' => $document->getOrdersCount(),
+                'revenue' => $document->getRevenue(),
+                'createdAt' => $document->getCreatedAt()->format('Y-m-d H:i:s'),
+            ];
+        }
+
+        usort(
+            $statistics,
+            static fn(array $first, array $second): int =>
+                $second['revenue'] <=> $first['revenue']
+        );
+
+        return $statistics;
     }
 
     public function flush(): void

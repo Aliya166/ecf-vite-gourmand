@@ -40,6 +40,10 @@
                         Modifier mon mot de passe
                     </a>
 
+                    <a href="{{ path('app_contact') }}" class="account-btn">
+                        Demander la suppression de mes données personnelles
+                    </a>
+
                     {% set canLeaveAvis = false %}
 
                     {% for commande in commandes %}
@@ -146,6 +150,15 @@
                             <strong>Commentaire :</strong>
                             {{ commande.commentaire }}
                         </p>
+                        {% endif %}
+
+                        {% if commande.status == 'annulee' and commande.motifAnnulation %}
+                        <div class="order-cancel-reason">
+                            <div class="order-cancel-reason-title">
+                                ⚠ Message de l’équipe
+                            </div>
+                            <p>{{ commande.motifAnnulation }}</p>
+                        </div>
                         {% endif %}
 
                         {% if commande.status in ['en_attente', 'confirmee'] %}

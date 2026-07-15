@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Service\OrderStatisticsService;
 use App\Service\MongoStatisticsService;
+use App\Service\OrderStatisticsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,18 +23,25 @@ final class AdminStatisticsController extends AbstractController
         $dateEnd = $request->query->get('dateEnd');
         $selectedMenu = $request->query->get('menu');
 
+        /*
+         * La commande refresh=1 :
+         * 1. recalcule les statistiques depuis MySQL ;
+         * 2. les enregistre dans MongoDB.
+         */
         if ($request->query->get('refresh') === '1') {
             $statisticsService->generate();
 
-            $allStats = $statisticsService->read();
-            $menuOptions = $allStats['menus'] ?? [];
+            $filteredStats = $statisticsService->read(
+                $dateStart,
+                $dateEnd,
+                $selectedMenu
+            );
 
-            $stats = $statisticsService->read($dateStart, $dateEnd, $selectedMenu);
-            $menusStats = $stats['menus'] ?? [];
+            $filteredMenusStats = $filteredStats['menus'] ?? [];
 
             $mongoStatisticsService->clearStatistics();
 
-            foreach ($menusStats as $menuStat) {
+            foreach ($filteredMenusStats as $menuStat) {
                 $mongoStatisticsService->saveMenuStatistic(
                     $menuStat['menuTitle'] ?? 'Menu inconnu',
                     (int) ($menuStat['ordersCount'] ?? 0),
@@ -44,23 +51,54 @@ final class AdminStatisticsController extends AbstractController
 
             $mongoStatisticsService->flush();
 
-            $this->addFlash('success', 'Les statistiques NoSQL ont été mises à jour dans MongoDB.');
+            $this->addFlash(
+                'success',
+                'Les statistiques NoSQL ont été mises à jour dans MongoDB.'
+            );
+
+            return $this->redirectToRoute('app_admin_statistics', [
+                'dateStart' => $dateStart,
+                'dateEnd' => $dateEnd,
+                'menu' => $selectedMenu,
+            ]);
         }
 
-        $stats = $statisticsService->read($dateStart, $dateEnd, $selectedMenu);
+        /*
+         * Données SQL/JSON conservées pour :
+         * - les filtres ;
+         * - le tableau détaillé ;
+         * - la liste des menus.
+         */
         $allStats = $statisticsService->read();
         $menuOptions = $allStats['menus'] ?? [];
 
-        $allStats = $statisticsService->read();
-        $menuOptions = $allStats['menus'] ?? [];
+        $filteredStats = $statisticsService->read(
+            $dateStart,
+            $dateEnd,
+            $selectedMenu
+        );
 
-        $stats = $statisticsService->read($dateStart, $dateEnd, $selectedMenu);
-        $menusStats = $stats['menus'] ?? [];
+        $menusStats = $filteredStats['menus'] ?? [];
+
+        /*
+         * Lecture directe des statistiques depuis MongoDB.
+         */
+        $mongoStats = [];
+
+        try {
+            $mongoStats = $mongoStatisticsService->readStatistics();
+        } catch (\Throwable $exception) {
+            $this->addFlash(
+                'danger',
+                'Impossible de lire les statistiques MongoDB pour le moment.'
+            );
+        }
 
         return $this->render('admin_statistics/index.html.twig', [
-            'stats' => $stats,
+            'stats' => $filteredStats,
             'menusStats' => $menusStats,
             'menuOptions' => $menuOptions,
+            'mongoStats' => $mongoStats,
             'selectedMenu' => $selectedMenu,
             'dateStart' => $dateStart,
             'dateEnd' => $dateEnd,

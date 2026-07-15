@@ -48,6 +48,7 @@ class PlatType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '10M',
+                        'maxSizeMessage' => 'L`image ne doit pas dépasser 10 Mo.',
                         'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
                         'mimeTypesMessage' => 'Veuillez ajouter une image valide.',
                     ])

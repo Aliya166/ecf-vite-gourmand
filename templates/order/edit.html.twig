@@ -15,8 +15,17 @@
 
         {{ form_start(orderForm) }}
 
-        {{ form_row(orderForm.menu) }}
-        {{ form_row(orderForm.dateCommande) }}
+        <div class="order-selected-menu-info">
+            <strong>Menu sélectionné :</strong>
+            {{ commande.menu.title }}
+            <p>Le menu choisi ne peut pas être modifié. Pour choisir un autre menu, veuillez annuler cette commande et
+                créer une nouvelle commande.</p>
+        </div>
+
+        {{ form_row(orderForm.dateLivraison) }}
+        {{ form_row(orderForm.heureLivraison) }}
+        {{ form_row(orderForm.adresseLivraison) }}
+        {{ form_row(orderForm.villeLivraison) }}
         {{ form_row(orderForm.nombrePersonnes) }}
         {{ form_row(orderForm.commentaire) }}
 

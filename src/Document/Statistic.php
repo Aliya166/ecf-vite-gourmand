@@ -29,4 +29,29 @@ class Statistic
         $this->revenue = $revenue;
         $this->createdAt = new \DateTimeImmutable();
     }
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    public function getMenuTitle(): string
+    {
+        return $this->menuTitle;
+    }
+
+    public function getOrdersCount(): int
+    {
+        return $this->ordersCount;
+    }
+
+    public function getRevenue(): float
+    {
+        return $this->revenue;
+    }
+
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
 }
