@@ -7,6 +7,8 @@ use App\Entity\CommandeStatusHistory;
 use App\Entity\Menu;
 use App\Entity\User;
 use App\Form\CommandeType;
+use App\Service\OrderStatusMailer;
+use App\Service\CommandeCalculator;
 use App\Form\CommandeClientType;
 use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,6 +34,7 @@ final class CommandeController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer,
+        CommandeCalculator $calculator,
         #[CurrentUser] User $user
     ): Response {
         $commande = new Commande();
@@ -54,25 +57,34 @@ final class CommandeController extends AbstractController
 
             $sousTotal = $prixMenu * $nombrePersonnes;
 
-            $reduction = 0;
-            if ($nombrePersonnes >= $menu->getNombrePersonneMinimum() + 5) {
-                $reduction = $sousTotal * 0.10;
-            }
+            $ville = $commande->getVilleLivraison() ?? '';
+            $distanceKm = (float) ($commande->getDistanceKm() ?? 0);
 
-            $ville = strtolower(trim($commande->getVilleLivraison() ?? ''));
-            $distanceKm = $commande->getDistanceKm() ?? 0;
+            $reduction = $calculator->calculerReduction(
+                $sousTotal,
+                $nombrePersonnes,
+                $menu->getNombrePersonneMinimum()
+            );
 
-            if ($ville === 'bordeaux') {
-                $prixLivraison = 0;
-            } else {
-                $prixLivraison = 5 + (0.59 * $distanceKm);
-            }
+            $prixLivraison = $calculator->calculerPrixLivraison(
+                $ville,
+                $distanceKm
+            );
 
             $prixTotal = $sousTotal - $reduction + $prixLivraison;
 
             $commande->setPrixLivraison(number_format($prixLivraison, 2, '.', ''));
             $commande->setReduction(number_format($reduction, 2, '.', ''));
             $commande->setPrixTotal(number_format($prixTotal, 2, '.', ''));
+
+            if (($menu->getStockDisponible() ?? 0) <= 0) {
+                $this->addFlash('danger', 'Ce menu vient de devenir indisponible.');
+                return $this->redirectToRoute('app_public_menu_show', [
+                    'id' => $menu->getId(),
+                ]);
+            }
+
+            $menu->setStockDisponible($menu->getStockDisponible() - 1);
 
             $entityManager->persist($commande);
 
@@ -181,26 +193,51 @@ final class CommandeController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'app_commande_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Commande $commande, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Commande $commande, EntityManagerInterface $entityManager, OrderStatusMailer $orderStatusMailer): Response
     {
+        $originalStatus = $commande->getStatus();
         $form = $this->createForm(CommandeType::class, $commande);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $newStatus = $commande->getStatus();
+
             if (
-                $commande->getStatus() === 'annulee'
+                $newStatus === 'annulee'
                 && (!$commande->getModeContactClient() || !$commande->getMotifAnnulation())
             ) {
-                $this->addFlash('danger', 'Pour annuler une commande, vous devez indiquer le mode de contact client et le motif d’annulation.');
+                $this->addFlash(
+                    'danger',
+                    'Pour annuler une commande, vous devez indiquer le mode de contact client et le motif d’annulation.'
+                );
 
                 return $this->redirectToRoute('app_commande_edit', [
                     'id' => $commande->getId(),
                 ]);
             }
 
+            if ($newStatus !== $originalStatus) {
+                $history = new CommandeStatusHistory();
+                $history->setCommande($commande);
+                $history->setStatus($newStatus);
+                $history->setCreatedAt(new \DateTimeImmutable());
+
+                $entityManager->persist($history);
+            }
+
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
+            if ($newStatus !== $originalStatus) {
+                $orderStatusMailer->sendForStatus($commande, $newStatus);
+            }
+
+            $this->addFlash('success', 'La commande a bien été modifiée.');
+
+            return $this->redirectToRoute(
+                'app_commande_index',
+                [],
+                Response::HTTP_SEE_OTHER
+            );
         }
 
         return $this->render('commande/edit.html.twig', [
