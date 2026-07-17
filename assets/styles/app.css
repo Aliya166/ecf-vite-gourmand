@@ -5022,5 +5022,23 @@ body.modal-open {
     }
 }
 
+.hero-img{
+    width:100%;
+    max-width:620px;
+    height:420px;
+    object-fit:cover;
+    border-radius:24px;
+    display:block;
+    margin-left:auto;
+}
 
+.about-img{
+    width:100%;
+    max-width:620px;
+    height:360px;
+    object-fit:cover;
+    border-radius:24px;
+    display:block;
+    margin-right:auto;
+}
 

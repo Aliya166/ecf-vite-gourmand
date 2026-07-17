@@ -42,8 +42,8 @@
                 data-min-personnes="{{ menu.nombrePersonneMinimum }}">
 
                 {% if menu.imageMain %}
-                    <img src="{{ asset('uploads/menus/' ~ menu.imageMain) }}" alt="{{ menu.title }}"
-                        class="order-summary-image">
+                <img src="{{ asset('uploads/menus/' ~ menu.imageMain) }}" alt="{{ menu.title }}"
+                    class="order-summary-image">
                 {% endif %}
 
                 <h2>{{ menu.title }}</h2>
@@ -95,15 +95,21 @@
 </section>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    function initOrderCalculator() {
         const summary = document.querySelector('.order-summary-card');
-        if (!summary) return;
+        if (!summary) {
+            return;
+        }
+        if (summary.dataset.calculatorInitialized === 'true') {
+            return;
+        }
+        summary.dataset.calculatorInitialized = 'true';
 
         const COMPANY_LAT = 44.8378;
         const COMPANY_LNG = -0.5792;
 
         const menuPrice = parseFloat(summary.dataset.menuPrice);
-        const minPersonnes = parseInt(summary.dataset.minPersonnes);
+        const minPersonnes = parseInt(summary.dataset.minPersonnes, 10);
 
         const personnesInput = document.querySelector('#commande_client_nombrePersonnes');
         const villeInput = document.querySelector('#commande_client_villeLivraison');
@@ -169,7 +175,7 @@
                 const distance = calculateDistanceKm(COMPANY_LAT, COMPANY_LNG, lat, lng);
 
                 distanceInput.value = distance.toFixed(2);
-                distanceInfo.textContent = `Distance estimée depuis Bordeaux: ${ distance.toFixed(1) } km.`;
+                distanceInfo.textContent = `Distance estimée depuis Bordeaux: ${distance.toFixed(1)} km.`;
 
                 updateOrderTotal();
             } catch (error) {
@@ -222,7 +228,11 @@
         adresseInput.addEventListener('input', debounceDistanceCalculation);
 
         updateOrderTotal();
-    });
+
+    }
+
+    document.addEventListener('turbo:load', initOrderCalculator);
+
 </script>
 
 {% endblock %}
