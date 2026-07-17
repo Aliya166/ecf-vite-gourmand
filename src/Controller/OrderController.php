@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
-use App\Entity\Menu;
-use App\Entity\User;
 use App\Form\ClientOrderType;
 use App\Service\CommandeCalculator;
 use Doctrine\ORM\EntityManagerInterface;

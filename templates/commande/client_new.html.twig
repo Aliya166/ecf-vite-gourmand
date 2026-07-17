@@ -42,7 +42,8 @@
                 data-min-personnes="{{ menu.nombrePersonneMinimum }}">
 
                 {% if menu.imageMain %}
-                <img src="{{ menu.imageMain }}" alt="{{ menu.title }}" class="order-summary-img">
+                    <img src="{{ asset('uploads/menus/' ~ menu.imageMain) }}" alt="{{ menu.title }}"
+                        class="order-summary-image">
                 {% endif %}
 
                 <h2>{{ menu.title }}</h2>

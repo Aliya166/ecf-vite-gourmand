@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
 
     {% block stylesheets %}{% endblock %}
+
+    {% block javascripts %}
+        {{ importmap('app') }}
+    {% endblock %}
 </head>
 
 <body>
@@ -227,10 +231,10 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    {% block javascripts %}{% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        data-turbo-eval="false"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" data-turbo-eval="false"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
