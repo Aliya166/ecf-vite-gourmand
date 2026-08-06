@@ -5,7 +5,7 @@
 {% block body %}
 {% for message in app.flashes('success') %}
 <div class="contact-success-message">
-    <i class="bi bi-check-circle-fill"></i>
+    <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
     <div>
         <strong>Message envoyé avec succès !</strong>
         <p>{{ message }}</p>
@@ -34,8 +34,9 @@
             </div>
 
             <div class="col-md-6">
-                <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1200"
-                    class="img-fluid rounded shadow hero-image" alt="Repas frais">
+                <img src="{{ asset('images/public/contact-hero.jpg') }}"
+                class="img-fluid hero-img"
+                alt="Livraison de repas Vite & Gourmand">
             </div>
 
         </div>
@@ -59,7 +60,7 @@
                 <div class="contact-info-list">
 
                     <div class="contact-info-item">
-                        <i class="bi bi-envelope"></i>
+                        <i class="bi bi-envelope" aria-hidden="true"></i>
                         <div>
                             <strong>Email</strong>
                             <span>contact@vite-gourmand.fr</span>
@@ -67,7 +68,7 @@
                     </div>
 
                     <div class="contact-info-item">
-                        <i class="bi bi-telephone"></i>
+                        <i class="bi bi-telephone" aria-hidden="true"></i>
                         <div>
                             <strong>Téléphone</strong>
                             <span>01 42 00 00 00</span>
@@ -75,7 +76,7 @@
                     </div>
 
                     <div class="contact-info-item">
-                        <i class="bi bi-geo-alt"></i>
+                        <i class="bi bi-geo-alt" aria-hidden="true"></i>
                         <div>
                             <strong>Zone de service</strong>
                             <span>Paris et Île-de-France selon disponibilité</span>
@@ -83,7 +84,7 @@
                     </div>
 
                     <div class="contact-info-item">
-                        <i class="bi bi-clock"></i>
+                        <i class="bi bi-clock" aria-hidden="true"></i>
                         <div>
                             <strong>Délai de réponse</strong>
                             <span>Réponse sous 24h ouvrées</span>
@@ -93,7 +94,7 @@
                 </div>
 
                 <div class="contact-note-box">
-                    <i class="bi bi-info-circle"></i>
+                    <i class="bi bi-info-circle" aria-hidden="true"></i>
                     <p>
                         Pour une commande, pensez à indiquer la date souhaitée, le nombre de personnes
                         et l’adresse de livraison afin que nous puissions vous répondre rapidement.
@@ -112,10 +113,10 @@
                 </div>
 
                 {% for message in app.flashes('success') %}
-                    <div class="alert alert-success">{{ message }}</div>
+                <div class="alert alert-success">{{ message }}</div>
                 {% endfor %}
                 {% for message in app.flashes('danger') %}
-                    <div class="alert alert-danger">{{ message }}</div>
+                <div class="alert alert-danger">{{ message }}</div>
                 {% endfor %}
 
                 <form method="post" action="{{ path('app_contact') }}">
@@ -170,7 +171,7 @@
 
             <div class="contact-service-card">
                 <div class="contact-service-icon">
-                    <i class="bi bi-card-list"></i>
+                    <i class="bi bi-card-list" aria-hidden="true"></i>
                 </div>
                 <h3>Question sur un menu</h3>
                 <p>
@@ -181,7 +182,7 @@
 
             <div class="contact-service-card">
                 <div class="contact-service-icon">
-                    <i class="bi bi-truck"></i>
+                    <i class="bi bi-truck" aria-hidden="true"></i>
                 </div>
                 <h3>Livraison</h3>
                 <p>
@@ -192,7 +193,7 @@
 
             <div class="contact-service-card">
                 <div class="contact-service-icon">
-                    <i class="bi bi-calendar-heart"></i>
+                    <i class="bi bi-calendar-heart" aria-hidden="true"></i>
                 </div>
                 <h3>Événement</h3>
                 <p>
@@ -267,7 +268,7 @@
             <div class="contact-cta-actions">
                 <a href="{{ path('app_public_menus') }}" class="contact-cta-main">
                     Découvrir nos menus
-                    <i class="bi bi-arrow-right"></i>
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
                 </a>
             </div>
 

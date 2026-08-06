@@ -29,8 +29,9 @@
             </div>
 
             <div class="col-md-6">
-                <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1200"
-                    class="img-fluid rounded shadow hero-image" alt="Repas frais">
+                <img src="{{ asset('images/public/about-hero.jpg') }}"
+                class="img-fluid hero-img"
+                alt="Livraison de repas Vite & Gourmand">
             </div>
 
         </div>
@@ -41,8 +42,10 @@
     <div class="container">
         <div class="about-story-grid">
 
-            <div class="about-story-image">
-                <img src="{{ asset('images/about-story.jpg') }}" alt="Préparation traiteur Vite & Gourmand">
+            <div class="col-md-12">
+                <img src="{{ asset('images/public/about-history.jpg') }}"
+                class="img-fluid about-img"
+                alt="Préparation des plats Vite & Gourmand">
             </div>
 
             <div class="about-story-content">
@@ -86,7 +89,7 @@
 
             <div class="about-value-card">
                 <div class="about-icon">
-                    <i class="bi bi-leaf"></i>
+                    <i class="bi bi-basket2" aria-hidden="true"></i>
                 </div>
                 <h3>Produits frais</h3>
                 <p>
@@ -97,7 +100,7 @@
 
             <div class="about-value-card">
                 <div class="about-icon">
-                    <i class="bi bi-clock-history"></i>
+                    <i class="bi bi-clock-history" aria-hidden="true"></i>
                 </div>
                 <h3>Service ponctuel</h3>
                 <p>
@@ -108,7 +111,7 @@
 
             <div class="about-value-card">
                 <div class="about-icon">
-                    <i class="bi bi-stars"></i>
+                    <i class="bi bi-stars" aria-hidden="true"></i>
                 </div>
                 <h3>Présentation soignée</h3>
                 <p>
@@ -164,7 +167,7 @@
             <div class="about-process-step">
             <span class="about-step-number">1</span>
                 <div class="about-process-icon">
-                    <i class="bi bi-card-checklist"></i>
+                    <i class="bi bi-card-checklist" aria-hidden="true"></i>
                 </div>
                 <h3>Choisissez votre menu</h3>
                 <p>
@@ -176,7 +179,7 @@
             <div class="about-process-step">
                 <span class="about-step-number">2</span>
                 <div class="about-process-icon">
-                    <i class="bi bi-pencil-square"></i>
+                    <i class="bi bi-pencil-square" aria-hidden="true"></i>
                 </div>
                 <h3>Renseignez vos informations</h3>
                 <p>
@@ -188,7 +191,7 @@
             <div class="about-process-step">
                 <span class="about-step-number">3</span>
                 <div class="about-process-icon">
-                    <i class="bi bi-truck"></i>
+                    <i class="bi bi-truck" aria-hidden="true"></i>
                 </div>
                 <h3>Suivez votre commande</h3>
                 <p>
@@ -223,24 +226,26 @@
 
                 <div class="about-team-points">
                     <div>
-                        <i class="bi bi-headset"></i>
+                        <i class="bi bi-headset" aria-hidden="true"></i>
                         <span>Écoute client</span>
                     </div>
 
                     <div>
-                        <i class="bi bi-shield-check"></i>
+                        <i class="bi bi-shield-check" aria-hidden="true"></i>
                         <span>Service fiable</span>
                     </div>
 
                     <div>
-                        <i class="bi bi-heart"></i>
+                        <i class="bi bi-heart" aria-hidden="true"></i>
                         <span>Satisfaction avant tout</span>
                     </div>
                 </div>
             </div>
 
-            <div class="about-team-image">
-                <img src="{{ asset('images/about-team.jpg') }}" alt="Équipe Vite & Gourmand">
+            <div class="col-md-12">
+                <img src="{{ asset('images/public/about-equipe.jpg') }}"
+                class="img-fluid about-img"
+                alt="Préparation des plats Vite & Gourmand">
             </div>
 
         </div>
@@ -262,11 +267,12 @@
             <div class="about-cta-actions">
                 <a href="{{ path('app_public_menus') }}" class="about-cta-main">
                     Découvrir nos menus
-                    <i class="bi bi-arrow-right"></i>
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
                 </a>
 
                 <a href="{{ path('app_contact') }}" class="about-cta-secondary">
                     Nous contacter
+                    <i class="bi bi-envelope" aria-hidden="true"></i>
                 </a>
             </div>
 

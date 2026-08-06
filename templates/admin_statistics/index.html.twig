@@ -135,22 +135,37 @@
     <div class="stats-chart-card">
         <h2>Graphique comparatif du chiffre d'affaires</h2>
 
-        {% for menu in menuOptions %}
-        {% set barWidth = maxRevenue > 0 ? (menu.revenue / maxRevenue * 100) : 0 %}
+        {# Recherche du chiffre d’affaires maximal dans MongoDB #}
+        {% set maxMongoRevenue = 0 %}
+
+        {% for statistic in mongoStats %}
+        {% if statistic.revenue > maxMongoRevenue %}
+        {% set maxMongoRevenue = statistic.revenue %}
+        {% endif %}
+        {% endfor %}
+
+        {# Le graphique est construit directement avec les données MongoDB #}
+        {% for statistic in mongoStats %}
+        {% set barWidth = maxMongoRevenue > 0
+        ? (statistic.revenue / maxMongoRevenue * 100)
+        : 0
+        %}
 
         <div class="chart-row">
-            <div class="chart-label">{{ menu.menuTitle }}</div>
+            <div class="chart-label">
+                {{ statistic.menuTitle }}
+            </div>
 
             <div class="chart-bar-wrap">
                 <div class="chart-bar" style="width: {{ barWidth }}%"></div>
             </div>
 
             <div class="chart-value">
-                {{ menu.revenue|number_format(2, ',', ' ') }} €
+                {{ statistic.revenue|number_format(2, ',', ' ') }} €
             </div>
         </div>
         {% else %}
-        <p>Aucune donnée disponible pour le graphique.</p>
+        <p>Aucune donnée MongoDB disponible pour le graphique.</p>
         {% endfor %}
     </div>
 

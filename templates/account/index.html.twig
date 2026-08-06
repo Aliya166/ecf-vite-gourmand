@@ -40,6 +40,10 @@
                         Modifier mon mot de passe
                     </a>
 
+                    <a href="{{ path('app_contact') }}" class="account-btn">
+                        Demander la suppression de mes données personnelles
+                    </a>
+
                     {% set canLeaveAvis = false %}
 
                     {% for commande in commandes %}
@@ -163,11 +167,10 @@
                                 Modifier
                             </a>
 
-                            <a href="{{ path('app_order_cancel', {'id': commande.id}) }}"
-                                class="order-action-btn order-action-danger"
-                                onclick="return confirm('Eres-vous sure de vouloir annuler cette commande ?');">
+                            <button type="button" class="order-action-btn order-action-danger js-open-cancel-modal"
+                                data-cancel-url="{{ path('app_order_cancel', {'id': commande.id}) }}">
                                 Annuler
-                            </a>
+                            </button>
                         </div>
                         {% endif %}
 
@@ -180,5 +183,33 @@
 
         </div>
 </section>
+
+<div class="cancel-modal" id="cancelOrderModal" aria-hidden="true">
+    <div class="cancel-modal__overlay" data-close-cancel-modal></div>
+
+    <div class="cancel-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="cancelModalTitle">
+        <button type="button" class="cancel-modal__close" data-close-cancel-modal aria-label="Fermer">
+            ×
+        </button>
+
+        <div class="cancel-modal__icon">!</div>
+
+        <h2 id="cancelModalTitle">Annuler la commande ?</h2>
+
+        <p>
+            Cette action est définitive. Voulez-vous vraiment annuler cette commande ?
+        </p>
+
+        <div class="cancel-modal__actions">
+            <button type="button" class="cancel-modal__secondary" data-close-cancel-modal>
+                Non, revenir
+            </button>
+
+            <a href="#" class="cancel-modal__danger" id="confirmCancelOrder">
+                Oui, annuler
+            </a>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

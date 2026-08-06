@@ -24,8 +24,9 @@
             </div>
 
             <div class="col-md-6">
-                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200"
-                    class="img-fluid rounded shadow hero-image" alt="Repas frais">
+                <img src="{{ asset('images/public/menus-hero.jpg') }}"
+                class="img-fluid hero-img"
+                alt="Livraison de repas Vite & Gourmand">
             </div>
 
         </div>
@@ -39,48 +40,39 @@
 
             <div class="menus-filters">
 
-                <a href="{{ path('app_public_menus') }}"
-                   class="filter-btn filter-btn-small {{ selectedTheme is empty and selectedRegime is empty and selectedMaxPrice is empty and selectedPersonnes is empty ? 'filter-btn-active' : '' }}">
+                <button type="button" id="resetMenusFilters" class="filter-btn filter-btn-small">
                     Tous
-                </a>
+                </button>
 
-                <input
-                    type="number"
-                    name="maxPrice"
+                <input type="number" name="maxPrice"
                     class="filter-btn filter-input {{ selectedMaxPrice is not empty ? 'filter-btn-active' : '' }}"
-                    placeholder="Prix max"
-                    min="0"
-                    value="{{ selectedMaxPrice }}">
+                    placeholder="Prix max" min="0" value="{{ selectedMaxPrice }}">
 
                 <select name="theme"
-                        class="filter-btn filter-select {{ selectedTheme is not empty ? 'filter-btn-active' : '' }}">
+                    class="filter-btn filter-select {{ selectedTheme is not empty ? 'filter-btn-active' : '' }}">
                     <option value="">Thème</option>
 
                     {% for theme in themes %}
-                        <option value="{{ theme.id }}" {{ selectedTheme == theme.id ? 'selected' : '' }}>
-                            {{ theme.libelle }}
-                        </option>
+                    <option value="{{ theme.id }}" {{ selectedTheme==theme.id ? 'selected' : '' }}>
+                        {{ theme.libelle }}
+                    </option>
                     {% endfor %}
                 </select>
 
                 <select name="regime"
-                        class="filter-btn filter-select {{ selectedRegime is not empty ? 'filter-btn-active' : '' }}">
+                    class="filter-btn filter-select {{ selectedRegime is not empty ? 'filter-btn-active' : '' }}">
                     <option value="">Régime</option>
 
                     {% for regime in regimes %}
-                        <option value="{{ regime.id }}" {{ selectedRegime == regime.id ? 'selected' : '' }}>
-                            {{ regime.libelle }}
-                        </option>
+                    <option value="{{ regime.id }}" {{ selectedRegime==regime.id ? 'selected' : '' }}>
+                        {{ regime.libelle }}
+                    </option>
                     {% endfor %}
                 </select>
 
-                <input
-                    type="number"
-                    name="personnes"
+                <input type="number" name="personnes"
                     class="filter-btn filter-input {{ selectedPersonnes is not empty ? 'filter-btn-active' : '' }}"
-                    placeholder="Personnes"
-                    min="1"
-                    value="{{ selectedPersonnes }}">
+                    placeholder="Personnes" min="1" value="{{ selectedPersonnes }}">
 
             </div>
 
@@ -92,65 +84,120 @@
 <section class="menus-cards-section">
     <div class="container">
         <div class="row g-5" id="menusResults">
-
             {% include 'public/_menus_list.html.twig' %}
-
         </div>
     </div>
 </section>
 
 {% if totalPages > 1 %}
-    <div class="menus-pagination">
+<div class="menus-pagination">
 
-        {% for page in 1..totalPages %}
-            <a
-                href="{{ path('app_public_menus', {
+    {% for page in 1..totalPages %}
+    <a href="{{ path('app_public_menus', {
                     page: page,
                     theme: selectedTheme,
                     regime: selectedRegime,
                     maxPrice: selectedMaxPrice,
                     personnes: selectedPersonnes
-                }) }}"
-                class="menus-pagination-link {{ currentPage == page ? 'active' : '' }}"
-            >
-                {{ page }}
-            </a>
-        {% endfor %}
+                }) }}" class="menus-pagination-link {{ currentPage == page ? 'active' : '' }}">
+        {{ page }}
+    </a>
+    {% endfor %}
 
-    </div>
+</div>
 {% endif %}
 
 <script>
-    const menusFiltersForm = document.getElementById('menusFiltersForm');
-    const menusResults = document.getElementById('menusResults');
-    const filterFields = menusFiltersForm.querySelectorAll('input, select');
+    function initMenusFilters() {
+        const menusFiltersForm = document.getElementById('menusFiltersForm');
+        const menusResults = document.getElementById('menusResults');
+        const resetMenusFilters = document.getElementById('resetMenusFilters');
 
-    let filterTimeout;
+        if (!menusFiltersForm || !menusResults || !resetMenusFilters) {
+            return;
+        }
 
-    function updateMenus() {
-        const formData = new FormData(menusFiltersForm);
-        const params = new URLSearchParams(formData);
+        if (menusFiltersForm.dataset.initialized === 'true') {
+            return;
+        }
 
-        fetch(`${menusFiltersForm.action}?${params.toString()}`, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-            .then(response => response.text())
-            .then(html => {
-                menusResults.innerHTML = html;
+        menusFiltersForm.dataset.initialized = 'true';
+
+        const filterFields = menusFiltersForm.querySelectorAll('input, select');
+
+        let filterTimeout;
+
+        function updateFilterStyles() {
+            let hasActiveFilter = false;
+
+            filterFields.forEach((field) => {
+                const hasValue = field.value.trim() !== '';
+
+                field.classList.toggle('filter-btn-active', hasValue);
+
+                if (hasValue) {
+                    hasActiveFilter = true;
+                }
             });
+
+            resetMenusFilters.classList.toggle(
+                'filter-btn-active',
+                !hasActiveFilter
+            );
+        }
+
+        function updateMenus() {
+            const formData = new FormData(menusFiltersForm);
+            const params = new URLSearchParams(formData);
+
+            fetch(`${menusFiltersForm.action}?${params.toString()}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Erreur HTTP : ${response.status}`);
+                    }
+
+                    return response.text();
+                })
+                .then((html) => {
+                    menusResults.innerHTML = html;
+                    updateFilterStyles();
+                })
+                .catch((error) => {
+                    console.error('Erreur pendant le filtrage :', error);
+                });
+        }
+
+        filterFields.forEach((field) => {
+            field.addEventListener('change', () => {
+                updateFilterStyles();
+                updateMenus();
+            });
+
+            field.addEventListener('input', () => {
+                updateFilterStyles();
+
+                clearTimeout(filterTimeout);
+
+                filterTimeout = setTimeout(() => {
+                    updateMenus();
+                }, 500);
+            });
+        });
+
+        resetMenusFilters.addEventListener('click', () => {
+            menusFiltersForm.reset();
+            updateFilterStyles();
+            updateMenus();
+        });
+
+        updateFilterStyles();
     }
 
-    filterFields.forEach((field) => {
-        field.addEventListener('change', updateMenus);
-
-        field.addEventListener('input', () => {
-            clearTimeout(filterTimeout);
-
-            filterTimeout = setTimeout(updateMenus, 500);
-        });
-    });
+    document.addEventListener('turbo:load', initMenusFilters);
 </script>
 
 {% endblock %}

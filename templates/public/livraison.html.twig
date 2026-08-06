@@ -25,8 +25,9 @@
             </div>
 
             <div class="col-md-6">
-                <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1200"
-                    class="img-fluid rounded shadow hero-image" alt="Repas frais">
+                <img src="{{ asset('images/public/livraison-hero.jpg') }}"
+                class="img-fluid hero-img"
+                alt="Livraison de repas Vite & Gourmand">
             </div>
 
         </div>
@@ -57,22 +58,22 @@
 
             <div class="delivery-info-card">
                 <div class="delivery-info-item">
-                    <i class="bi bi-calendar-check"></i>
+                    <i class="bi bi-calendar-check" aria-hidden="true"></i>
                     <span>Commande minimum 48h avant la livraison</span>
                 </div>
 
                 <div class="delivery-info-item">
-                    <i class="bi bi-clock-history"></i>
+                    <i class="bi bi-clock-history" aria-hidden="true"></i>
                     <span>Livraison selon les créneaux disponibles</span>
                 </div>
 
                 <div class="delivery-info-item">
-                    <i class="bi bi-person-check"></i>
+                    <i class="bi bi-person-check" aria-hidden="true"></i>
                     <span>Suivi depuis le compte client</span>
                 </div>
 
                 <div class="delivery-info-item">
-                    <i class="bi bi-headset"></i>
+                    <i class="bi bi-headset" aria-hidden="true"></i>
                     <span>Contact client en cas de besoin</span>
                 </div>
             </div>
@@ -94,7 +95,7 @@
             <div class="delivery-step-card">
                 <span class="delivery-step-number">1</span>
                 <div class="delivery-step-icon">
-                    <i class="bi bi-card-list"></i>
+                    <i class="bi bi-card-list" aria-hidden="true"></i>
                 </div>
                 <h3>Choisissez votre menu</h3>
                 <p>
@@ -106,7 +107,7 @@
             <div class="delivery-step-card">
                 <span class="delivery-step-number">2</span>
                 <div class="delivery-step-icon">
-                    <i class="bi bi-clipboard-check"></i>
+                    <i class="bi bi-clipboard-check" aria-hidden="true"></i>
                 </div>
                 <h3>Validation de la commande</h3>
                 <p>
@@ -118,7 +119,7 @@
             <div class="delivery-step-card">
                 <span class="delivery-step-number">3</span>
                 <div class="delivery-step-icon">
-                    <i class="bi bi-egg-fried"></i>
+                    <i class="bi bi-egg-fried" aria-hidden="true"></i>
                 </div>
                 <h3>Préparation avec soin</h3>
                 <p>
@@ -130,7 +131,7 @@
             <div class="delivery-step-card">
                 <span class="delivery-step-number">4</span>
                 <div class="delivery-step-icon">
-                    <i class="bi bi-truck"></i>
+                    <i class="bi bi-truck" aria-hidden="true"></i>
                 </div>
                 <h3>Livraison à l’adresse prévue</h3>
                 <p>
@@ -173,8 +174,10 @@
     <div class="container">
         <div class="delivery-material-card">
 
-            <div class="delivery-material-image">
-                <img src="{{ asset('images/livraison-materiel.jpg') }}" alt="Matériel de livraison Vite & Gourmand">
+            <div class="col-md-12">
+                <img src="{{ asset('images/public/accueil-about.jpg') }}"
+                class="img-fluid about-img"
+                alt="Préparation des plats Vite & Gourmand">
             </div>
 
             <div class="delivery-material-content">
@@ -259,10 +262,11 @@
             <div class="delivery-cta-actions">
                 <a href="{{ path('app_public_menus') }}" class="delivery-cta-main">
                     Découvrir nos menus
-                    <i class="bi bi-arrow-right"></i>
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
                 </a>
                 <a href="{{ path('app_contact') }}" class="delivery-cta-secondary">
                     Nous contacter
+                    <i class="bi bi-envelope" aria-hidden="true"></i>
                 </a>
             </div>
 
