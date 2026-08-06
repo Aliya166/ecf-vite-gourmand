@@ -11,6 +11,8 @@ services:
       APP_SECRET: docker_local_secret
       DATABASE_URL: "mysql://vite_user:vite_password@database:3306/vite_gourmand?serverVersion=8.0.36&charset=utf8mb4"
       MAILER_DSN: "smtp://mailer:1025"
+      MONGODB_URI: "mongodb://localhost:27017"
+      MONGODB_DB: "vite_gourmand_test"
     volumes:
       - .:/var/www/html
       - /var/www/html/vendor
