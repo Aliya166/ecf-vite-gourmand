@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mes informations - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="auth-page">
+    <div class="auth-card">
+
+        <h1 class="auth-title">Modifier mes informations</h1>
+
+        <p class="auth-subtitle">
+            Mettez à jour vos informations personnelles.
+        </p>
+
+        {{ form_start(profileForm) }}
+
+        {{ form_row(profileForm.firstname) }}
+        {{ form_row(profileForm.lastname) }}
+        {{ form_row(profileForm.phone) }}
+        {{ form_row(profileForm.address) }}
+
+        <button type="submit" class="auth-btn">
+            Enregistrer les modifications
+        </button>
+
+        {{ form_rest(profileForm) }}
+        {{ form_end(profileForm) }}
+
+        <div class="auth-links">
+            <a href="{{ path('app_account') }}">
+                Retour à mon compte
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

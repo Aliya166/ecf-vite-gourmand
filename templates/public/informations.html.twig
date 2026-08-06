@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Informations - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="legal-page">
+    <div class="container">
+
+        <div class="legal-hero">
+            <span class="section-kicker">Informations</span>
+            <h1>Informations utiles</h1>
+            <p>
+                Retrouvez ici les réponses aux questions fréquentes, les mentions légales
+                et les informations relatives à l’utilisation du site Vite & Gourmand.
+            </p>
+        </div>
+
+        <nav class="legal-nav">
+            <a href="#faq">FAQ</a>
+            <a href="#mentions">Mentions légales</a>
+            <a href="#confidentialite">Confidentialité</a>
+            <a href="#conditions">Conditions générales</a>
+            <a href="#cgv">CGV</a>
+        </nav>
+
+        <section id="faq" class="legal-section">
+            <h2>FAQ</h2>
+            <h3>Comment commander un menu ?</h3>
+            <p>Il suffit de choisir un menu, de se connecter à son compte puis de valider la commande.</p>
+
+            <h3>Quand dois-je commander ?</h3>
+            <p>Les commandes doivent être passées au minimum 48h avant la livraison.</p>
+
+            <h3>Puis-je filtrer les menus ?</h3>
+            <p>Oui, les menus peuvent être filtrés par thème, régime, prix et nombre de personnes.</p>
+        </section>
+
+        <section id="mentions" class="legal-section">
+            <h2>Mentions légales</h2>
+            <p><strong>Éditeur du site :</strong> Vite & Gourmand</p>
+            <p><strong>Adresse :</strong> Paris, France</p>
+            <p><strong>Email :</strong> alisazamkovaya@gmail.com</p>
+            <p><strong>Responsable de publication :</strong> Vite & Gourmand</p>
+            <p><strong>Hébergement :</strong> Projet hébergé dans le cadre d’un projet de formation.</p>
+        </section>
+
+        <section id="confidentialite" class="legal-section">
+            <h2>Politique de confidentialité</h2>
+            <p>
+                Les données collectées lors de la création d’un compte ou d’une commande sont utilisées
+                uniquement pour le fonctionnement du service.
+            </p>
+            <p>
+                Les informations peuvent inclure le nom, l’adresse email et les informations liées aux commandes.
+            </p>
+            <p>
+                L’utilisateur peut demander la modification ou la suppression de ses données en contactant le service.
+            </p>
+        </section>
+
+        <section id="conditions" class="legal-section">
+            <h2>Conditions générales</h2>
+            <p>
+                L’utilisation du site Vite & Gourmand implique l’acceptation des présentes conditions générales.
+            </p>
+            <p>
+                Le site permet de consulter les menus, créer un compte et effectuer des commandes.
+            </p>
+            <p>
+                Vite & Gourmand se réserve le droit de modifier les informations du site à tout moment.
+            </p>
+        </section>
+
+        <section id="cgv" class="legal-section">
+            <h2>CGV</h2>
+            <p>
+                Les commandes sont validées depuis le site après sélection d’un menu.
+            </p>
+            <p>
+                Les délais de préparation et de livraison sont précisés avant validation.
+            </p>
+            <p>
+                Toute demande concernant une commande peut être adressée au service client.
+            </p>
+        </section>
+
+    </div>
+</section>
+
+{% endblock %}

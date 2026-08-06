@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier commande #{{ commande.id }} - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Modifier commande #{{ commande.id }}</h1>
+                <p>Mettez à jour les informations et le statut de la commande.</p>
+            </div>
+
+            <a href="{{ path('app_commande_index') }}" class="admin-back-btn">
+                Retour aux commandes
+            </a>
+        </div>
+
+        <div class="admin-form-card">
+
+            {{ form_start(form) }}
+
+            <div class="admin-form-grid">
+                {{ form_row(form.user) }}
+                {{ form_row(form.menu) }}
+
+                {{ form_row(form.dateLivraison) }}
+                {{ form_row(form.heureLivraison) }}
+                {{ form_row(form.adresseLivraison) }}
+                {{ form_row(form.villeLivraison) }}
+                {{ form_row(form.distanceKm) }}
+
+                {{ form_row(form.nombrePersonnes) }}
+                {{ form_row(form.prixLivraison) }}
+                {{ form_row(form.reduction) }}
+                {{ form_row(form.prixTotal) }}
+
+                {{ form_row(form.status) }}
+                <div id="adminCancelFields" style="display: none;">
+                    {{ form_row(form.modeContactClient) }}
+                    {{ form_row(form.motifAnnulation) }}
+                </div>
+                {{ form_row(form.commentaire) }}
+            </div>
+
+            <button type="submit" class="admin-submit-btn">
+                Enregistrer les modifications
+            </button>
+
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+
+            <div class="admin-form-actions">
+                <a href="{{ path('app_commande_show', {'id': commande.id}) }}" class="admin-action-link">
+                    Voir le détail
+                </a>
+
+                <a href="{{ path('app_dashboard_redirect') }}" class="admin-action-link">
+                    Retour au dashboard
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<script>
+    const adminStatusSelect = document.getElementById('commande_status');
+    const adminCancelFields = document.getElementById('adminCancelFields');
+
+    function toggleAdminCancelFields() {
+        if (adminStatusSelect.value === 'annulee') {
+            adminCancelFields.style.display = 'block';
+        } else {
+            adminCancelFields.style.display = 'none';
+        }
+    }
+
+    adminStatusSelect.addEventListener('change', toggleAdminCancelFields);
+    toggleAdminCancelFields();
+</script>
+
+{% endblock %}

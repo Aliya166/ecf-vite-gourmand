@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ plat.name }} - Administration{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>{{ plat.name }}</h1>
+                <p>Détail complet du plat.</p>
+            </div>
+
+            <a href="{{ path('app_plat_index') }}" class="admin-back-btn">
+                Retour aux plats
+            </a>
+        </div>
+
+        <div class="admin-detail-card">
+
+            <div class="admin-detail-grid">
+
+                <div class="admin-detail-section">
+                    <h2>Informations du plat</h2>
+
+                    <p><strong>ID :</strong> #{{ plat.id }}</p>
+                    <p><strong>Nom :</strong> {{ plat.name }}</p>
+                    <p><strong>Type :</strong> {{ plat.typePlat }}</p>
+                    <p><strong>Prix :</strong> {{ plat.price }} €</p>
+
+                    <p>
+                        <strong>Actif :</strong>
+                        {% if plat.isActive %}
+                            <span class="order-status order-status-confirmee">Oui</span>
+                        {% else %}
+                            <span class="order-status order-status-annulee">Non</span>
+                        {% endif %}
+                    </p>
+
+                    <p><strong>Créé le :</strong> {{ plat.createAt ? plat.createAt|date('d/m/Y H:i') : 'Non renseigné' }}</p>
+                </div>
+
+                <div class="admin-detail-section">
+                    <h2>Photo</h2>
+
+                    {% if plat.photo %}
+                        <img src="{{ asset('uploads/plats/' ~ plat.photo) }}" alt="{{ plat.name }}" class="menu-admin-main-image">
+                    {% else %}
+                        <p>Aucune photo renseignée.</p>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <div class="admin-detail-section admin-detail-comment">
+                <h2>Description</h2>
+                <p>{{ plat.description ?: 'Aucune description.' }}</p>
+            </div>
+
+            <div class="admin-detail-section admin-detail-comment">
+                <h2>Menus associés</h2>
+
+                {% if plat.menus is not empty %}
+                    <div class="menu-allergenes-list">
+                        {% for menu in plat.menus %}
+                            <span class="allergene-pill">{{ menu.title }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Aucun menu associé.</p>
+                {% endif %}
+            </div>
+
+            <div class="admin-detail-section admin-detail-comment">
+                <h2>Allergènes</h2>
+
+                {% if plat.allergenes is not empty %}
+                    <div class="menu-allergenes-list">
+                        {% for allergene in plat.allergenes %}
+                            <span class="allergene-pill">{{ allergene.libelle }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Aucun allergène renseigné.</p>
+                {% endif %}
+            </div>
+
+            <div class="admin-detail-actions">
+
+                <a href="{{ path('app_plat_edit', {'id': plat.id}) }}"
+                   class="admin-action-link admin-action-edit">
+                    Modifier le plat
+                </a>
+
+                <form method="post" 
+                      action="{{ path('app_plat_delete', {'id': plat.id}) }}"
+                      class="js-confirm-form"
+                      data-confirm-message="Etes-vous sure de vouloir supprimer ou désactiver ce plat ?">
+                    
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ plat.id) }}">
+
+                    <button class="admin-delete-btn">
+                        Supprimer ou désactiver le plat
+                    </button>
+                </form>
+
+                <a href="{{ path('app_dashboard_redirect') }}"
+                   class="admin-action-link">
+                    Retour au dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ horaire.jour }} - Administration{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>{{ horaire.jour }}</h1>
+                <p>Détail de l’horaire sélectionné.</p>
+            </div>
+
+            <a href="{{ path('app_horaire_index') }}" class="admin-back-btn">
+                Retour aux horaires
+            </a>
+        </div>
+
+        <div class="admin-detail-card">
+
+            <div class="admin-detail-section">
+                <h2>Informations de l’horaire</h2>
+
+                <p><strong>ID :</strong> #{{ horaire.id }}</p>
+                <p><strong>Jour :</strong> {{ horaire.jour }}</p>
+                <p><strong>Ouverture :</strong> {{ horaire.heureOverture }}</p>
+                <p><strong>Fermeture :</strong> {{ horaire.heureFermeture }}</p>
+            </div>
+
+            <div class="admin-detail-actions">
+
+                <a href="{{ path('app_horaire_edit', {'id': horaire.id}) }}"
+                   class="admin-action-link admin-action-edit">
+                    Modifier l’horaire
+                </a>
+
+                <a href="{{ path('app_dashboard_redirect') }}"
+                   class="admin-action-link">
+                    Retour au dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

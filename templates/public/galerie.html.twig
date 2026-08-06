@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Galerie - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="gallery-page">
+    <div class="container">
+
+        <div class="gallery-header">
+            <h1 class="section-title">Galerie</h1>
+            <p>Découvrez nos plats, nos menus et l’univers Vite & Gourmand.</p>
+        </div>
+
+        <div class="gallery-grid">
+
+            {% for image in images %}
+                <div class="gallery-item">
+                    <img src="{{ asset('uploads/gallery/' ~ image.imageUrl) }}" alt="{{ image.title }}">
+
+                    <div class="gallery-overlay">
+                        <h2>{{ image.title }}</h2>
+                        <p>{{ image.description }}</p>
+                    </div>
+                </div>
+            {% else %}
+                <p>Aucune image disponible.</p>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

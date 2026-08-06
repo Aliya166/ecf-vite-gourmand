@@ -1,0 +1,45 @@
+<div style="font-family: Arial, sans-serif; background-color: #f7f1e8; padding: 30px;">
+    <div style="max-width: 650px; margin: 0 auto; background: #ffffff; border-radius: 18px; padding: 30px;">
+
+        <h1 style="color: #2f5d45;">Nouvelle commande reçue</h1>
+
+        <p>
+            Une nouvelle commande vient d’être enregistrée sur
+            <strong>Vite & Gourmand</strong>.
+        </p>
+
+        <h2 style="color: #2f5d45;">Client</h2>
+
+        <p>
+            <strong>Nom :</strong>
+            {{ user.firstname }} {{ user.lastname }}<br>
+
+            <strong>Email :</strong>
+            {{ user.email }}<br>
+
+            <strong>Téléphone :</strong>
+            {{ user.phone ?: 'Non renseigné' }}
+        </p>
+
+        <h2 style="color: #2f5d45;">Commande</h2>
+
+        <p>
+            <strong>Menu :</strong> {{ menu.title }}<br>
+            <strong>Date de livraison :</strong> {{ commande.dateLivraison|date('d/m/Y') }}<br>
+            <strong>Heure souhaitée :</strong> {{ commande.heureLivraison|date('H:i') }}<br>
+            <strong>Adresse :</strong> {{ commande.adresseLivraison }}, {{ commande.villeLivraison }}<br>
+            <strong>Personnes :</strong> {{ commande.nombrePersonnes }}<br>
+            <strong>Total :</strong> {{ commande.prixTotal|number_format(2, ',', ' ') }} €
+        </p>
+
+        {% if commande.commentaire %}
+            <h2 style="color: #2f5d45;">Commentaire</h2>
+            <p>{{ commande.commentaire }}</p>
+        {% endif %}
+
+        <p style="margin-top: 30px;">
+            Connectez-vous à l’espace administrateur pour gérer cette commande.
+        </p>
+
+    </div>
+</div>

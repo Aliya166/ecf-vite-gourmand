@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un plat - Administration{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Ajouter un plat</h1>
+                <p>Créez un nouveau plat et associez-le à un ou plusieurs menus.</p>
+            </div>
+
+            <a href="{{ path('app_plat_index') }}" class="admin-back-btn">
+                Retour aux plats
+            </a>
+        </div>
+
+        <div class="admin-form-card">
+
+            {{ form_start(form) }}
+
+            <div class="admin-form-grid">
+                {{ form_row(form.name) }}
+                {{ form_row(form.typePlat) }}
+                {{ form_row(form.price) }}
+                {{ form_row(form.photoFile) }}
+                {{ form_row(form.isActive) }}
+                {{ form_row(form.createAt) }}
+                {{ form_row(form.description) }}
+            </div>
+
+            <div class="admin-form-full">
+                <h2>Menus associés</h2>
+                {{ form_row(form.menus) }}
+            </div>
+
+            <div class="admin-form-full">
+                <h2>Allergènes</h2>
+                {{ form_row(form.allergenes) }}
+            </div>
+
+            <button type="submit" class="admin-submit-btn">
+                Créer le plat
+            </button>
+
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+
+            <div class="admin-form-actions">
+                <a href="{{ path('app_plat_index') }}" class="admin-action-link">
+                    Retour à la liste
+                </a>
+
+                <a href="{{ path('app_dashboard_redirect') }}" class="admin-action-link">
+                    Retour au dashboard
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

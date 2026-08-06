@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion de la galerie - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Gestion de la galerie</h1>
+                <p>Ajoutez, consultez et modifiez les images affichées dans la galerie publique.</p>
+            </div>
+
+            <div class="admin-header-actions">
+                <a href="{{ path('app_dashboard_redirect') }}" class="admin-back-btn">
+                    Retour au dashboard
+                </a>
+
+                <a href="{{ path('app_gallery_image_new') }}" class="admin-create-btn">
+                    Ajouter une image
+                </a>
+            </div>
+        </div>
+
+        <div class="admin-table-card">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Aperçu</th>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Active</th>
+                        <th>Créée le</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for gallery_image in gallery_images %}
+                        <tr>
+                            <td>#{{ gallery_image.id }}</td>
+
+                            <td>
+                                {% if gallery_image.imageUrl %}
+                                    <img src="{{ asset('uploads/gallery/' ~ gallery_image.imageUrl) }}"
+                                         alt="{{ gallery_image.title }}"
+                                         class="admin-thumb">
+                                {% else %}
+                                    <span class="admin-no-image">Aucune image</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <strong>{{ gallery_image.title }}</strong>
+                            </td>
+
+                            <td>
+                                {{ gallery_image.description|slice(0, 70) }}
+                                {% if gallery_image.description|length > 70 %}...{% endif %}
+                            </td>
+
+                            <td>
+                                {% if gallery_image.isActive %}
+                                    <span class="order-status order-status-confirmee">Oui</span>
+                                {% else %}
+                                    <span class="order-status order-status-annulee">Non</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{ gallery_image.createdAt ? gallery_image.createdAt|date('d/m/Y H:i') : 'Non renseigné' }}
+                            </td>
+
+                            <td>
+                                <div class="admin-actions">
+                                    <a href="{{ path('app_gallery_image_show', {'id': gallery_image.id}) }}" class="admin-action-link">
+                                        Voir
+                                    </a>
+
+                                    <a href="{{ path('app_gallery_image_edit', {'id': gallery_image.id}) }}" class="admin-action-link admin-action-edit">
+                                        Modifier
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7">Aucune image trouvée.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

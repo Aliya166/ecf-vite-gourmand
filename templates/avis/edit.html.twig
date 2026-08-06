@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modérer avis #{{ avi.id }} - Administration{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Modérer avis #{{ avi.id }}</h1>
+                <p>Validez, refusez ou corrigez un avis client.</p>
+            </div>
+
+            <a href="{{ path('app_avis_index') }}" class="admin-back-btn">
+                Retour aux avis
+            </a>
+        </div>
+
+        <div class="admin-form-card">
+
+            {{ form_start(form) }}
+
+            <div class="admin-form-grid">
+                {{ form_row(form.note) }}
+                {{ form_row(form.status) }}
+                {{ form_row(form.user) }}
+                {{ form_row(form.description) }}
+            </div>
+
+            <button type="submit" class="admin-submit-btn">
+                Enregistrer la modération
+            </button>
+
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+
+            <div class="admin-form-actions">
+                <a href="{{ path('app_avis_show', {'id': avi.id}) }}" class="admin-action-link">
+                    Voir l’avis
+                </a>
+
+                <a href="{{ path('app_dashboard_redirect') }}" class="admin-action-link">
+                    Retour au dashboard
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

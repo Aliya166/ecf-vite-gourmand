@@ -1,0 +1,278 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À propos - Vite & Gourmand{% endblock %}
+
+{% block body %}
+{% for message in app.flashes('success') %}
+<div class="contact-success-message">
+    <i class="bi bi-check-circle-fill"></i>
+    <div>
+        <strong>Message envoyé avec succès !</strong>
+        <p>{{ message }}</p>
+    </div>
+</div>
+{% endfor %}
+
+<section class="py-5" style="background-color: #f2eadc;">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <div class="col-md-6">
+                <p class="text-uppercase fw-bold mb-2" style="color:#315c3b;">
+                    Nous contacter
+                </p>
+
+                <h1 class="display-4 hero-title mb-3">
+                    Une question ?<br>
+                    Nous sommes à votre écoute
+                </h1>
+
+                <p class="mb-4">
+                    Notre équipe est disponible pour répondre à toutes vos questions
+                    concernant les menus, les commandes ou la livraison.
+                </p>
+            </div>
+
+            <div class="col-md-6">
+                <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1200"
+                    class="img-fluid rounded shadow hero-image" alt="Repas frais">
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="contact-main-section">
+    <div class="container">
+
+        <div class="contact-main-grid">
+
+            <div class="contact-info-panel">
+                <span class="contact-small-title">Nous contacter</span>
+                <h2>Un service disponible et attentif</h2>
+
+                <p>
+                    Vous pouvez nous écrire pour toute question concernant nos menus,
+                    une commande en cours, une demande professionnelle ou un événement particulier.
+                </p>
+
+                <div class="contact-info-list">
+
+                    <div class="contact-info-item">
+                        <i class="bi bi-envelope"></i>
+                        <div>
+                            <strong>Email</strong>
+                            <span>contact@vite-gourmand.fr</span>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <i class="bi bi-telephone"></i>
+                        <div>
+                            <strong>Téléphone</strong>
+                            <span>01 42 00 00 00</span>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <i class="bi bi-geo-alt"></i>
+                        <div>
+                            <strong>Zone de service</strong>
+                            <span>Paris et Île-de-France selon disponibilité</span>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <i class="bi bi-clock"></i>
+                        <div>
+                            <strong>Délai de réponse</strong>
+                            <span>Réponse sous 24h ouvrées</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="contact-note-box">
+                    <i class="bi bi-info-circle"></i>
+                    <p>
+                        Pour une commande, pensez à indiquer la date souhaitée, le nombre de personnes
+                        et l’adresse de livraison afin que nous puissions vous répondre rapidement.
+                    </p>
+                </div>
+            </div>
+
+            <div class="contact-form-card" id="contactForm">
+
+                <div class="contact-form-header">
+                    <span class="contact-small-title">Message</span>
+                    <h2>Écrivez-nous</h2>
+                    <p>
+                        Remplissez le formulaire ci-dessous, notre équipe vous répondra dès que possible.
+                    </p>
+                </div>
+
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endfor %}
+                {% for message in app.flashes('danger') %}
+                    <div class="alert alert-danger">{{ message }}</div>
+                {% endfor %}
+
+                <form method="post" action="{{ path('app_contact') }}">
+                    <div class="admin-form-grid">
+                        <div>
+                            <label for="name">Nom complet</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div>
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div>
+                            <label for="phone">Téléphone</label>
+                            <input type="text" id="phone" name="phone">
+                        </div>
+
+                        <div>
+                            <label for="subject">Sujet</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+
+                    <button type="submit" class="admin-submit-btn">
+                        Envoyer le message
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="contact-services-section">
+    <div class="container">
+
+        <div class="contact-section-heading">
+            <span class="contact-small-title">Pourquoi nous écrire ?</span>
+            <h2>Nous vous accompagnons à chaque étape</h2>
+        </div>
+
+        <div class="contact-service-grid">
+
+            <div class="contact-service-card">
+                <div class="contact-service-icon">
+                    <i class="bi bi-card-list"></i>
+                </div>
+                <h3>Question sur un menu</h3>
+                <p>
+                    Obtenez des informations sur les menus, les régimes, les allergènes
+                    ou les conditions de commande.
+                </p>
+            </div>
+
+            <div class="contact-service-card">
+                <div class="contact-service-icon">
+                    <i class="bi bi-truck"></i>
+                </div>
+                <h3>Livraison</h3>
+                <p>
+                    Demandez des précisions sur les créneaux disponibles, la zone de livraison
+                    ou le suivi de votre commande.
+                </p>
+            </div>
+
+            <div class="contact-service-card">
+                <div class="contact-service-icon">
+                    <i class="bi bi-calendar-heart"></i>
+                </div>
+                <h3>Événement</h3>
+                <p>
+                    Contactez-nous pour organiser un repas familial, professionnel
+                    ou une occasion spéciale.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="contact-faq-section">
+    <div class="container">
+
+        <div class="contact-section-heading">
+            <span class="contact-small-title">Questions fréquentes</span>
+            <h2>Avant de nous contacter</h2>
+        </div>
+
+        <div class="contact-faq-grid">
+
+            <div class="contact-faq-item">
+                <h3>Quand faut-il passer commande ?</h3>
+                <p>
+                    Les commandes doivent être passées au minimum 48h avant la date
+                    de livraison souhaitée, selon les disponibilités.
+                </p>
+            </div>
+
+            <div class="contact-faq-item">
+                <h3>Puis-je modifier une commande ?</h3>
+                <p>
+                    Une commande peut être modifiée tant qu’elle est encore en attente
+                    ou confirmée. Le menu choisi ne peut pas être remplacé.
+                </p>
+            </div>
+            <div class="contact-faq-item">
+                <h3>Comment suivre ma commande ?</h3>
+                <p>
+                    Le suivi est disponible depuis votre compte client, avec l’historique
+                    des changements de statut.
+                </p>
+            </div>
+
+            <div class="contact-faq-item">
+                <h3>Que faire en cas de problème ?</h3>
+                <p>
+                    Notre équipe peut vous contacter par email ou par téléphone afin de vous
+                    proposer une solution adaptée.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="contact-cta-section">
+    <div class="container">
+        <div class="contact-cta-box">
+
+            <div>
+                <span class="contact-small-title">Vite & Gourmand</span>
+                <h2>Besoin d’un menu pour votre prochain repas ?</h2>
+                <p>
+                    Découvrez nos formules et choisissez le menu adapté à votre événement.
+                </p>
+            </div>
+
+            <div class="contact-cta-actions">
+                <a href="{{ path('app_public_menus') }}" class="contact-cta-main">
+                    Découvrir nos menus
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

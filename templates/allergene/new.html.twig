@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un allergène - Administration{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Ajouter un allergène</h1>
+                <p>Créez un nouvel allergène pour informer les clients sur les plats.</p>
+            </div>
+
+            <a href="{{ path('app_allergene_index') }}" class="admin-back-btn">
+                Retour aux allergènes
+            </a>
+        </div>
+
+        <div class="admin-form-card">
+
+            {{ form_start(form) }}
+
+            <div class="admin-form-grid">
+                {{ form_row(form.libelle) }}
+            </div>
+
+            <button type="submit" class="admin-submit-btn">
+                Créer l’allergène
+            </button>
+
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+
+            <div class="admin-form-actions">
+                <a href="{{ path('app_allergene_index') }}" class="admin-action-link">
+                    Retour à la liste
+                </a>
+
+                <a href="{{ path('app_dashboard_redirect') }}" class="admin-action-link">
+                    Retour au dashboard
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

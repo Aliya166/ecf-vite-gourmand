@@ -1,0 +1,43 @@
+<div style="font-family: Arial, sans-serif; background-color: #f7f1e8; padding: 30px;">
+    <div style="max-width: 650px; margin: 0 auto; background: #ffffff; border-radius: 18px; padding: 30px;">
+
+        <h1 style="color: #2f5d45; margin-bottom: 20px;">
+            Votre compte employé a été créé
+        </h1>
+
+        <p>Bonjour {{ employee.firstname }},</p>
+
+        <p>
+            Un compte employé a été créé pour vous sur <strong>Vite & Gourmand</strong>.
+        </p>
+
+        <div style="background-color: #f7f1e8; border-radius: 14px; padding: 20px; margin: 20px 0;">
+            <p><strong>Votre email de connexion :</strong> {{ employee.email }}</p>
+
+            <p>
+                Pour des raisons de sécurité, votre mot de passe n’est pas envoyé par email.
+            </p>
+        </div>
+
+        <h2 style="color: #2f5d45; margin-top: 30px;">
+            Première connexion
+        </h2>
+
+        <ol style="line-height: 1.8;">
+            <li>Rendez-vous sur la page de connexion du site.</li>
+            <li>Cliquez sur <strong>Mot de passe oublié ?</strong>.</li>
+            <li>Indiquez votre email employé : <strong>{{ employee.email }}</strong>.</li>
+            <li>Vous recevrez un lien sécurisé pour créer votre mot de passe.</li>
+            <li>Connectez-vous ensuite avec votre email et votre nouveau mot de passe.</li>
+        </ol>
+
+        <p>
+            Une fois connecté, vous pourrez accéder à votre espace employé et gérer les commandes selon les droits qui vous ont été attribués.
+        </p>
+
+        <p style="margin-top: 30px;">
+            L’équipe Vite & Gourmand
+        </p>
+
+    </div>
+</div>

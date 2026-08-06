@@ -1,0 +1,156 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos menus - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="py-5" style="background-color: #f2eadc;">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <div class="col-md-6">
+                <p class="text-uppercase fw-bold mb-2" style="color:#315c3b;">
+                    Tous nos menus
+                </p>
+
+                <h1 class="display-4 hero-title mb-3">
+                    Choisissez votre menu
+                </h1>
+
+                <p class="mb-4">
+                    Découvrez notre sélection de menus préparés avec
+                    des produits frais et de saison.
+                </p>
+            </div>
+
+            <div class="col-md-6">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200"
+                    class="img-fluid rounded shadow hero-image" alt="Repas frais">
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="menus-filters-section">
+    <div class="container">
+
+        <form method="get" action="{{ path('app_public_menus') }}" class="menus-filters-form" id="menusFiltersForm">
+
+            <div class="menus-filters">
+
+                <a href="{{ path('app_public_menus') }}"
+                   class="filter-btn filter-btn-small {{ selectedTheme is empty and selectedRegime is empty and selectedMaxPrice is empty and selectedPersonnes is empty ? 'filter-btn-active' : '' }}">
+                    Tous
+                </a>
+
+                <input
+                    type="number"
+                    name="maxPrice"
+                    class="filter-btn filter-input {{ selectedMaxPrice is not empty ? 'filter-btn-active' : '' }}"
+                    placeholder="Prix max"
+                    min="0"
+                    value="{{ selectedMaxPrice }}">
+
+                <select name="theme"
+                        class="filter-btn filter-select {{ selectedTheme is not empty ? 'filter-btn-active' : '' }}">
+                    <option value="">Thème</option>
+
+                    {% for theme in themes %}
+                        <option value="{{ theme.id }}" {{ selectedTheme == theme.id ? 'selected' : '' }}>
+                            {{ theme.libelle }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <select name="regime"
+                        class="filter-btn filter-select {{ selectedRegime is not empty ? 'filter-btn-active' : '' }}">
+                    <option value="">Régime</option>
+
+                    {% for regime in regimes %}
+                        <option value="{{ regime.id }}" {{ selectedRegime == regime.id ? 'selected' : '' }}>
+                            {{ regime.libelle }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <input
+                    type="number"
+                    name="personnes"
+                    class="filter-btn filter-input {{ selectedPersonnes is not empty ? 'filter-btn-active' : '' }}"
+                    placeholder="Personnes"
+                    min="1"
+                    value="{{ selectedPersonnes }}">
+
+            </div>
+
+        </form>
+
+    </div>
+</section>
+
+<section class="menus-cards-section">
+    <div class="container">
+        <div class="row g-5" id="menusResults">
+
+            {% include 'public/_menus_list.html.twig' %}
+
+        </div>
+    </div>
+</section>
+
+{% if totalPages > 1 %}
+    <div class="menus-pagination">
+
+        {% for page in 1..totalPages %}
+            <a
+                href="{{ path('app_public_menus', {
+                    page: page,
+                    theme: selectedTheme,
+                    regime: selectedRegime,
+                    maxPrice: selectedMaxPrice,
+                    personnes: selectedPersonnes
+                }) }}"
+                class="menus-pagination-link {{ currentPage == page ? 'active' : '' }}"
+            >
+                {{ page }}
+            </a>
+        {% endfor %}
+
+    </div>
+{% endif %}
+
+<script>
+    const menusFiltersForm = document.getElementById('menusFiltersForm');
+    const menusResults = document.getElementById('menusResults');
+    const filterFields = menusFiltersForm.querySelectorAll('input, select');
+
+    let filterTimeout;
+
+    function updateMenus() {
+        const formData = new FormData(menusFiltersForm);
+        const params = new URLSearchParams(formData);
+
+        fetch(`${menusFiltersForm.action}?${params.toString()}`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+            .then(response => response.text())
+            .then(html => {
+                menusResults.innerHTML = html;
+            });
+    }
+
+    filterFields.forEach((field) => {
+        field.addEventListener('change', updateMenus);
+
+        field.addEventListener('input', () => {
+            clearTimeout(filterTimeout);
+
+            filterTimeout = setTimeout(updateMenus, 500);
+        });
+    });
+</script>
+
+{% endblock %}

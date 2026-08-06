@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ regime.libelle }} - Administration{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>{{ regime.libelle }}</h1>
+                <p>Détail du régime alimentaire sélectionné.</p>
+            </div>
+
+            <a href="{{ path('app_regime_index') }}" class="admin-back-btn">
+                Retour aux régimes
+            </a>
+        </div>
+
+        <div class="admin-detail-card">
+
+            <div class="admin-detail-section">
+                <h2>Informations du régime</h2>
+
+                <p><strong>ID :</strong> #{{ regime.id }}</p>
+                <p><strong>Libellé :</strong> {{ regime.libelle }}</p>
+            </div>
+
+            <div class="admin-detail-actions">
+
+                <a href="{{ path('app_regime_edit', {'id': regime.id}) }}"
+                   class="admin-action-link admin-action-edit">
+                    Modifier le régime
+                </a>
+
+                <a href="{{ path('app_dashboard_redirect') }}"
+                   class="admin-action-link">
+                    Retour au dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

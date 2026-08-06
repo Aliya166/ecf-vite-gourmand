@@ -1,0 +1,227 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commander - {{ menu.title }}{% endblock %}
+
+{% block body %}
+
+<section class="order-page">
+    <div class="container">
+
+        <div class="order-header">
+            <span class="section-kicker">Votre commande</span>
+            <h1>Commander {{ menu.title }}</h1>
+            <p>Complétez les informations de livraison et vérifiez le récapitulatif avant validation.</p>
+        </div>
+
+        <div class="order-grid">
+
+            <div class="order-form-card">
+                {{ form_start(form) }}
+
+                {{ form_row(form.dateLivraison) }}
+                {{ form_row(form.heureLivraison) }}
+                {{ form_row(form.adresseLivraison) }}
+                {{ form_row(form.villeLivraison) }}
+                <p id="deliveryDistanceInfo" class="order-distance-info">
+                    La distance sera calculée automatiquement après saisie de l'adresse.
+                </p>
+                {{ form_row(form.distanceKm) }}
+                {{ form_row(form.nombrePersonnes) }}
+                {{ form_row(form.commentaire) }}
+
+                {{ form_rest(form) }}
+
+                <button type="submit" class="admin-submit-btn">
+                    Valider la commande
+                </button>
+
+                {{ form_end(form) }}
+            </div>
+
+            <div class="order-summary-card" data-menu-price="{{ menu.price }}"
+                data-min-personnes="{{ menu.nombrePersonneMinimum }}">
+
+                {% if menu.imageMain %}
+                <img src="{{ menu.imageMain }}" alt="{{ menu.title }}" class="order-summary-img">
+                {% endif %}
+
+                <h2>{{ menu.title }}</h2>
+
+                <p class="order-summary-price">
+                    {{ menu.price|number_format(2, ',', ' ') }} € / personne
+                </p>
+
+                <div class="order-summary-line">
+                    <span>Nombre minimum</span>
+                    <strong>{{ menu.nombrePersonneMinimum }} personnes</strong>
+                </div>
+
+                <div class="order-summary-line">
+                    <span>Réduction</span>
+                    <strong>-10% dès {{ menu.nombrePersonneMinimum + 5 }} personnes</strong>
+                </div>
+
+                <div class="order-price-box">
+                    <div class="order-summary-line">
+                        <span>Sous-total</span>
+                        <strong id="orderSubtotal">0,00 €</strong>
+                    </div>
+
+                    <div class="order-summary-line">
+                        <span>Réduction</span>
+                        <strong id="orderReduction">0,00 €</strong>
+                    </div>
+
+                    <div class="order-summary-line">
+                        <span>Livraison</span>
+                        <strong id="orderDelivery">0,00 €</strong>
+                    </div>
+
+                    <div class="order-total-line">
+                        <span>Total estimé</span>
+                        <strong id="orderTotal">0,00 €</strong>
+                    </div>
+                </div>
+
+                <p class="order-note">
+                    Bordeaux : livraison gratuite. Hors Bordeaux : 5 € + 0,59 € / km.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const summary = document.querySelector('.order-summary-card');
+        if (!summary) return;
+
+        const COMPANY_LAT = 44.8378;
+        const COMPANY_LNG = -0.5792;
+
+        const menuPrice = parseFloat(summary.dataset.menuPrice);
+        const minPersonnes = parseInt(summary.dataset.minPersonnes);
+
+        const personnesInput = document.querySelector('#commande_client_nombrePersonnes');
+        const villeInput = document.querySelector('#commande_client_villeLivraison');
+        const adresseInput = document.querySelector('#commande_client_adresseLivraison');
+        const distanceInput = document.querySelector('#commande_client_distanceKm');
+
+        const subtotalEl = document.querySelector('#orderSubtotal');
+        const reductionEl = document.querySelector('#orderReduction');
+        const deliveryEl = document.querySelector('#orderDelivery');
+        const totalEl = document.querySelector('#orderTotal');
+        const distanceInfo = document.querySelector('#deliveryDistanceInfo');
+
+        function formatPrice(value) {
+            return value.toFixed(2).replace('.', ',') + ' €';
+        }
+
+        function calculateDistanceKm(lat1, lng1, lat2, lng2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) *
+                Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLng / 2) * Math.sin(dLng / 2);
+
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        async function calculateDistanceFromAddress() {
+            const ville = (villeInput.value || '').trim();
+            const adresse = (adresseInput.value || '').trim();
+
+            if (!ville || !adresse) {
+                distanceInfo.textContent = 'La distance sera calculée automatiquement après saisie de l’adresse.';
+                return;
+            }
+
+            if (ville.toLowerCase() === 'bordeaux') {
+                distanceInput.value = 0;
+                distanceInfo.textContent = 'Livraison à Bordeaux : gratuite.';
+                updateOrderTotal();
+                return;
+            }
+
+            const query = encodeURIComponent(`${adresse}, ${ville}, France`);
+            const url = `https://api-adresse.data.gouv.fr/search/?q=${query}&limit=1`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (!data.features || data.features.length === 0) {
+                    distanceInfo.textContent = 'Adresse non trouvée. Vérifiez l’adresse saisie.';
+                    distanceInput.value = 0;
+                    updateOrderTotal();
+                    return;
+                }
+
+                const [lng, lat] = data.features[0].geometry.coordinates;
+                const distance = calculateDistanceKm(COMPANY_LAT, COMPANY_LNG, lat, lng);
+
+                distanceInput.value = distance.toFixed(2);
+                distanceInfo.textContent = `Distance estimée depuis Bordeaux: ${ distance.toFixed(1) } km.`;
+
+                updateOrderTotal();
+            } catch (error) {
+                distanceInfo.textContent = 'Impossible de calculer la distance pour le moment.';
+                distanceInput.value = 0;
+                updateOrderTotal();
+            }
+        }
+
+        function updateOrderTotal() {
+            let personnes = parseInt(personnesInput.value) || minPersonnes;
+            let ville = (villeInput.value || '').trim().toLowerCase();
+            let distance = parseFloat(distanceInput.value) || 0;
+
+            if (personnes < minPersonnes) {
+                personnes = minPersonnes;
+                personnesInput.value = minPersonnes;
+            }
+
+            const subtotal = menuPrice * personnes;
+
+            let reduction = 0;
+            if (personnes >= minPersonnes + 5) {
+                reduction = subtotal * 0.10;
+            }
+
+            let delivery = 0;
+            if (ville !== 'bordeaux' && ville !== '') {
+                delivery = 5 + (0.59 * distance);
+            }
+
+            const total = subtotal - reduction + delivery;
+
+            subtotalEl.textContent = formatPrice(subtotal);
+            reductionEl.
+                textContent = '- ' + formatPrice(reduction);
+            deliveryEl.textContent = formatPrice(delivery);
+            totalEl.textContent = formatPrice(total);
+        }
+
+        let timer = null;
+
+        function debounceDistanceCalculation() {
+            clearTimeout(timer);
+            timer = setTimeout(calculateDistanceFromAddress, 700);
+        }
+
+        personnesInput.addEventListener('input', updateOrderTotal);
+        villeInput.addEventListener('input', debounceDistanceCalculation);
+        adresseInput.addEventListener('input', debounceDistanceCalculation);
+
+        updateOrderTotal();
+    });
+</script>
+
+{% endblock %}

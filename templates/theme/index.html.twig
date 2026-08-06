@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des thèmes - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Gestion des thèmes</h1>
+                <p>Créez, consultez et modifiez les thèmes utilisés pour les menus.</p>
+            </div>
+
+            <div class="admin-header-actions">
+                <a href="{{ path('app_dashboard_redirect') }}" class="admin-back-btn">
+                    Retour au dashboard
+                </a>
+
+                <a href="{{ path('app_theme_new') }}" class="admin-create-btn">
+                    Ajouter un thème
+                </a>
+            </div>
+        </div>
+
+        <div class="admin-table-card">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Libellé</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for theme in themes %}
+                        <tr>
+                            <td>#{{ theme.id }}</td>
+                            <td><strong>{{ theme.libelle }}</strong></td>
+                            <td>
+                                <div class="admin-actions">
+                                    <a href="{{ path('app_theme_show', {'id': theme.id}) }}" class="admin-action-link">
+                                        Voir
+                                    </a>
+                                    <a href="{{ path('app_theme_edit', {'id': theme.id}) }}" class="admin-action-link admin-action-edit">
+                                        Modifier
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">Aucun thème trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

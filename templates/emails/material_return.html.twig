@@ -1,0 +1,51 @@
+<div style="font-family: Arial, sans-serif; background-color: #f7f1e8; padding: 30px;">
+    <div style="max-width: 650px; margin: 0 auto; background: #ffffff; border-radius: 18px; padding: 30px;">
+
+        <h1 style="color: #2f5d45;">Retour du matériel de livraison</h1>
+
+        <p>Bonjour {{ user.firstname }},</p>
+
+        <p>
+            Suite à votre commande du
+            <strong>{{ commande.dateLivraison|date('d/m/Y') }}</strong>
+            pour le menu
+            <strong>{{ commande.menu.title }}</strong>,
+            du matériel de livraison reste à restituer.
+        </p>
+
+        <div style="background-color: #f7f1e8; border-radius: 14px; padding: 20px; margin: 20px 0;">
+            <p>
+                Vous disposez de <strong>10 jours ouvrés</strong>
+                pour nous retourner le matériel confié lors de la livraison.
+            </p>
+
+            <p>
+                En cas de non-retour dans ce délai, des frais de
+                <strong>600 €</strong> pourront être appliqués.
+            </p>
+        </div>
+
+        <h2 style="color: #2f5d45;">Comment retourner le matériel ?</h2>
+
+        <ol style="line-height: 1.8;">
+            <li>Préparez le matériel propre et complet.</li>
+            <li>Contactez notre équipe pour convenir d’un créneau de récupération.</li>
+            <li>Vous pouvez également rapporter le matériel directement à notre point de contact.</li>
+        </ol>
+
+        <div style="background-color: #ffffff; border: 1px solid #e5d8c3; border-radius: 14px; padding: 20px; margin: 20px 0;">
+            <p><strong>Email :</strong> alisazamkovaya@gmail.com</p>
+            <p><strong>Téléphone :</strong> 01 23 45 67 89</p>
+            <p><strong>Adresse :</strong> Paris, France</p>
+        </div>
+
+        <p>
+            Pour toute question, notre équipe reste à votre disposition.
+        </p>
+
+        <p style="margin-top: 30px;">
+            <strong>L’équipe Vite & Gourmand</strong>
+        </p>
+
+    </div>
+</div> 

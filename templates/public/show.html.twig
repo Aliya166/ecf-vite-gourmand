@@ -1,0 +1,276 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ menu.title }} - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="menu-detail-page">
+
+    <div class="container">
+
+        <div class="menu-detail-breadcrumb">
+            <a href="{{ path('app_home') }}">Accueil</a>
+            <span>›</span>
+            <a href="{{ path('app_public_menus') }}">Menus</a>
+            <span>›</span>
+            <span>{{ menu.title }}</span>
+        </div>
+
+        <div class="menu-detail-hero">
+
+            <div class="menu-detail-left">
+
+                {% set menuImages = [
+                menu.imageMain,
+                menu.imageSecond,
+                menu.imageThird,
+                menu.imageFourth
+                ]|filter(image => image is not empty) %}
+
+                {% if menuImages is not empty %}
+                <img id="mainMenuImage" src="{{ asset('uploads/menus/' ~ menuImages[0]) }}" alt="{{ menu.title }}"
+                    class="menu-detail-main-img">
+
+                <div class="menu-gallery-thumbs">
+
+                    <button type="button" class="thumb-arrow" id="prevMenuImage">‹</button>
+
+                    {% for image in menuImages %}
+                    <img src="{{ asset('uploads/menus/' ~ image) }}"
+                        class="menu-detail-thumb js-menu-thumb {% if loop.first %}menu-detail-thumb-active{% endif %}"
+                        alt="{{ menu.title }}">
+                    {% endfor %}
+
+                    <button type="button" class="thumb-arrow" id="nextMenuImage">›</button>
+
+                </div>
+                {% else %}
+                <div class="menu-no-image">
+                    Aucune photo disponible
+                </div>
+                {% endif %}
+
+            </div>
+
+            <div class="menu-detail-right">
+
+                <h1 class="menu-detail-title">
+                    {{ menu.title }}
+                </h1>
+
+                <div class="menu-detail-tags">
+
+                    <span class="menu-tag">
+                        <span class="menu-tag-icon">
+                            <i class="bi bi-bookmark-star"></i>
+                        </span>
+                        <span>{{ menu.theme ? menu.theme.libelle : 'Aucun thème' }}</span>
+                    </span>
+
+                    <span class="menu-tag">
+                        <span class="menu-tag-icon">
+                            <i class="bi bi-flower1"></i>
+                        </span>
+                        <span>{{ menu.regime ? menu.regime.libelle : 'Aucun régime' }}</span>
+                    </span>
+
+                    <span class="menu-tag">
+                        <span class="menu-tag-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </span>
+                        <span>{{ menu.nombrePersonneMinimum }} personnes minimum</span>
+                    </span>
+
+                </div>
+
+                <p class="menu-detail-description">
+                    {{ menu.description }}
+                </p>
+
+                <div class="menu-detail-separator"></div>
+
+                <div class="menu-detail-order">
+                    <p class="menu-detail-price">
+                        {{ menu.price|number_format(2, ',', ' ') }} €
+                    </p>
+
+                    <a href="{{ path('app_order_create', {'id': menu.id}) }}" class="btn-menu-card menu-detail-btn">
+                        Commander ce menu
+                    </a>
+                </div>
+
+                <p class="menu-detail-note">
+                    ✓ Commande minimum 48h avant la livraison
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="menu-detail-info-section">
+    <div class="container">
+        <div class="menu-detail-info-box">
+
+            <div class="menu-detail-info-item">
+                <span class="menu-detail-info-icon">
+                    <i class="bi bi-bookmark-star-fill"></i>
+                </span>
+                <strong>Thème</strong>
+                <p>{{ menu.theme ? menu.theme.libelle : 'Aucun thème' }}</p>
+            </div>
+
+            <div class="menu-detail-info-item">
+                <span class="menu-detail-info-icon">
+                    <i class="bi bi-flower1"></i>
+                </span>
+                <strong>Régime</strong>
+                <p>{{ menu.regime ? menu.regime.libelle : 'Aucun régime' }}</p>
+            </div>
+
+            <div class="menu-detail-info-item">
+                <span class="menu-detail-info-icon">
+                    <i class="bi bi-people-fill"></i>
+                </span>
+                <strong>Nombre minimum</strong>
+                <p>{{ menu.nombrePersonneMinimum }} personnes</p>
+            </div>
+
+            <div class="menu-detail-info-item">
+                <span class="menu-detail-info-icon">
+                    <i class="bi bi-currency-euro"></i>
+                </span>
+                <strong>Prix</strong>
+                <p>{{ menu.price }} €</p>
+            </div>
+
+            <div class="menu-detail-info-item">
+                <span class="menu-detail-info-icon">
+                    <i class="bi bi-box-seam-fill"></i>
+                </span>
+                <strong>Stock disponible</strong>
+                <p>{{ menu.stockDisponible }} disponible(s)</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="menu-composition-section">
+    <div class="container">
+
+        <h2 class="section-title text-start mb-4">
+            Composition du menu
+        </h2>
+
+        <div class="row g-4">
+
+            <div class="col-md-7">
+                <div class="menu-composition-list">
+
+                    {% for plat in menu.platsMany %}
+                    <div class="menu-composition-item">
+
+                        {% if plat.photo %}
+                        <div class="menu-composition-img-wrapper">
+                            <img src="{{ asset('uploads/plats/' ~ plat.photo) }}" alt="{{ plat.name }}"
+                                class="menu-composition-item-img">
+                        </div>
+                        {% else %}
+                        <div class="composition-icon">
+                            <span class="site-icon site-icon-sm"><i class="bi bi-egg-fried"></i></span>
+                        </div>
+                        {% endif %}
+
+                        <div class="menu-composition-content">
+                            <strong>{{ plat.name }}</strong>
+                            <p>{{ plat.description }}</p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p>Aucun plat associé à ce menu.</p>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <div class="menu-composition-section col-md-5">
+
+                <div class="menu-allergenes-box">
+                    <h3><i class="bi bi-exclamation-triangle-fill"></i> Allergènes</h3>
+
+                    <div class="menu-allergenes-list">
+                        {% for plat in menu.platsMany %}
+                        {% for allergene in plat.allergenes %}
+                        <span class="allergene-pill">
+                            {{ allergene.libelle }}
+                        </span>
+                        {% endfor %}
+                        {% else %}
+                        <span class="allergene-pill">Aucun allergène renseigné</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% if menu.conditions %}
+                <div class="menu-condition-box">
+                    <h3>Conditions du menu</h3>
+
+                    <p>{{ menu.conditions|nl2br }}</p>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const mainImage = document.getElementById('mainMenuImage');
+        const thumbnails = document.querySelectorAll('.js-menu-thumb');
+        const prevBtn = document.getElementById('prevMenuImage');
+        const nextBtn = document.getElementById('nextMenuImage');
+
+        if (!mainImage || thumbnails.length === 0) {
+            return;
+        }
+
+        let currentIndex = 0;
+
+        function updateImage(index) {
+            currentIndex = index;
+            mainImage.src = thumbnails[currentIndex].dataset.image;
+
+            thumbnails.forEach((thumb) => {
+                thumb.classList.remove('menu-detail-thumb-active');
+            });
+
+            thumbnails[currentIndex].classList.add('menu-detail-thumb-active');
+        }
+
+        thumbnails.forEach((thumb, index) => {
+            thumb.addEventListener('click', function () {
+                updateImage(index);
+            });
+        });
+
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', function () {
+                const newIndex = currentIndex === 0 ? thumbnails.length - 1 : currentIndex - 1;
+                updateImage(newIndex);
+            });
+
+            nextBtn.addEventListener('click', function () {
+                const newIndex = currentIndex === thumbnails.length - 1 ? 0 : currentIndex + 1;
+                updateImage(newIndex);
+            });
+        }
+    });
+</script>
+
+{% endblock %}

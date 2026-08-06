@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier ma commande - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="auth-page">
+    <div class="auth-card">
+
+        <h1 class="auth-title">Modifier ma commande</h1>
+
+        <p class="auth-subtitle">
+            Vous pouvez modifier votre commande tant qu’elle n’est pas en préparation.
+        </p>
+
+        {{ form_start(orderForm) }}
+
+        <div class="order-selected-menu-info">
+            <strong>Menu sélectionné :</strong>
+            {{ commande.menu.title }}
+            <p>Le menu choisi ne peut pas être modifié. Pour choisir un autre menu, veuillez annuler cette commande et
+                créer une nouvelle commande.</p>
+        </div>
+
+        {{ form_row(orderForm.dateLivraison) }}
+        {{ form_row(orderForm.heureLivraison) }}
+        {{ form_row(orderForm.adresseLivraison) }}
+        {{ form_row(orderForm.villeLivraison) }}
+        {{ form_row(orderForm.nombrePersonnes) }}
+        {{ form_row(orderForm.commentaire) }}
+
+        <button type="submit" class="auth-btn">
+            Enregistrer les modifications
+        </button>
+
+        {{ form_rest(orderForm) }}
+        {{ form_end(orderForm) }}
+
+        <div class="auth-links">
+            <a href="{{ path('app_account') }}">
+                Retour à mon compte
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

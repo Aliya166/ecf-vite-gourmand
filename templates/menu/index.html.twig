@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des menus - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Gestion des menus</h1>
+                <p>Créez, modifiez et organisez les menus proposés aux clients.</p>
+            </div>
+
+            <div class="admin-header-actions">
+                <a href="{{ path('app_dashboard_redirect') }}" class="admin-back-btn">
+                    Retour au dashboard
+                </a>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_menu_new') }}" class="admin-submit-btn">
+                    Ajouter un menu
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="admin-table-card">
+
+            {% if menus is empty %}
+            <p class="admin-empty">
+                Aucun menu pour le moment.
+            </p>
+            {% else %}
+
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Photo</th>
+                            <th>Menu</th>
+                            <th>Prix</th>
+                            <th>Personnes</th>
+                            <th>Régime</th>
+                            <th>Thème</th>
+                            <th>Actif</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for menu in menus %}
+                        <tr>
+                            <td>#{{ menu.id }}</td>
+
+                            <td>
+                                {% if menu.imageMain %}
+                                <img src="{{ asset('uploads/menus/' ~ menu.imageMain) }}" alt="{{ menu.title }}"
+                                    class="admin-thumb">
+                                {% else %}
+                                <span class="admin-no-image">Aucune photo</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <strong>{{ menu.title }}</strong>
+                                <br>
+                                <small>{{ menu.description|slice(0, 70) }}{% if menu.description|length > 70 %}...{%
+                                    endif %}</small>
+                            </td>
+
+                            <td>{{ menu.price }} €</td>
+
+                            <td>{{ menu.nombrePersonneMinimum }}</td>
+
+                            <td>
+                                {{ menu.regime ? menu.regime.libelle : 'Aucun' }}
+                            </td>
+
+                            <td>
+                                {{ menu.theme ? menu.theme.libelle : 'Aucun' }}
+                            </td>
+
+                            <td>
+                                {% if menu.isActive %}
+                                <span class="order-status order-status-confirmee">Oui</span>
+                                {% else %}
+                                <span class="order-status order-status-annulee">Non</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <div class="admin-actions">
+                                    <a href="{{ path('app_menu_show', {'id': menu.id}) }}" class="admin-action-link">
+                                        Voir
+                                    </a>
+
+                                    <a href="{{ path('app_menu_edit', {'id': menu.id}) }}"
+                                        class="admin-action-link admin-action-edit">
+                                        Modifier
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

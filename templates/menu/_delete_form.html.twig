@@ -1,0 +1,8 @@
+<form 
+    method="post" 
+    action="{{ path('app_menu_delete', {'id': menu.id}) }}" 
+    class="js-confirm-form"
+    data-confirm-message="Êtes-vous sûr de vouloir supprimer ce menu ?">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ menu.id) }}">
+    <button class="btn">Delete</button>
+</form>

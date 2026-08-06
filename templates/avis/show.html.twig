@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avis #{{ avi.id }} - Administration{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Avis #{{ avi.id }}</h1>
+                <p>Détail de l’avis client.</p>
+            </div>
+
+            <a href="{{ path('app_avis_index') }}" class="admin-back-btn">
+                Retour aux avis
+            </a>
+        </div>
+
+        <div class="admin-detail-card">
+
+            <div class="admin-detail-grid">
+
+                <div class="admin-detail-section">
+                    <h2>Client</h2>
+
+                    <p><strong>Email :</strong> {{ avi.user.email }}</p>
+                    <p><strong>Prénom :</strong> {{ avi.user.firstname ?? 'Non renseigné' }}</p>
+                    <p><strong>Nom :</strong> {{ avi.user.lastname ?? 'Non renseigné' }}</p>
+                </div>
+
+                <div class="admin-detail-section">
+                    <h2>Informations de l’avis</h2>
+
+                    <p><strong>ID :</strong> #{{ avi.id }}</p>
+                    <p><strong>Note :</strong> ⭐ {{ avi.note }}/5</p>
+
+                    <p>
+                        <strong>Statut :</strong>
+
+                        {% if avi.status == 'approuve' %}
+                            <span class="order-status order-status-confirmee">Approuvé</span>
+                        {% elseif avi.status == 'refuse' %}
+                            <span class="order-status order-status-annulee">Refusé</span>
+                        {% else %}
+                            <span class="order-status order-status-en_attente">En attente</span>
+                        {% endif %}
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="admin-detail-section admin-detail-comment">
+                <h2>Commentaire</h2>
+                <p>{{ avi.description }}</p>
+            </div>
+
+            <div class="admin-detail-actions">
+
+                <a href="{{ path('app_avis_edit', {'id': avi.id}) }}"
+                   class="admin-action-link admin-action-edit">
+                    Modérer l’avis
+                </a>
+
+                <form method="post"
+                      action="{{ path('app_avis_delete', {'id': avi.id}) }}"
+                      class="js-confirm-form"
+                      data-confirm-message="Supprimer définitivement cet avis ?">
+
+                    <input type="hidden"
+                           name="_token"
+                           value="{{ csrf_token('delete' ~ avi.id) }}">
+
+                    <button class="admin-delete-btn">
+                        Supprimer l’avis
+                    </button>
+                </form>
+
+                <a href="{{ path('app_dashboard_redirect') }}"
+                   class="admin-action-link">
+                    Retour au dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

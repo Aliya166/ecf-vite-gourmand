@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="auth-page">
+    <div class="auth-card">
+
+        <h1 class="auth-title">Connexion</h1>
+
+        <p class="auth-subtitle">
+            Connectez-vous pour accéder à votre espace client.
+        </p>
+
+        <form method="post">
+
+            {% if error %}
+            <div class="alert alert-danger">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+            {% endif %}
+
+            {% if app.user %}
+            <div class="alert alert-success">
+                Vous êtes connecté(e) avec {{ app.user.userIdentifier }}.
+                <a href="{{ logout_path() }}">Déconnexion</a>
+            </div>
+            {% endif %}
+
+            <div class="mb-3">
+                <label for="inputEmail" class="form-label">Adresse email</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
+                    class="form-control auth-input" autocomplete="email" required autofocus>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputPassword" class="form-label">Mot de passe</label>
+                <input type="password" name="password" id="inputPassword" class="form-control auth-input"
+                    autocomplete="current-password" required>
+            </div>
+
+            <input type="hidden" name="_csrf_token" data-controller="csrf-protection"
+                value="{{ csrf_token('authenticate') }}">
+
+            <div class="form-check mb-4">
+                <input class="form-check-input" type="checkbox" name="_remember_me" id="rememberMe">
+                <label class="form-check-label" for="rememberMe">
+                    Se souvenir de moi
+                </label>
+            </div>
+
+            <button class="auth-btn" type="submit">
+                Se connecter
+            </button>
+
+        </form>
+
+        <div class="auth-links">
+            <p>
+                Pas encore de compte ?
+                <a href="{{ path('app_register') }}">Créer un compte</a>
+            </p>
+
+            <a href="{{ path('app_home') }}">
+                Retour à l'accueil
+            </a>
+
+            <a href="{{ path('app_forgot_password_request') }}">
+                    Mot de passe oublié ?
+                </a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

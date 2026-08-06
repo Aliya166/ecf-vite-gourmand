@@ -1,0 +1,134 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ menu.title }} - Administration{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>{{ menu.title }}</h1>
+                <p>Détail complet du menu.</p>
+            </div>
+
+            <a href="{{ path('app_menu_index') }}" class="admin-back-btn">
+                Retour aux menus
+            </a>
+        </div>
+
+        <div class="admin-detail-card">
+
+            <div class="admin-detail-grid">
+
+                <div class="admin-detail-section">
+
+                    <h2>Informations générales</h2>
+
+                    <p><strong>ID :</strong> #{{ menu.id }}</p>
+
+                    <p><strong>Titre :</strong> {{ menu.title }}</p>
+
+                    <p><strong>Prix :</strong> {{ menu.price }} €</p>
+
+                    <p><strong>Nombre minimum :</strong> {{ menu.nombrePersonneMinimum }}</p>
+
+                    <p><strong>Stock disponible :</strong> {{ menu.stockDisponible }}</p>
+
+                    <p>
+                        <strong>Actif :</strong>
+
+                        {% if menu.isActive %}
+                        <span class="order-status order-status-confirmee">Oui</span>
+                        {% else %}
+                        <span class="order-status order-status-annulee">Non</span>
+                        {% endif %}
+                    </p>
+
+                    <p>
+                        <strong>Régime :</strong>
+                        {{ menu.regime ? menu.regime.libelle : 'Aucun' }}
+                    </p>
+
+                    <p>
+                        <strong>Thème :</strong>
+                        {{ menu.theme ? menu.theme.libelle : 'Aucun' }}
+                    </p>
+
+                </div>
+
+                <div class="admin-detail-section">
+
+                    <h2>Photo principale</h2>
+
+                    {% if menu.imageMain %}
+                    <img src="{{ asset('uploads/menus/' ~ menu.imageMain) }}" alt="{{ menu.title }}" class="menu-admin-main-image">
+                    {% else %}
+                    <p>Aucune photo principale.</p>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <div class="admin-detail-section admin-detail-comment">
+
+                <h2>Description</h2>
+
+                <p>
+                    {{ menu.description ?: 'Aucune description.' }}
+                </p>
+
+            </div>
+
+            <div class="admin-detail-section admin-detail-comment">
+
+                <h2>Photos supplémentaires</h2>
+
+                <div class="menu-admin-gallery">
+
+                    {% if menu.imageSecond %}
+                    <img src="{{ menu.imageSecond }}" alt="">
+                    {% endif %}
+
+                    {% if menu.imageThird %}
+                    <img src="{{ menu.imageThird }}" alt="">
+                    {% endif %}
+
+                    {% if menu.imageFourth %}
+                    <img src="{{ menu.imageFourth }}" alt="">
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <div class="admin-detail-actions">
+
+                <a href="{{ path('app_menu_edit', {'id': menu.id}) }}" class="admin-action-link admin-action-edit">
+                    Modifier le menu
+                </a>
+
+                <form method="post" action="{{ path('app_menu_delete', {'id': menu.id}) }}" class="js-confirm-form"
+                    data-confirm-message="Êtes-vous sûr de vouloir supprimer ce menu ?">
+
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ menu.id) }}">
+
+                    <button class="admin-delete-btn">
+                        Désactiver le menu
+                    </button>
+                </form>
+
+                <a href="{{ path('app_dashboard_redirect') }}" class="admin-action-link">
+                    Retour au dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

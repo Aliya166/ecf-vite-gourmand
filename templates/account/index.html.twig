@@ -1,0 +1,184 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+{% for message in app.flashes('success') %}
+<div class="alert alert-success">
+    {{ message }}
+</div>
+{% endfor %}
+
+<section class="account-page">
+    <div class="container">
+
+        <div class="account-header">
+            <h1 class="section-title">Mon compte</h1>
+            <p>Gérez vos informations personnelles et vos commandes.</p>
+        </div>
+
+        <div class="account-grid">
+
+            <div class="account-card">
+                <h2>Mes informations</h2>
+
+                <div class="account-info">
+                    <p><strong>Prénom :</strong> {{ user.firstname }}</p>
+                    <p><strong>Nom :</strong> {{ user.lastname }}</p>
+                    <p><strong>Email :</strong> {{ user.email }}</p>
+                    <p><strong>Téléphone :</strong> {{ user.phone }}</p>
+                    <p><strong>Adresse :</strong> {{ user.address }}</p>
+                </div>
+
+                <div class="account-actions">
+                    <a href="{{ path('app_account_edit') }}" class="account-btn">
+                        Modifier mes informations
+                    </a>
+
+                    <a href="{{ path('app_account_password') }}" class="account-btn account-btn-secondary">
+                        Modifier mon mot de passe
+                    </a>
+
+                    {% set canLeaveAvis = false %}
+
+                    {% for commande in commandes %}
+                    {% if commande.status == 'terminee' %}
+                    {% set canLeaveAvis = true %}
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if canLeaveAvis %}
+                    <a href="{{ path('app_account_avis_new') }}" class="account-btn">
+                        Laisser un avis
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="account-card">
+                <h2>Mes commandes</h2>
+
+                {% if commandes is empty %}
+                <p class="account-empty">
+                    Aucune commande pour le moment.
+                </p>
+
+                <a href="{{ path('app_public_menus') }}" class="account-btn">
+                    Voir les menus
+                </a>
+                {% else %}
+                <div class="account-orders">
+                    {% for commande in commandes %}
+                    <div class="account-order-card">
+
+                        <div class="account-order-header">
+                            <h3>{{ commande.menu ? commande.menu.title : 'Menu indisponible' }}</h3>
+
+                            <div class="order-status-box">
+                                <span class="order-status order-status-{{ commande.status }}">
+                                    {{ commande.status|replace({'_': ' '})|capitalize }}
+                                </span>
+
+                                {% if commande.statusHistories is not empty %}
+                                <details class="order-tracking">
+                                    <summary>Voir le suivi</summary>
+
+                                    <div class="order-tracking-list">
+                                        {% for history in commande.statusHistories %}
+                                        <div class="order-tracking-item">
+                                            <span class="order-tracking-dot"></span>
+
+                                            <div>
+                                                <strong>
+                                                    {{ history.status|replace({'_': ' '})|capitalize }}
+                                                </strong>
+
+                                                <p>{{ history.createdAt|date('d/m/Y à H:i') }}</p>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </details>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <p>
+                            <strong>Date de livraison :</strong>
+                            {{ commande.dateLivraison ? commande.dateLivraison|date('d/m/Y') : 'Non renseignée' }}
+                        </p>
+
+                        <p>
+                            <strong>Heure souhaitée :</strong>
+                            {{ commande.heureLivraison ? commande.heureLivraison|date('H:i') : 'Non renseignée' }}
+                        </p>
+
+                        <p>
+                            <strong>Adresse de livraison:</strong>
+                            {{ commande.adresseLivraison }}, {{ commande.villeLivraison }}
+                        </p>
+
+                        <p>
+                            <strong>Nombre de personnes :</strong>
+                            {{ commande.nombrePersonnes }}
+                        </p>
+
+                        <p>
+                            <strong>Livraison :</strong>
+                            {{ commande.prixLivraison|number_format(2, ',', ' ') }} €
+                        </p>
+
+                        {% if commande.reduction and commande.reduction > 0 %}
+                        <p>
+                            <strong>Réduction :</strong>
+                            -{{ commande.reduction|number_format(2, ',', ' ') }} €
+                        </p>
+                        {% endif %}
+
+                        <p class="account-order-total">
+                            <strong>Total :</strong>
+                            {{ commande.prixTotal|number_format(2, ',', ' ') }} €
+                        </p>
+
+                        {% if commande.commentaire %}
+                        <p>
+                            <strong>Commentaire :</strong>
+                            {{ commande.commentaire }}
+                        </p>
+                        {% endif %}
+
+                        {% if commande.status == 'annulee' and commande.motifAnnulation %}
+                        <div class="order-cancel-reason">
+                            <div class="order-cancel-reason-title">
+                                ⚠ Message de l’équipe
+                            </div>
+                            <p>{{ commande.motifAnnulation }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if commande.status in ['en_attente', 'confirmee'] %}
+                        <div class="account-order-actions">
+                            <a href="{{ path('app_order_edit', {'id': commande.id}) }}" class="order-action-btn">
+                                Modifier
+                            </a>
+
+                            <a href="{{ path('app_order_cancel', {'id': commande.id}) }}"
+                                class="order-action-btn order-action-danger"
+                                onclick="return confirm('Eres-vous sure de vouloir annuler cette commande ?');">
+                                Annuler
+                            </a>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+</section>
+
+{% endblock %}

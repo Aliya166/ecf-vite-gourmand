@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des plats - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Gestion des plats</h1>
+                <p>Consultez, créez et modifiez les plats associés aux menus.</p>
+            </div>
+
+            <div class="admin-header-actions">
+                <a href="{{ path('app_dashboard_redirect') }}" class="admin-back-btn">
+                    Retour au dashboard
+                </a>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_menu_new') }}" class="admin-submit-btn">
+                    Ajouter un menu
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="admin-table-card">
+
+            {% if plats is empty %}
+                <p class="admin-empty">
+                    Aucun plat pour le moment.
+                </p>
+            {% else %}
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Photo</th>
+                                <th>Plat</th>
+                                <th>Type</th>
+                                <th>Prix</th>
+                                <th>Menus</th>
+                                <th>Allergènes</th>
+                                <th>Actif</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for plat in plats %}
+                                <tr>
+                                    <td>#{{ plat.id }}</td>
+
+                                    <td>
+                                        {% if plat.photo %}
+                                            <img src="{{ asset('uploads/plats/' ~ plat.photo) }}" alt="{{ plat.name }}" class="admin-thumb">
+                                        {% else %}
+                                            <span class="admin-no-image">Aucune photo</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <strong>{{ plat.name }}</strong>
+                                        <br>
+                                        <small>
+                                            {{ plat.description|slice(0, 70) }}{% if plat.description|length > 70 %}...{% endif %}
+                                        </small>
+                                    </td>
+
+                                    <td>{{ plat.typePlat }}</td>
+
+                                    <td>{{ plat.price }} €</td>
+
+                                    <td>
+                                        {% if plat.menus is not empty %}
+                                            {% for menu in plat.menus %}
+                                                {{ menu.title }}{% if not loop.last %}, {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            Aucun menu
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if plat.allergenes is not empty %}
+                                            {% for allergene in plat.allergenes %}
+                                                {{ allergene.libelle }}{% if not loop.last %}, {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            Aucun
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if plat.isActive %}
+                                        <span class="order-status order-status-confirmee">Oui</span>
+                                        {% else %}
+                                            <span class="order-status order-status-annulee">Non</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <div class="admin-actions">
+                                            <a href="{{ path('app_plat_show', {'id': plat.id}) }}" class="admin-action-link">
+                                                Voir
+                                            </a>
+
+                                            <a href="{{ path('app_plat_edit', {'id': plat.id}) }}" class="admin-action-link admin-action-edit">
+                                                Modifier
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

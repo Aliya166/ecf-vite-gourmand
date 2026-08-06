@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande #{{ commande.id }} - Vite & Gourmand{% endblock %}
+
+{% block body %}
+
+<section class="admin-list-page">
+    <div class="container">
+
+        <div class="admin-page-header">
+            <div>
+                <h1>Commande #{{ commande.id }}</h1>
+                <p>Détail complet de la commande client.</p>
+            </div>
+
+            <a href="{{ path('app_commande_index') }}" class="admin-back-btn">
+                Retour aux commandes
+            </a>
+        </div>
+
+        <div class="admin-detail-card">
+
+            <div class="admin-detail-grid">
+
+                <div class="admin-detail-section">
+                    <h2>Informations client</h2>
+
+                    <p><strong>Prénom :</strong> {{ commande.user.firstname ?? 'Non renseigné' }}</p>
+                    <p><strong>Nom :</strong> {{ commande.user.lastname ?? 'Non renseigné' }}</p>
+                    <p><strong>Email :</strong> {{ commande.user.email }}</p>
+                    <p><strong>Téléphone :</strong> {{ commande.user.phone ?? 'Non renseigné' }}</p>
+                    <p><strong>Adresse :</strong> {{ commande.user.address ?? 'Non renseignée' }}</p>
+                </div>
+
+                <div class="admin-detail-section">
+                    <h2>Informations commande</h2>
+
+                    <p><strong>ID :</strong> #{{ commande.id }}</p>
+                    <p><strong>Menu :</strong> {{ commande.menu ? commande.menu.title : 'Menu supprimé' }}</p>
+
+                    <p><strong>Date de livraison :</strong> {{ commande.dateLivraison|date('d/m/Y') }}</p>
+                    <p><strong>Heure souhaitée :</strong> {{ commande.heureLivraison|date('H:i') }}</p>
+
+                    <p>
+                        <strong>Adresse de livraison :</strong>
+                        {{ commande.adresseLivraison }}, {{ commande.villeLivraison }}
+                    </p>
+
+                    <p><strong>Nombre de personnes :</strong> {{ commande.nombrePersonnes }}</p>
+                    <p><strong>Distance estimée :</strong> {{ commande.distanceKm|number_format(1, ',', ' ') }} km</p>
+                    <p><strong>Livraison :</strong> {{ commande.prixLivraison|number_format(2, ',', ' ') }} €</p>
+
+                    {% if commande.reduction and commande.reduction > 0 %}
+                    <p><strong>Réduction :</strong> -{{ commande.reduction|number_format(2, ',', ' ') }} €</p>
+                    {% endif %}
+
+                    <p><strong>Total :</strong> {{ commande.prixTotal|number_format(2, ',', ' ') }} €</p>
+
+                    <p>
+                        <strong>Statut :</strong>
+                        <span class="order-status order-status-{{ commande.status }}">
+                            {{ commande.status|replace({'_': ' '})|capitalize }}
+                        </span>
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="admin-detail-section admin-detail-comment">
+                <h2>Commentaire</h2>
+
+                <p>
+                    {{ commande.commentaire ?: 'Aucun commentaire pour cette commande.' }}
+                </p>
+            </div>
+
+            <div class="admin-detail-actions">
+                <a href="{{ path('app_commande_edit', {'id': commande.id}) }}"
+                    class="admin-action-link admin-action-edit">
+                    Modifier la commande
+                </a>
+
+                <a href="{{ path('app_dashboard_redirect') }}" class="admin-action-link">
+                    Retour au dashboard
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
