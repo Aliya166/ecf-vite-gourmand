@@ -33,7 +33,7 @@
 
                 <div class="menu-gallery-thumbs">
 
-                    <button type="button" class="thumb-arrow" id="prevMenuImage">‹</button>
+                    <button type="button" class="thumb-arrow" id="prevMenuImage" aria-label="Image précédente">‹</button>
 
                     {% for image in menuImages %}
                     <img src="{{ asset('uploads/menus/' ~ image) }}"
@@ -41,7 +41,7 @@
                         alt="{{ menu.title }}">
                     {% endfor %}
 
-                    <button type="button" class="thumb-arrow" id="nextMenuImage">›</button>
+                    <button type="button" class="thumb-arrow" id="nextMenuImage" aria-label="Image suivant">›</button>
 
                 </div>
                 {% else %}

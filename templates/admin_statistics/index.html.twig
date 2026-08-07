@@ -27,8 +27,8 @@
     <form method="get" class="stats-filters-card">
 
         <div class="stats-filter-field">
-            <label>Menu</label>
-            <select name="menu">
+            <label for="statsMenu">Menu</label>
+            <select id="statsMenu" name="menu">
                 <option value="">Tous les menus</option>
 
                 {% for menu in menuOptions %}
@@ -40,13 +40,13 @@
         </div>
 
         <div class="stats-filter-field">
-            <label>Date début</label>
-            <input type="date" name="dateStart" value="{{ dateStart }}">
+            <label for="statsDateStart">Date début</label>
+            <input id="statsDateStart" type="date" name="dateStart" value="{{ dateStart }}">
         </div>
 
         <div class="stats-filter-field">
-            <label>Date fin</label>
-            <input type="date" name="dateEnd" value="{{ dateEnd }}">
+            <label for="statsDateEnd">Date fin</label>
+            <input id="statsDateEnd" type="date" name="dateEnd" value="{{ dateEnd }}">
         </div>
 
         <div class="stats-filter-actions">

@@ -24,9 +24,8 @@
             </div>
 
             <div class="col-md-6">
-                <img src="{{ asset('images/public/menus-hero.jpg') }}"
-                class="img-fluid hero-img"
-                alt="Livraison de repas Vite & Gourmand">
+                <img src="{{ asset('images/public/menus-hero.jpg') }}" class="img-fluid hero-img"
+                    alt="Livraison de repas Vite & Gourmand">
             </div>
 
         </div>
@@ -44,11 +43,13 @@
                     Tous
                 </button>
 
-                <input type="number" name="maxPrice"
+                <label for="maxPrice" class="visually-hidden">Prix maximum</label>
+                <input type="number" id="maxPrice" name="maxPrice"
                     class="filter-btn filter-input {{ selectedMaxPrice is not empty ? 'filter-btn-active' : '' }}"
                     placeholder="Prix max" min="0" value="{{ selectedMaxPrice }}">
 
-                <select name="theme"
+                <label for="theme" class="visually-hidden">Thème</label>
+                <select id="theme" name="theme"
                     class="filter-btn filter-select {{ selectedTheme is not empty ? 'filter-btn-active' : '' }}">
                     <option value="">Thème</option>
 
@@ -59,7 +60,8 @@
                     {% endfor %}
                 </select>
 
-                <select name="regime"
+                <label for="regime" class="visually-hidden">Régime alimentaire</label>
+                <select id="regime" name="regime"
                     class="filter-btn filter-select {{ selectedRegime is not empty ? 'filter-btn-active' : '' }}">
                     <option value="">Régime</option>
 
@@ -70,7 +72,8 @@
                     {% endfor %}
                 </select>
 
-                <input type="number" name="personnes"
+                <label for="personnes" class="visually-hidden">Nombre de personnes</label>
+                <input type="number" id="personnes" name="personnes"
                     class="filter-btn filter-input {{ selectedPersonnes is not empty ? 'filter-btn-active' : '' }}"
                     placeholder="Personnes" min="1" value="{{ selectedPersonnes }}">
 

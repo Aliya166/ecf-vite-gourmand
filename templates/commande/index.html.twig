@@ -30,14 +30,14 @@
                 class="employee-filter-form employee-filter-form-large">
 
                 <div class="filter-field">
-                    <label>Client</label>
-                    <input type="text" name="client" value="{{ clientSearch }}" placeholder="Nom, prénom ou email">
+                    <label for="client">Client</label>
+                    <input id="client" type="text" name="client" value="{{ clientSearch }}" placeholder="Nom, prénom ou email">
                 </div>
 
                 <div class="filter-field">
-                    <label>Statut</label>
+                    <label for="status">Statut</label>
 
-                    <select name="status">
+                    <select id="status" name="status">
 
                         <option value="">Tous</option>
 
@@ -78,9 +78,9 @@
                 </div>
 
                 <div class="filter-field">
-                    <label>Menu</label>
+                    <label for="menu">Menu</label>
 
-                    <select name="menu">
+                    <select id="menu" name="menu">
 
                         <option value="">Tous les menus</option>
 
@@ -94,15 +94,15 @@
                 </div>
 
                 <div class="filter-field">
-                    <label>Date début</label>
+                    <label for="dateStart">Date début</label>
 
-                    <input type="date" name="dateStart" value="{{ dateStart }}">
+                    <input id="dateStart" type="date" name="dateStart" value="{{ dateStart }}">
                 </div>
 
                 <div class="filter-field">
-                    <label>Date fin</label>
+                    <label for="dateEnd">Date fin</label>
 
-                    <input type="date" name="dateEnd" value="{{ dateEnd }}">
+                    <input id="dateEnd" type="date" name="dateEnd" value="{{ dateEnd }}">
                 </div>
 
                 <div class="filter-actions">
